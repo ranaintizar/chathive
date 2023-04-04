@@ -1,3 +1,5 @@
+import React from "react";
+
 import stl from "./Spinner.module.scss";
 
 interface Props {

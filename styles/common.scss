@@ -4,22 +4,39 @@
   align-items: center;
 }
 
-.flexBtw {
+.justifyCen {
+  display: flex;
+  justify-content: center;
+}
+
+.justifyBtw {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-.flexArnd {
+.justifyArnd {
   display: flex;
   justify-content: space-around;
+}
+
+.justifyEvenly {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.alignCen {
+  display: flex;
   align-items: center;
 }
 
-.flexEvenly {
+.alignStart {
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.alignEnd {
+  display: flex;
+  align-items: flex-end;
 }
 
 .flexRow {

@@ -1,10 +1,11 @@
+import React from "react";
 import { Formik, Form, FormikProps } from "formik";
 import { motion } from "framer-motion";
+
 import Input from "../input";
 import Spinner from "components/spinner";
 
 import stl from "./Forms.module.scss";
-import { useEffect, useState } from "react";
 
 interface Props {
   title?: string;
@@ -33,10 +34,10 @@ const CustomForm = ({
   flow,
   setFlow,
 }: Props) => {
-  const [color, setColor] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [color, setColor] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (flow === 0) {
       setColor("rgb(255, 0, 0, 0.8)");
     } else if (flow === 1) {

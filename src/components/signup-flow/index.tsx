@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import Verify from "./Verify";
@@ -6,10 +7,10 @@ import Verify from "./Verify";
 import stl from "./SignupFlow.module.scss";
 
 const SignupFlow = () => {
-  const [flow, setFlow] = useState(0);
-  const [element, setElement] = useState(<SignUp setFlow={setFlow} />);
+  const [flow, setFlow] = React.useState(0);
+  const [element, setElement] = React.useState(<SignUp setFlow={setFlow} />);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (flow === 0) {
       setElement(<SignUp setFlow={setFlow} />);
     } else if (flow === 1) {

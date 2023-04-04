@@ -1,5 +1,6 @@
 import Head from "next/head";
 import SignupFlow from "components/signup-flow";
+import ChatItem from "components/chat-item/ChatItem";
 
 export default function Home() {
   return (
@@ -13,8 +14,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/favicon.ico" />
       </Head>
-      <main style={{ height: "100vh" }}>
-        <SignupFlow />
+      <main
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ChatItem />
       </main>
     </>
   );
