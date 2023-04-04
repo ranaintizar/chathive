@@ -8,6 +8,7 @@ const SignIn = ({ setFlow }: any) => {
   ];
   return (
     <Forms
+      flow={1}
       height="470px"
       fields={fields}
       initialVals={{ email: "", password: "" }}

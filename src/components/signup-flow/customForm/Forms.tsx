@@ -1,8 +1,10 @@
 import { Formik, Form, FormikProps } from "formik";
 import { motion } from "framer-motion";
 import Input from "../input";
+import Spinner from "components/spinner";
 
 import stl from "./Forms.module.scss";
+import { useEffect, useState } from "react";
 
 interface Props {
   title?: string;
@@ -15,6 +17,7 @@ interface Props {
   width?: string;
   fields: Array<JSX.Element>;
   setFlow: (arg: any) => void;
+  flow: number;
 }
 
 const CustomForm = ({
@@ -27,11 +30,41 @@ const CustomForm = ({
   height,
   width,
   fields,
+  flow,
   setFlow,
 }: Props) => {
-  return (
+  const [color, setColor] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (flow === 0) {
+      setColor("rgb(255, 0, 0, 0.8)");
+    } else if (flow === 1) {
+      setColor("rgba(255, 225, 0, 0.737)");
+    } else if (flow === 2) {
+      setColor("green");
+    }
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <Spinner />
+  ) : (
     <div className={stl.signUp}>
-      <div style={{ zIndex: 1 }} className={stl.circle}></div>
+      <motion.div
+        initial={{ scale: 0, opacity: 0, top: -500 }}
+        animate={{ scale: 1, opacity: 1, top: 70 }}
+        transition={{
+          duration: 0.3,
+          type: "spring",
+          stiffness: 100,
+        }}
+        style={{ background: color }}
+        className={stl.circle}
+      />
       <div style={{ height, width }} className={stl.container}>
         <motion.div
           initial={{ y: -500, opacity: 0 }}
