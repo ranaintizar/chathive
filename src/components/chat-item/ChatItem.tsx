@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+
 import ProfileImage from "assets/profileImage.jpeg";
 
 import stl from "./Chat.module.scss";

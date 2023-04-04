@@ -1,0 +1,22 @@
+.msgItem {
+  padding: 8px 1rem;
+  border-radius: 12px;
+  max-width: 55%;
+  width: max-content;
+
+  .message {
+    font-size: 1.1rem;
+    letter-spacing: -0.5px;
+
+    &::selection {
+      background: #87cefa;
+      color: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .msgItem .message {
+    font-size: 1rem;
+  }
+}
