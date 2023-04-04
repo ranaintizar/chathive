@@ -32,8 +32,8 @@
       overflow: hidden;
     }
 
-    .content {
-      display: flex;
+    .left {
+      @extend .justifyBtw;
       flex: 1;
       overflow: hidden;
       width: 260px;
@@ -57,8 +57,27 @@
         }
       }
 
-      .time {
-        color: #00000050;
+      .right {
+        @extend .flexCol;
+        align-items: center;
+        justify-content: space-between;
+
+        .time {
+          color: #00000050;
+        }
+
+        .badge {
+          background: #1e90ff;
+          font-size: 0.7rem;
+          width: 17px;
+          height: 17px;
+          color: #fff;
+          @extend .flexCenter;
+          display: flex;
+          align-items: center;
+          border-radius: 8.5px;
+          padding-top: 1px;
+        }
       }
     }
   }

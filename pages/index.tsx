@@ -23,7 +23,7 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        <MessageItem />
+        <ChatItem />
       </main>
     </>
   );
