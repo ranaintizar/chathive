@@ -1,10 +1,23 @@
+import React from "react";
+
 import Head from "next/head";
 import SignupFlow from "components/signup-flow";
 import ChatItem from "components/chat-item/ChatItem";
 import MessageItem from "components/message-item";
 import EnterMsg from "components/enter-msg";
+import Spinner from "components/spinner";
 
 export default function Home() {
+  const [theme, setTheme] = React.useState("light");
+
+  if (typeof window !== "undefined") {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      console.log("Dark mode is enabled.");
+    } else {
+      console.log("Light mode is enabled.");
+    }
+  }
+
   return (
     <>
       <Head>
@@ -17,12 +30,22 @@ export default function Home() {
         <link rel="icon" type="image/png" href="/favicon.ico" />
       </Head>
       <main
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={
+          theme === "dark"
+            ? {
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#17171c",
+              }
+            : {
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }
+        }
       >
         <EnterMsg />
       </main>

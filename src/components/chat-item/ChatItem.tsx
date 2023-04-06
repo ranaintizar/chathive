@@ -13,8 +13,39 @@ interface Props {
 }
 
 const ChatItem = ({ id, handleOnClick, data, badge }: Props) => {
+  const [theme, setTheme] = React.useState("dark");
+
+  const handleHover = () => {
+    const ele = document.getElementById(id);
+    if (theme === "dark") {
+      //@ts-ignore
+      ele.style.background = "#333";
+      //@ts-ignore
+      ele.style.boxShadow = "none";
+    } else {
+      // @ts-ignore
+      ele.style.background = "#f5f5f5";
+      // @ts-ignore
+      ele.style.boxShadow = "inset 0 0 10px 3px #f1f1f1";
+    }
+  };
+
+  const handleBlur = () => {
+    const ele = document.getElementById(id);
+    //@ts-ignore
+    ele.style.background = "none";
+    //@ts-ignore
+    ele.style.boxShadow = "none";
+  };
+
   return (
-    <div onClick={() => handleOnClick(data)} id={id} className={stl.chatItem}>
+    <div
+      onMouseOver={handleHover}
+      onMouseOut={handleBlur}
+      onClick={() => handleOnClick(data)}
+      id={id}
+      className={stl.chatItem}
+    >
       <div className={stl.container}>
         <div className={stl.avatar}>
           <Image
@@ -26,11 +57,32 @@ const ChatItem = ({ id, handleOnClick, data, badge }: Props) => {
         </div>
         <div className={stl.left}>
           <div className={stl.info}>
-            <span className={stl.title}>{data.displayName}</span>
-            <span className={stl.message}>{data.message}</span>
+            <span
+              style={
+                theme === "dark" ? { color: "#f5f5f5" } : { color: "#16161a" }
+              }
+              className={stl.title}
+            >
+              {data.displayName}
+            </span>
+            <span
+              style={
+                theme === "dark" ? { color: "#ccc" } : { color: "#16161a" }
+              }
+              className={stl.message}
+            >
+              {data.message}
+            </span>
           </div>
           <div className={stl.right}>
-            <div className={stl.time}>{data.timeAgo}</div>
+            <div
+              style={
+                theme === "dark" ? { color: "#ccc" } : { color: "#16161a" }
+              }
+              className={stl.time}
+            >
+              {data.timeAgo}
+            </div>
             {badge && <div className={stl.badge}>{badge}</div>}
           </div>
         </div>
