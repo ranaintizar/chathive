@@ -1,0 +1,112 @@
+@import "styles/common";
+
+.signUp {
+  position: relative;
+  max-width: 450px;
+  width: 100%;
+  @extend .flexCenter;
+  user-select: none;
+  z-index: 10;
+
+  .circle {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    transform: translate(10%, -12%);
+    background: rgb(255, 0, 0, 0.8);
+    border-radius: 150px;
+    z-index: 1;
+  }
+
+  .container {
+    padding: 2rem 0;
+    max-width: 450px;
+    width: 100%;
+    backdrop-filter: blur(50px);
+    border-radius: 20px;
+    background: #ffffff20;
+    @extend .flexColEven;
+    border: 1px solid #ffffff20;
+    z-index: 10;
+
+    .titleContainer {
+      @extend .flexColCen;
+      gap: 1rem;
+    }
+
+    span {
+      color: #fff;
+      font-weight: bold;
+      width: 90%;
+      text-align: center;
+
+      .specialText {
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .formContainer {
+      width: 100%;
+      height: 60%;
+      @extend .flexCenter;
+
+      form {
+        @extend .flexColBtw;
+        padding: 10px;
+        height: 100%;
+        width: 80%;
+
+        .submitBtn {
+          padding: 10px 1.5rem;
+          background: #007fff;
+          border: none;
+          margin-top: 1rem;
+          font-size: 1.3rem;
+          color: #fff;
+          border-radius: 12px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.2s;
+
+          &:hover {
+            transform: scale(1.1);
+            background: #3457d5;
+          }
+
+          &:active {
+            transform: scale(1.05);
+          }
+        }
+      }
+    }
+
+    .otherSignIn {
+      @extend .flexColCen;
+      gap: 1rem;
+      width: 90%;
+
+      button {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        @extend .flexCenter;
+        transition: all 0.2s;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}

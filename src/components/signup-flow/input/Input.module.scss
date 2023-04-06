@@ -1,0 +1,34 @@
+@import "styles/common";
+
+.inputContainer {
+  @extend .flexCol;
+  gap: 5px;
+  width: 100%;
+
+  .input {
+    all: unset;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 1.2rem;
+
+    &::placeholder {
+      color: #fff;
+    }
+  }
+
+  .errors {
+    padding: 0 10px;
+    color: rgb(255, 0, 0);
+  }
+
+  .focused {
+    background: #eaeff0;
+    color: #000;
+
+    &::placeholder {
+      color: #000;
+    }
+  }
+}
