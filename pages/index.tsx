@@ -2,6 +2,7 @@ import Head from "next/head";
 import SignupFlow from "components/signup-flow";
 import ChatItem from "components/chat-item/ChatItem";
 import MessageItem from "components/message-item";
+import EnterMsg from "components/enter-msg";
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        <ChatItem />
+        <EnterMsg />
       </main>
     </>
   );
