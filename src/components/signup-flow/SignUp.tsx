@@ -11,6 +11,7 @@ const SignUp = ({ setFlow }: any) => {
 
   return (
     <Forms
+      flow={0}
       fields={fields}
       initialVals={{ fname: "", lname: "", email: "", password: "" }}
       others={true}

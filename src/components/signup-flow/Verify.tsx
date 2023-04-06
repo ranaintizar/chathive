@@ -7,6 +7,7 @@ const Verify = ({ setFlow }: any) => {
   ];
   return (
     <Forms
+      flow={2}
       height="400px"
       fields={fields}
       initialVals={{ verificationCode: "" }}
