@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -6,12 +6,17 @@ import Verify from "./Verify";
 
 import stl from "./SignupFlow.module.scss";
 
-const SignupFlow = () => {
-  const [flow, setFlow] = React.useState(0);
-  const [element, setElement] = React.useState(<SignUp setFlow={setFlow} />);
-  const [theme, setTheme] = React.useState("dark");
+interface Props {
+  theme: string;
+}
 
-  React.useEffect(() => {
+const SignupFlow = ({ theme }: Props) => {
+  const [flow, setFlow] = React.useState(0);
+  const [element, setElement] = React.useState(
+    <SignUp setFlow={setFlow} theme={theme} />
+  );
+
+  useEffect(() => {
     if (flow === 0) {
       setElement(<SignUp theme={theme} setFlow={setFlow} />);
     } else if (flow === 1) {

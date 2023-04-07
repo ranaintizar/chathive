@@ -3,7 +3,12 @@ import React from "react";
 import Forms from "./customForm";
 import Input from "./input";
 
-const Verify = ({ setFlow, theme }: any) => {
+interface Props {
+  theme: string;
+  setFlow: (arg: number) => void;
+}
+
+const Verify = ({ setFlow, theme }: Props) => {
   const fields = [
     <Input id="verificationCode" placeholder="Verification Code" key={1} />,
   ];

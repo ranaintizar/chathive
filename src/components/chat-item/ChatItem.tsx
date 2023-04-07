@@ -9,12 +9,11 @@ interface Props {
   id: string;
   data: any;
   badge: number;
+  theme: string;
   handleOnClick: (arg: any) => void;
 }
 
-const ChatItem = ({ id, handleOnClick, data, badge }: Props) => {
-  const [theme, setTheme] = React.useState("dark");
-
+const ChatItem = ({ theme, id, handleOnClick, data, badge }: Props) => {
   const handleHover = () => {
     const ele = document.getElementById(id);
     if (theme === "dark") {

@@ -5,20 +5,29 @@ import stl from "./MessageItem.module.scss";
 interface Props {
   variant: string;
   content: string;
+  theme: string;
 }
 
-const MessageItem = ({ variant, content }: Props) => {
+const MessageItem = ({ theme, variant, content }: Props) => {
   return (
     <div
       style={
         variant === "primary"
           ? { background: "#1e90ff" }
+          : theme === "dark"
+          ? { background: " #303030" }
           : { background: "#f1f1f1" }
       }
       className={stl.msgItem}
     >
       <span
-        style={variant === "primary" ? { color: "#fff" } : { color: "#000" }}
+        style={
+          variant === "primary"
+            ? { color: "#fff" }
+            : theme === "dark"
+            ? { color: "#fff" }
+            : { color: "#000" }
+        }
         className={stl.message}
       >
         {content}
