@@ -15,6 +15,7 @@ module.exports = withVideos({
     MESSAGINGSENDERID: process.env.MESSAGINGSENDERID,
     APPID: process.env.APPID,
     MEASUREMENTID: process.env.MEASUREMENTID,
+    BUCKET: process.env.BUCKET,
   },
   reactStrictMode: true,
   webpack: (config) => {

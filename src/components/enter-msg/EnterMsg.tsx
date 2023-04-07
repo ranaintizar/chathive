@@ -2,6 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Picker from "react-giphy-component";
 import { addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import { db, storage } from "@/pages/api/firebase.js";
 import GifPlayer from "components/gif-player";
@@ -24,6 +25,12 @@ const EnterMsg = () => {
   const [showGifs, setShowGifs] = React.useState(false);
   const [element, setElement] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [file, setFile] = React.useState({
+    fileName: "File Name",
+    fileSize: 128,
+    fileType: "File Type",
+    fileUrl: "https://url.com",
+  });
 
   const collectionRef = collection(db, "files");
 
@@ -55,9 +62,25 @@ const EnterMsg = () => {
     input?.click();
   };
 
+  const downloadFile = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "blob";
+    xhr.onload = (event) => {
+      console.log("starting...");
+      var blob = xhr.response;
+      var a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      a.download = "New File Downloaded";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+    xhr.open("GET", file.fileUrl);
+    xhr.send();
+  };
+
   const handleFile = async (e: any) => {
     const files = e.target.files;
-
     const maxFiles = 3;
     if (files.length > maxFiles) {
       alert(`Please select up to ${maxFiles} files.`);
@@ -65,18 +88,48 @@ const EnterMsg = () => {
       for (let i = 0; i < files.length; i++) {
         setIsLoading(true);
         const file = files[i];
-        const fileData = {
-          fileName: file.name + "chathive",
-          fileSize: file.size,
-          fileType: file.type + "chathive",
-          data: "base64" + "chathive",
-        };
 
-        console.log("Starting...");
-        await addDoc(collectionRef, fileData)
-          .then(() => console.log("Success!"))
-          .catch((err) => console.log(err));
-        console.log("Ending...");
+        const storageRef = ref(
+          storage,
+          `${process.env.BUCKET}/files/${file.name}`
+        );
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(`Upload is ${progress}% done`);
+          },
+          (error) => {
+            console.error(error);
+          },
+          () => {
+            console.log("Upload successful");
+
+            getDownloadURL(storageRef).then(async (url) => {
+              console.log("Url is: ", url);
+              const fileMeta = (await uploadTask).metadata;
+
+              const fileInfo = {
+                fileName: fileMeta.name,
+                fileSize: fileMeta.size,
+                fileType: fileMeta.contentType,
+                fileUrl: url,
+              };
+              //@ts-ignore
+              setFile(fileInfo);
+
+              await addDoc(collectionRef, fileInfo)
+                .then((docRef) =>
+                  console.log("Stored info in Firestore document : ", docRef.id)
+                )
+                .catch((err) => console.log(err));
+            });
+          }
+        );
       }
     }
 
@@ -114,7 +167,7 @@ const EnterMsg = () => {
         >
           <GifIcon />
         </button>
-        <button onClick={() => console.log("Sticker")}>
+        <button onClick={() => downloadFile()}>
           <StickerIcon />
         </button>
         <input
