@@ -3,7 +3,7 @@ import React from "react";
 import Forms from "./customForm";
 import Input from "./input";
 
-const SignUp = ({ setFlow }: any) => {
+const SignUp = ({ setFlow, theme }: any) => {
   const fields = [
     <Input id="fname" key={1} />,
     <Input id="lname" placeholder="Last Name" key={2} />,
@@ -13,6 +13,7 @@ const SignUp = ({ setFlow }: any) => {
 
   return (
     <Forms
+      theme={theme}
       flow={0}
       fields={fields}
       initialVals={{ fname: "", lname: "", email: "", password: "" }}

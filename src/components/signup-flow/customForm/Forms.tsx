@@ -19,6 +19,7 @@ interface Props {
   fields: Array<JSX.Element>;
   setFlow: (arg: any) => void;
   flow: number;
+  theme: string;
 }
 
 const CustomForm = ({
@@ -32,6 +33,7 @@ const CustomForm = ({
   width,
   fields,
   flow,
+  theme,
   setFlow,
 }: Props) => {
   const [color, setColor] = React.useState("");
@@ -39,11 +41,11 @@ const CustomForm = ({
 
   React.useEffect(() => {
     if (flow === 0) {
-      setColor("rgb(255, 0, 0, 0.8)");
+      setColor("rgba(255, 0, 0, 0.7)");
     } else if (flow === 1) {
       setColor("rgba(255, 225, 0, 0.737)");
     } else if (flow === 2) {
-      setColor("green");
+      setColor("rgba(0,128,0, 0.8)");
     }
 
     setTimeout(() => {
@@ -52,7 +54,11 @@ const CustomForm = ({
   }, []);
 
   return loading ? (
-    <Spinner />
+    theme === "dark" ? (
+      <Spinner color="#1e90ff" />
+    ) : (
+      <Spinner color="#fff" />
+    )
   ) : (
     <div className={stl.signUp}>
       <motion.div

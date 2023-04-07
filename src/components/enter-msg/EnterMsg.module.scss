@@ -1,0 +1,51 @@
+@import "styles/common";
+
+.enterMsg {
+  position: relative;
+  box-shadow: 0 0 10px 0 #3333;
+  padding: 5px 10px 5px 1rem;
+  border-radius: 3rem;
+  width: 85%;
+  @extend .alignCen;
+
+  textarea {
+    all: unset;
+    padding: 1.2rem 10px;
+    width: 80%;
+    line-height: 1.5rem;
+    word-wrap: break-word;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .btnContainer {
+    @extend .alignCen;
+    gap: 5px;
+
+    button {
+      @extend .flexCenter;
+      padding: 10px;
+      border-radius: 50%;
+      outline: none;
+      border: none;
+      background: none;
+
+      &:hover {
+        background: #d6dbdc;
+        cursor: pointer;
+      }
+
+      &:active {
+        background: #3333;
+      }
+    }
+  }
+
+  .emojiPicker {
+    position: absolute;
+    bottom: 110%;
+    right: 5%;
+  }
+}

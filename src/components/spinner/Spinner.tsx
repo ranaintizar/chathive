@@ -7,43 +7,47 @@ interface Props {
   borderWidth: number;
   width: number;
   height: number;
+  title?: string;
 }
 
-const Spinner = ({ color, borderWidth, width, height }: Props) => {
+const Spinner = ({ title, color, borderWidth, width, height }: Props) => {
   return (
-    <div style={{ width, height }} className={stl.spinner}>
-      <div
-        style={{
-          borderColor: `${color} transparent transparent transparent`,
-          borderWidth: borderWidth + "px",
-          width: (80 / 100) * width + "px",
-          height: (80 / 100) * height + "px",
-        }}
-      />
-      <div
-        style={{
-          borderColor: `${color} transparent transparent transparent`,
-          borderWidth: borderWidth + "px",
-          width: (80 / 100) * width + "px",
-          height: (80 / 100) * height + "px",
-        }}
-      />
-      <div
-        style={{
-          borderColor: `${color} transparent transparent transparent`,
-          borderWidth: borderWidth + "px",
-          width: (80 / 100) * width + "px",
-          height: (80 / 100) * height + "px",
-        }}
-      />
-      <div
-        style={{
-          borderColor: `${color} transparent transparent transparent`,
-          borderWidth: borderWidth + "px",
-          width: (80 / 100) * width + "px",
-          height: (80 / 100) * height + "px",
-        }}
-      />
+    <div className={stl.loading}>
+      <div style={{ width, height }} className={stl.spinner}>
+        <div
+          style={{
+            borderColor: `${color} transparent transparent transparent`,
+            borderWidth: borderWidth + "px",
+            width: (80 / 100) * width + "px",
+            height: (80 / 100) * height + "px",
+          }}
+        />
+        <div
+          style={{
+            borderColor: `${color} transparent transparent transparent`,
+            borderWidth: borderWidth + "px",
+            width: (80 / 100) * width + "px",
+            height: (80 / 100) * height + "px",
+          }}
+        />
+        <div
+          style={{
+            borderColor: `${color} transparent transparent transparent`,
+            borderWidth: borderWidth + "px",
+            width: (80 / 100) * width + "px",
+            height: (80 / 100) * height + "px",
+          }}
+        />
+        <div
+          style={{
+            borderColor: `${color} transparent transparent transparent`,
+            borderWidth: borderWidth + "px",
+            width: (80 / 100) * width + "px",
+            height: (80 / 100) * height + "px",
+          }}
+        />
+      </div>
+      {title && <span className={stl.title}>{title}</span>}
     </div>
   );
 };
