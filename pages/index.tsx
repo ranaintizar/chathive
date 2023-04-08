@@ -44,22 +44,29 @@ export default function Home() {
                 height: "100vh",
                 background: "#17171c",
                 position: "relative",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }
             : {
                 height: "100vh",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }
         }
       >
-        <button onClick={toggleTheme} style={{ position: "absolute" }}>
-          Toggle Dark Mode
+        <button
+          onClick={toggleTheme}
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+          }}
+        >
+          Toggle Theme
         </button>
-        <SignupFlow theme={theme} />
+        <EnterMsg theme={theme} />
       </main>
     </>
   );
