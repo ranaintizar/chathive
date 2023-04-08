@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import clsx from "clsx";
 
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -28,15 +29,10 @@ const SignupFlow = ({ theme }: Props) => {
 
   return (
     <div
-      style={
-        theme === "dark"
-          ? { background: "linear-gradient(147deg, #000000 0%, #434343 74%)" }
-          : {
-              background:
-                "linear-gradient(-45deg,#667db6,#0082c8,#0082c8,#667db6)",
-            }
-      }
-      className={stl.signupFlow}
+      className={clsx(
+        stl.signupFlow,
+        theme === "dark" ? stl.darkSignUpFlow : undefined
+      )}
     >
       {element}
     </div>

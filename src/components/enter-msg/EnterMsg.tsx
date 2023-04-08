@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
+import clsx from "clsx";
 import Picker from "react-giphy-component";
 import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -166,10 +167,10 @@ const EnterMsg = ({ theme }: Props) => {
   ) : (
     <div className={stl.container}>
       <div
-        style={
-          theme === "dark" ? { background: "#3C4043" } : { background: "#fff" }
-        }
-        className={stl.enterMsg}
+        className={clsx(
+          stl.enterMsg,
+          theme === "dark" ? stl.darkEnterMsg : undefined
+        )}
       >
         <textarea
           rows={1}
@@ -178,7 +179,7 @@ const EnterMsg = ({ theme }: Props) => {
             setShowGifs(false);
           }}
           value={message}
-          style={theme === "dark" ? { color: "#fff" } : { color: "#000" }}
+          className={theme === "dark" ? stl.darkTextArea : undefined}
           placeholder="Press Shift + Enter for next line and Enter to send."
           onChange={(e) => {
             setMessage(e.target.value);
