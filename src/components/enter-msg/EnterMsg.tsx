@@ -92,11 +92,10 @@ const EnterMsg = ({ theme }: Props) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
     xhr.onload = (event) => {
-      console.log("starting...");
       var blob = xhr.response;
       var a = document.createElement("a");
       a.href = window.URL.createObjectURL(blob);
-      a.download = "New File Downloaded";
+      a.download = file.fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
