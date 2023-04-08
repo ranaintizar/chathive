@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Picker from "react-giphy-component";
 import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import { db, storage } from "@/pages/api/firebase.js";
+import Spinner from "components/spinner";
 import GifPlayer from "components/gif-player";
 import EmojiIcon from "assets/emoji.svg";
 import GifIcon from "assets/gif.svg";
 import StickerIcon from "assets/sticker.svg";
 import AttachIcon from "assets/attach.svg";
-import Spinner from "components/spinner";
+import SendIcon from "assets/send.svg";
 
 import stl from "./EnterMsg.module.scss";
 
@@ -19,7 +20,11 @@ const DynamicPicker = dynamic(
   { ssr: false }
 );
 
-const EnterMsg = () => {
+interface Props {
+  theme: string;
+}
+
+const EnterMsg = ({ theme }: Props) => {
   const [message, setMessage] = React.useState("");
   const [showEmojis, setShowEmojis] = React.useState(false);
   const [showGifs, setShowGifs] = React.useState(false);
@@ -31,15 +36,17 @@ const EnterMsg = () => {
     fileType: "File Type",
     fileUrl: "https://url.com",
   });
-
   const collectionRef = collection(db, "files");
 
   const handleSubmit = () => {
     console.log(message);
+    if (message === "") {
+      alert("Can't send Empty Message");
+    }
     setMessage("");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTimeout(() => setElement(null), 3000);
   }, [element]);
 
@@ -139,76 +146,88 @@ const EnterMsg = () => {
   return isLoading ? (
     <Spinner title="Uploading file..." color="dodgerblue" />
   ) : (
-    <div className={stl.enterMsg}>
-      <textarea
-        rows={1}
-        onFocus={() => setShowEmojis(false)}
-        value={message}
-        placeholder="Press Shift + Enter for next line and Enter to send."
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
-        onKeyDown={handleKey}
-      />
-      <div className={stl.btnContainer}>
-        <button
-          onClick={() => {
-            setShowGifs(false);
-            setShowEmojis(!showEmojis);
+    <div className={stl.container}>
+      <div
+        style={
+          theme === "dark" ? { background: "#3C4043" } : { background: "#fff" }
+        }
+        className={stl.enterMsg}
+      >
+        <textarea
+          rows={1}
+          onFocus={() => setShowEmojis(false)}
+          value={message}
+          style={theme === "dark" ? { color: "#fff" } : { color: "#000" }}
+          placeholder="Press Shift + Enter for next line and Enter to send."
+          onChange={(e) => {
+            setMessage(e.target.value);
           }}
-        >
-          <EmojiIcon />
-        </button>
-        <button
-          onClick={() => {
-            setShowEmojis(false);
-            setShowGifs(!showGifs);
-          }}
-        >
-          <GifIcon />
-        </button>
-        <button onClick={() => downloadFile()}>
-          <StickerIcon />
-        </button>
-        <input
-          id="fileInput"
-          type="file"
-          style={{ display: "none" }}
-          multiple
-          onChange={handleFile}
+          onKeyDown={handleKey}
         />
-        <button
-          onClick={() => {
-            setShowGifs(false);
-            setShowEmojis(false);
-            handleAttach();
-          }}
-        >
-          <AttachIcon />
-        </button>
-      </div>
-      {showEmojis && (
-        <div className={stl.emojiPicker}>
-          <DynamicPicker
-            width={320}
-            height={400}
-            onEmojiClick={(e) => setMessage((message) => message + e.emoji)}
-            autoFocusSearch={false}
-          />
-        </div>
-      )}
-      {showGifs && (
-        <div className={stl.emojiPicker}>
-          <Picker
-            onSelected={(e: any) => {
-              console.log(e.downsized_small.mp4);
-              handleGifSubmit(e.downsized_small.mp4);
+        <div className={stl.btnContainer}>
+          <button
+            onClick={() => {
+              setShowGifs(false);
+              setShowEmojis(!showEmojis);
             }}
-            apiKey={process.env.APIKEY}
+          >
+            <EmojiIcon
+              className={theme === "dark" ? stl.emoteDark : undefined}
+            />
+          </button>
+          <button
+            onClick={() => {
+              setShowEmojis(false);
+              setShowGifs(!showGifs);
+            }}
+          >
+            <GifIcon className={theme === "dark" ? stl.dark : undefined} />
+          </button>
+          <button onClick={() => downloadFile()}>
+            <StickerIcon className={theme === "dark" ? stl.dark : undefined} />
+          </button>
+          <input
+            id="fileInput"
+            type="file"
+            style={{ display: "none" }}
+            multiple
+            onChange={handleFile}
           />
+          <button
+            onClick={() => {
+              setShowGifs(false);
+              setShowEmojis(false);
+              handleAttach();
+            }}
+          >
+            <AttachIcon className={theme === "dark" ? stl.dark : undefined} />
+          </button>
         </div>
-      )}
-      <div></div>
+        {showEmojis && (
+          <div className={stl.emojiPicker}>
+            <DynamicPicker
+              width={320}
+              height={400}
+              onEmojiClick={(e) => setMessage((message) => message + e.emoji)}
+              autoFocusSearch={false}
+            />
+          </div>
+        )}
+        {showGifs && (
+          <div className={stl.emojiPicker}>
+            <Picker
+              onSelected={(e: any) => {
+                console.log(e.downsized_small.mp4);
+                handleGifSubmit(e.downsized_small.mp4);
+              }}
+              apiKey={process.env.APIKEY}
+            />
+          </div>
+        )}
+      </div>
+      <button className={stl.submitBtn} onClick={handleSubmit}>
+        <SendIcon />
+      </button>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, FormikProps } from "formik";
 import { motion } from "framer-motion";
 
@@ -39,7 +39,7 @@ const CustomForm = ({
   const [color, setColor] = React.useState("");
   const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (flow === 0) {
       setColor("rgba(255, 0, 0, 0.7)");
     } else if (flow === 1) {

@@ -3,7 +3,12 @@ import React from "react";
 import Forms from "./customForm";
 import Input from "./input";
 
-const SignIn = ({ setFlow, theme }: any) => {
+interface Props {
+  theme: string;
+  setFlow: (arg: number) => void;
+}
+
+const SignIn = ({ setFlow, theme }: Props) => {
   const fields = [
     <Input id="email" placeholder="Email" key={1} />,
     <Input id="password" placeholder="Password" key={2} />,

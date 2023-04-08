@@ -18,6 +18,14 @@ export default function Home() {
     }
   }
 
+  const toggleTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+    } else if (theme === "dark") {
+      setTheme("light");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -34,20 +42,24 @@ export default function Home() {
           theme === "dark"
             ? {
                 height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
                 background: "#17171c",
+                position: "relative",
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
               }
             : {
                 height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
               }
         }
       >
-        <EnterMsg />
+        <button onClick={toggleTheme} style={{ position: "absolute" }}>
+          Toggle Dark Mode
+        </button>
+        <SignupFlow theme={theme} />
       </main>
     </>
   );
