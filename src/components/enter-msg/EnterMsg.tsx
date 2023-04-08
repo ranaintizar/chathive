@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Picker from "react-giphy-component";
 import { addDoc, collection } from "firebase/firestore";
@@ -56,12 +56,31 @@ const EnterMsg = ({ theme }: Props) => {
   };
 
   const handleKey = (e: any) => {
-    if (e.keyCode === 13 && e.shiftKey === true) {
-      console.log("next line");
-    } else if (e.keyCode === 13) {
-      e.preventDefault();
-      handleSubmit();
-    }
+    setTimeout(() => {
+      const height = e.target.offsetHeight;
+      const scrollHeight = e.target.scrollHeight;
+
+      if (height <= 120) {
+        e.target.style.paddingTop = "5px";
+        e.target.style.height = scrollHeight - 15 + "px";
+      }
+
+      if (e.keyCode === 8) {
+        const isEmpty = e.target.value === "";
+        if (isEmpty) {
+          e.target.paddingTop = "12px";
+          e.target.style.height = "30px";
+        }
+      } else if (e.keyCode === 13 && e.shiftKey === true) {
+        if (height <= 120) {
+          e.target.style.paddingTop = "5px";
+          e.target.style.height = height + 5 + "px";
+        }
+      } else if (e.keyCode === 13) {
+        e.preventDefault();
+        handleSubmit();
+      }
+    }, 50);
   };
 
   const handleAttach = () => {
@@ -155,7 +174,10 @@ const EnterMsg = ({ theme }: Props) => {
       >
         <textarea
           rows={1}
-          onFocus={() => setShowEmojis(false)}
+          onFocus={() => {
+            setShowEmojis(false);
+            setShowGifs(false);
+          }}
           value={message}
           style={theme === "dark" ? { color: "#fff" } : { color: "#000" }}
           placeholder="Press Shift + Enter for next line and Enter to send."

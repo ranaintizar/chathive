@@ -8,14 +8,15 @@
   .enterMsg {
     position: relative;
     box-shadow: 0 0 10px 0 #3333;
-    padding: 5px 10px 5px 1rem;
+    padding: 5px 10px;
     border-radius: 3rem;
     width: 95%;
-    @extend .alignCen;
+    display: flex;
 
     textarea {
       all: unset;
-      padding: 1.2rem 10px;
+      padding: 5px 10px;
+      padding-top: 12px;
       width: 80%;
       line-height: 1.5rem;
       word-wrap: break-word;
@@ -28,6 +29,7 @@
     .btnContainer {
       @extend .alignCen;
       gap: 5px;
+      height: 100%;
 
       button {
         @extend .flexCenter;
@@ -74,8 +76,8 @@
   .submitBtn {
     border: none;
     @extend .flexCenter;
-    width: 65px;
-    height: 65px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #1e90ff;
 
