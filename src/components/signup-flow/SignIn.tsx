@@ -1,7 +1,7 @@
 import React from "react";
+import * as Yup from "yup";
 
 import Forms from "./customForm";
-import Input from "./input";
 
 interface Props {
   theme: string;
@@ -10,14 +10,22 @@ interface Props {
 
 const SignIn = ({ setFlow, theme }: Props) => {
   const fields = [
-    <Input id="email" placeholder="Email" key={1} />,
-    <Input id="password" placeholder="Password" key={2} />,
+    { id: "email", placeholder: "Email", key: 1 },
+    { id: "password", placeholder: "Password", key: 2 },
   ];
+
+  const schema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.mixed().required("Password is required"),
+  });
   return (
     <Forms
+      schema={schema}
       theme={theme}
       flow={1}
-      height="470px"
+      height="400px"
       fields={fields}
       initialVals={{ email: "", password: "" }}
       title="Sign In"

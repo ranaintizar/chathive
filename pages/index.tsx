@@ -45,15 +45,15 @@ export default function Home() {
                 height: "100vh",
                 background: "#17171c",
                 position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
               }
             : {
                 height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
                 background: "#ccc",
               }
         }
@@ -68,7 +68,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <StartChatBtn theme={theme} />
+        <SignupFlow theme={theme} />
       </main>
     </>
   );
