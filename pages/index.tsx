@@ -1,6 +1,6 @@
 import React from "react";
-
 import Head from "next/head";
+
 import SignupFlow from "components/signup-flow";
 import ChatItem from "components/chat-item/ChatItem";
 import MessageItem from "components/message-item";
@@ -53,6 +53,7 @@ export default function Home() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                background: "#ccc",
               }
         }
       >
@@ -66,7 +67,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <EnterMsg theme={theme} />
+        <MessageItem variant="secondary" theme={theme} />
       </main>
     </>
   );

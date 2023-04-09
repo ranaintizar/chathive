@@ -20,6 +20,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/firebase.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/api/firebase.js",
+    "src/useClickOutside.js"
+  ],
   "exclude": ["node_modules"]
 }
