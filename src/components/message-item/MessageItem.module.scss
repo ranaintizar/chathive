@@ -1,15 +1,75 @@
-.msgItem {
-  padding: 8px 1rem;
-  border-radius: 12px;
-  max-width: 55%;
-  width: max-content;
+@import "styles/common";
 
-  .message {
-    letter-spacing: -0.5px;
+.container {
+  position: relative;
+  width: 55%;
+  @extend .alignCen;
+  gap: 1rem;
 
-    &::selection {
-      background: #87cefa;
+  .msgItem {
+    padding: 8px 1rem;
+    border-radius: 12px;
+
+    .message {
+      letter-spacing: -0.5px;
+
+      &::selection {
+        background: #87cefa;
+        color: #fff;
+      }
+    }
+  }
+
+  .btnContainer {
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: #d6dbdc;
+    opacity: 0;
+
+    .button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      @extend .flexCenter;
+    }
+  }
+
+  .dropDown {
+    position: absolute;
+    padding: 10px 0;
+    top: 40%;
+    right: 0;
+    background: #fff;
+    z-index: 10;
+    @extend .flexColCen;
+    justify-content: space-evenly;
+    gap: 10px;
+    border-radius: 8px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+    .dropDownItem {
+      width: 100%;
+      padding: 10px 0;
+      padding-left: 1.2rem;
+      cursor: pointer;
+
+      &:hover {
+        background: #f1f2f5;
+      }
+    }
+  }
+
+  .darkDropdown {
+    background: #424242;
+
+    .dropDownItem {
       color: #fff;
+
+      &:hover {
+        background: #666;
+      }
     }
   }
 }

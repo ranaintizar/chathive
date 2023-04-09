@@ -87,7 +87,6 @@ const ChatItem = ({
             >
               {data.timeAgo}
             </div>
-
             <div
               id="more-btn"
               onClick={() => setShowDropdown(true)}
