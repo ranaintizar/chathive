@@ -1,7 +1,7 @@
 import React from "react";
+import * as Yup from "yup";
 
 import Forms from "./customForm";
-import Input from "./input";
 
 interface Props {
   theme: string;
@@ -10,14 +10,33 @@ interface Props {
 
 const SignUp = ({ setFlow, theme }: Props) => {
   const fields = [
-    <Input id="fname" key={1} />,
-    <Input id="lname" placeholder="Last Name" key={2} />,
-    <Input id="email" placeholder="Email" key={3} />,
-    <Input id="password" placeholder="Password" key={4} />,
+    { id: "fname", placeholder: "First Name", key: 1 },
+    { id: "lname", placeholder: "Last Name", key: 2 },
+    { id: "email", placeholder: "Email", key: 3 },
+    { id: "password", placeholder: "Password", key: 4 },
   ];
+
+  const schema = Yup.object().shape({
+    fname: Yup.string()
+      .min(4, "Name must be at least 4 characters")
+      .required("Name is required"),
+    lname: Yup.string().min(4, "Name must be at least 4 characters"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(7, "Password must be at least 7 characters")
+      .matches(
+        /[!@#$%^&*(),.?":{}|<>]/,
+        "Password must contain at least 1 special character"
+      )
+      .matches(/[A-Z]/, "Password must contain at least 1 capital letter")
+      .required("Password is required"),
+  });
 
   return (
     <Forms
+      schema={schema}
       theme={theme}
       flow={0}
       fields={fields}

@@ -31,7 +31,7 @@ const Input = ({ formikProps, id, placeholder }: Props) => {
         placeholder={placeholder}
       />
       <span className={stl.errors}>
-        {formikProps?.touched && formikProps?.errors.fname}
+        {formikProps.touched[id] && formikProps.errors[id]}
       </span>
     </div>
   );

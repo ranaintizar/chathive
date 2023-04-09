@@ -19,8 +19,13 @@
   }
 
   .errors {
-    padding: 0 10px;
-    color: rgb(255, 0, 0);
+    all: unset;
+    text-align: left !important;
+    padding: 0 5px;
+    color: rgba(255, 0, 0, 0.715) !important;
+    letter-spacing: -0.5px;
+    width: 100%;
+    font-size: 0.9rem;
   }
 
   .focused {

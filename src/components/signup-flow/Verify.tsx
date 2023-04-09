@@ -1,7 +1,7 @@
 import React from "react";
+import * as Yup from "yup";
 
 import Forms from "./customForm";
-import Input from "./input";
 
 interface Props {
   theme: string;
@@ -10,10 +10,19 @@ interface Props {
 
 const Verify = ({ setFlow, theme }: Props) => {
   const fields = [
-    <Input id="verificationCode" placeholder="Verification Code" key={1} />,
+    {
+      id: "verificationCode",
+      placeholder: "Verfication Code",
+      key: 1,
+    },
   ];
+
+  const schema = Yup.object().shape({
+    verificationCode: Yup.mixed().required("Verification code is required"),
+  });
   return (
     <Forms
+      schema={schema}
       theme={theme}
       flow={2}
       height="400px"
