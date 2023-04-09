@@ -7,6 +7,8 @@ import MessageItem from "components/message-item";
 import EnterMsg from "components/enter-msg";
 import Spinner from "components/spinner";
 import StartChatBtn from "components/start-chat-button";
+import MoreBtn from "components/more-btn/MoreBtn";
+import Dropdown from "components/dropdown";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -45,15 +47,15 @@ export default function Home() {
                 height: "100vh",
                 background: "#17171c",
                 position: "relative",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }
             : {
                 height: "100vh",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
                 background: "#ccc",
               }
         }
@@ -68,7 +70,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <SignupFlow theme={theme} />
+        <ChatItem theme={theme} />
       </main>
     </>
   );
