@@ -6,6 +6,7 @@ import ChatItem from "components/chat-item/ChatItem";
 import MessageItem from "components/message-item";
 import EnterMsg from "components/enter-msg";
 import Spinner from "components/spinner";
+import StartChatBtn from "components/start-chat-button";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -67,7 +68,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <MessageItem variant="secondary" theme={theme} />
+        <StartChatBtn theme={theme} />
       </main>
     </>
   );
