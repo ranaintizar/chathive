@@ -1,21 +1,19 @@
 import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import { motion } from "framer-motion";
 
-import { useOnClickOutside } from "@/src/useClickOutside";
+import { useOnClickOutside } from "src/useClickOutside";
 import ProfileImage from "assets/profileImage.jpeg";
-import MoreIcon from "assets/more.svg";
 
 import stl from "./Chat.module.scss";
+import MoreBtn from "components/more-btn/MoreBtn";
+import Dropdown from "components/dropdown";
 
 interface Props {
   id: string;
   data: any;
   theme: string;
   list: Array<string>;
-  width: number;
-  height: number;
   handleOnClick: (arg: any) => void;
   handleListItemClick: (arg: string) => void;
 }
@@ -25,8 +23,6 @@ const ChatItem = ({
   theme,
   id,
   data,
-  width,
-  height,
   handleOnClick,
   handleListItemClick,
 }: Props) => {
@@ -87,52 +83,27 @@ const ChatItem = ({
             >
               {data.timeAgo}
             </div>
-            <div
-              id="more-btn"
-              onClick={() => setShowDropdown(true)}
-              className={clsx(
-                stl.btnContainer,
-                theme === "dark" ? stl.darkBtn : undefined
-              )}
-            >
-              <button className={stl.button}>
-                <MoreIcon />
-              </button>
-            </div>
+            <MoreBtn
+              theme={theme}
+              handleOnClick={() => setShowDropdown(true)}
+            />
           </div>
         </div>
       </div>
-      <motion.div
-        //@ts-ignore
-        ref={dropDownRef}
-        style={{
-          transformOrigin: "top right",
-          width: width + "px",
-          height: height + "px",
+      <Dropdown
+        top="60%"
+        right="6%"
+        theme={theme}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+        list={list}
+        width={170}
+        height={200}
+        handleListItemClick={(item) => {
+          setShowDropdown(false);
+          handleListItemClick(item);
         }}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={
-          showDropdown ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 1 }
-        }
-        transition={showDropdown ? { type: "spring" } : { type: "tween" }}
-        className={clsx(
-          stl.dropDown,
-          theme === "dark" ? stl.darkDropdown : undefined
-        )}
-      >
-        {list.map((item: string, i: number) => (
-          <span
-            key={i}
-            onClick={() => {
-              handleListItemClick(item);
-              setShowDropdown(false);
-            }}
-            className={stl.dropDownItem}
-          >
-            {item}
-          </span>
-        ))}
-      </motion.div>
+      />
     </div>
   );
 };
@@ -145,8 +116,6 @@ ChatItem.defaultProps = {
     timeAgo: "25m",
   },
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
-  width: 170,
-  height: 200,
   handleListItemClick: (item: string) => console.log(item),
   handleOnClick: (data: any) => console.log(data),
 };
