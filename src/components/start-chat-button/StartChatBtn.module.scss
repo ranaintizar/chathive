@@ -1,18 +1,23 @@
 .chatBtn {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 10px;
   font-size: 1.2rem;
   font-weight: 600;
-  gap: 10px;
   border: none;
   background: #1e90ff;
   color: #fff;
-  border-radius: 10px;
+  border-radius: 1.5rem;
   cursor: pointer;
   transition: all 0.3s;
+  overflow: hidden;
+  margin-left: 1rem;
 
-  &:hover {
-    box-shadow: 0 0 20px 6px #1e90ff;
+  span {
+    min-width: 95px;
+  }
+
+  .icon {
+    min-width: 30px;
   }
 }

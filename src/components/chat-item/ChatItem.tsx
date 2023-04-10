@@ -4,13 +4,12 @@ import clsx from "clsx";
 
 import { useOnClickOutside } from "src/useClickOutside";
 import ProfileImage from "assets/profileImage.jpeg";
-
-import stl from "./Chat.module.scss";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 
+import stl from "./Chat.module.scss";
+
 interface Props {
-  id: string;
   data: any;
   theme: string;
   list: Array<string>;
@@ -21,75 +20,71 @@ interface Props {
 const ChatItem = ({
   list,
   theme,
-  id,
   data,
   handleOnClick,
   handleListItemClick,
 }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
 
   const dropDownRef = React.useRef();
 
   const handleHover = () => {
-    const moreBtn = document.getElementById("more-btn");
-    //@ts-ignore
-    moreBtn.style.display = "block";
+    setIsVisible(true);
   };
 
   const handleBlur = () => {
-    const moreBtn = document.getElementById("more-btn");
-    //@ts-ignore
-    moreBtn.style.display = "none";
+    setIsVisible(false);
   };
 
   useOnClickOutside(() => setShowDropdown(false), dropDownRef);
 
   return (
     <div
-      onMouseOver={handleHover}
-      onMouseOut={handleBlur}
-      id={id}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleBlur}
       className={clsx(
         stl.chatItem,
         theme === "dark" ? stl.darkChatItem : undefined
       )}
     >
-      <div className={stl.container}>
-        <div className={stl.avatar}>
-          <Image
-            src={ProfileImage.src}
-            width={50}
-            height={50}
-            alt="profile-img"
-          />
-        </div>
-        <div className={stl.left}>
-          <div
-            onClick={() => handleOnClick(data)}
-            className={clsx(
-              stl.info,
-              theme === "dark" ? stl.darkInfo : undefined
-            )}
-          >
-            <span className={stl.title}>{data.displayName}</span>
-            <span className={stl.message}>{data.message}</span>
-          </div>
-          <div className={stl.right}>
-            <div
+      <Image
+        src={ProfileImage.src}
+        width={45}
+        height={45}
+        alt="profile-img"
+        className={stl.avatar}
+      />
+      <div className={stl.left}>
+        <div
+          onClick={() => handleOnClick(data)}
+          className={clsx(
+            stl.info,
+            theme === "dark" ? stl.darkInfo : undefined
+          )}
+        >
+          <span className={stl.title}>
+            {data.displayName}{" "}
+            <span
               className={clsx(
                 stl.time,
                 theme === "dark" ? stl.darkTime : undefined
               )}
             >
               {data.timeAgo}
-            </div>
-            <MoreBtn
-              theme={theme}
-              handleOnClick={() => setShowDropdown(true)}
-            />
-          </div>
+            </span>
+          </span>
+          <span className={stl.row2}>
+            <span className={stl.message}>{data.message}</span>
+          </span>
         </div>
       </div>
+      <MoreBtn
+        visible={isVisible}
+        customClass={stl.moreBtn}
+        theme={theme}
+        handleOnClick={() => setShowDropdown(true)}
+      />
       <Dropdown
         top="60%"
         right="6%"
@@ -109,11 +104,10 @@ const ChatItem = ({
 };
 
 ChatItem.defaultProps = {
-  id: "this is id",
   data: {
     displayName: "Your Name",
     message: "This is Last Message from this",
-    timeAgo: "25m",
+    timeAgo: "2 Apr",
   },
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
   handleListItemClick: (item: string) => console.log(item),

@@ -5,7 +5,15 @@ import stl from "./Header.module.scss";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 
-const Header = ({ shadow, theme, title, list, handleListItemClick }: any) => {
+interface Props {
+  shadow: Boolean;
+  theme: string;
+  title: string;
+  list: Array<string>;
+  handleListItemClick: (arg: string) => void;
+}
+
+const Header = ({ shadow, theme, title, list, handleListItemClick }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
 
   return (
@@ -13,7 +21,11 @@ const Header = ({ shadow, theme, title, list, handleListItemClick }: any) => {
       className={clsx(
         stl.header,
         theme === "dark" ? stl.darkHeader : undefined,
-        shadow && theme === "dark" ? stl.shadowDark : stl.shadowLight
+        shadow
+          ? theme === "dark"
+            ? stl.shadowDark
+            : stl.shadowLight
+          : undefined
       )}
     >
       <div className={stl.right}>{title}</div>
@@ -42,7 +54,6 @@ const Header = ({ shadow, theme, title, list, handleListItemClick }: any) => {
 Header.defaultProps = {
   title: "Messages",
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
-  shadow: true,
   handleListItemClick: (item: string) => console.log(item),
 };
 
