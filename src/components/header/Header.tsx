@@ -1,19 +1,33 @@
 import React from "react";
 import clsx from "clsx";
 
-import stl from "./Header.module.scss";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
+import BackIcon from "assets/back.svg";
+
+import stl from "./Header.module.scss";
 
 interface Props {
   shadow: Boolean;
   theme: string;
   title: string;
   list: Array<string>;
+  backBtn: Boolean;
+  customElement?: JSX.Element;
+  handleBackBtn: () => void;
   handleListItemClick: (arg: string) => void;
 }
 
-const Header = ({ shadow, theme, title, list, handleListItemClick }: Props) => {
+const Header = ({
+  shadow,
+  theme,
+  title,
+  list,
+  backBtn,
+  customElement,
+  handleBackBtn,
+  handleListItemClick,
+}: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
 
   return (
@@ -28,13 +42,21 @@ const Header = ({ shadow, theme, title, list, handleListItemClick }: Props) => {
           : undefined
       )}
     >
-      <div className={stl.right}>{title}</div>
+      <div className={stl.right}>
+        {backBtn ? (
+          <div onClick={handleBackBtn} className={stl.backBtn}>
+            <BackIcon />
+          </div>
+        ) : undefined}
+        {title}
+      </div>
       <div className={stl.left}>
         <MoreBtn
           handleOnClick={() => setShowDropdown(true)}
           customClass={stl.moreBtn}
           theme={theme}
         />
+        {customElement}
         <Dropdown
           right="10%"
           theme={theme}
@@ -54,6 +76,8 @@ const Header = ({ shadow, theme, title, list, handleListItemClick }: Props) => {
 Header.defaultProps = {
   title: "Messages",
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
+  backBtn: false,
+  handleBackBtn: () => console.log("Back Btn Clicked..."),
   handleListItemClick: (item: string) => console.log(item),
 };
 

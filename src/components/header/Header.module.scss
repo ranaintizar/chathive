@@ -1,6 +1,7 @@
+@import "styles/common";
+
 .header {
-  display: flex;
-  align-items: center;
+  @extend .alignCen;
   justify-content: space-between;
   padding: 10px 1rem;
   width: 100%;
@@ -9,8 +10,17 @@
   user-select: none;
 
   .right {
+    @extend .alignCen;
+    gap: 10px;
     font-size: 1.5rem;
     letter-spacing: -0.9px;
+
+    .backBtn {
+      padding: 10px;
+      padding-left: 5px;
+      @extend .flexCenter;
+      cursor: pointer;
+    }
   }
 
   .left {
@@ -27,6 +37,12 @@
 
   .right {
     color: #fff;
+
+    .backBtn {
+      path {
+        fill: #fff;
+      }
+    }
   }
 }
 

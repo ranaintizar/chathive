@@ -72,7 +72,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <Sidebar theme={theme} />
+        <Header backBtn={true} shadow={true} theme={theme} />
       </main>
     </>
   );
