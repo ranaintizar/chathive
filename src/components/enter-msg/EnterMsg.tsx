@@ -92,16 +92,27 @@ const EnterMsg = ({ theme }: Props) => {
   const downloadFile = () => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
-    xhr.onload = (event) => {
-      var blob = xhr.response;
-      var a = document.createElement("a");
-      a.href = window.URL.createObjectURL(blob);
-      a.download = file.fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          var blob = xhr.response;
+          var a = document.createElement("a");
+          a.href = window.URL.createObjectURL(blob);
+          a.download = file.fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } else if (xhr.status === 404) {
+          console.log("File Not Found");
+        } else if (xhr.status === 0) {
+          console.log("Network Disconnected");
+        }
+      }
     };
-    xhr.open("GET", file.fileUrl);
+    xhr.open(
+      "GET",
+      "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FA13-01-NewMediaControls_3.mp4?alt=media&token=4c3a5b5a-14e8-4710-b4be-ce9c8ed36a1d"
+    );
     xhr.send();
   };
 

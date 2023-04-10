@@ -9,6 +9,7 @@ import Spinner from "components/spinner";
 import StartChatBtn from "components/start-chat-button";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
+import Header from "components/header";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -45,7 +46,7 @@ export default function Home() {
           theme === "dark"
             ? {
                 height: "100vh",
-                background: "#17171c",
+                background: "#202124",
                 position: "relative",
                 display: "flex",
                 justifyContent: "center",
@@ -56,7 +57,7 @@ export default function Home() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                background: "#ccc",
+                background: "#fff",
               }
         }
       >
@@ -70,7 +71,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <ChatItem theme={theme} />
+        <Header theme={theme} />
       </main>
     </>
   );

@@ -1,9 +1,9 @@
 import React from "react";
 
 import MoreBtn from "components/more-btn/MoreBtn";
+import Dropdown from "components/dropdown";
 
 import stl from "./MessageItem.module.scss";
-import Dropdown from "components/dropdown";
 
 interface Props {
   variant: string;
@@ -43,20 +43,22 @@ const MessageItem = ({
       <div
         style={
           variant === "primary"
-            ? { background: "#1e90ff" }
+            ? theme === "dark"
+              ? { background: "#7cacf8" }
+              : { background: "#ecf3fe" }
             : theme === "dark"
             ? { background: " #303030" }
-            : { background: "#f1f1f1" }
+            : { background: "#f2f2f2" }
         }
         className={stl.msgItem}
       >
         <span
           style={
             variant === "primary"
-              ? { color: "#fff" }
+              ? { color: "#202124" }
               : theme === "dark"
-              ? { color: "#fff" }
-              : { color: "#000" }
+              ? { color: "#eae8ed" }
+              : { color: "#202124" }
           }
           className={stl.message}
         >
