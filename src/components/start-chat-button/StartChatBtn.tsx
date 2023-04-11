@@ -1,20 +1,28 @@
 import React from "react";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 
 import ChatIcon from "assets/chat.svg";
 
 import stl from "./StartChatBtn.module.scss";
 
-const StartChatBtn = ({ startChatHandler, customClass }: any) => {
+interface Props {
+  startChatHandler: () => void;
+  customClass: string;
+}
+
+const StartChatBtn = ({ startChatHandler, customClass }: Props) => {
   return (
-    <button
+    <motion.button
+      initial={{ width: 42 }}
+      whileHover={{ width: 150 }}
+      transition={{ type: "spring", duration: 0.1 }}
       onClick={startChatHandler}
       className={clsx(stl.chatBtn, customClass)}
     >
-      <span className={stl.btnContent}>
-        <ChatIcon /> Start Chat
-      </span>
-    </button>
+      <ChatIcon className={stl.icon} />
+      <span>Start Chat</span>
+    </motion.button>
   );
 };
 

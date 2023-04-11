@@ -15,9 +15,8 @@ interface Props {
 const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => {
   return (
     <div
-      id="more-btn"
       onClick={handleOnClick}
-      style={visible && { opacity: 1 }}
+      style={visible ? { opacity: 1 } : { opacity: 0 }}
       className={clsx(
         stl.btnContainer,
         theme === "dark" ? stl.darkBtn : undefined,

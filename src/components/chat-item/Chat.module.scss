@@ -2,13 +2,14 @@
 
 .chatItem {
   position: relative;
-  @extend .flexCenter;
-  width: 350px;
-  height: 85px;
-  padding: 10px;
+  @extend .alignCen;
+  width: 320px;
+  height: 70px;
   border-radius: 12px;
-  cursor: pointer;
+  gap: 5px;
+  padding: 10px;
   transition: all 0.3s;
+  cursor: pointer;
 
   &:hover {
     background: #f5f5f5;
@@ -19,60 +20,33 @@
     box-shadow: none;
   }
 
-  .container {
-    @extend .alignCen;
-    width: 350px;
-    height: 70px;
-    gap: 10px;
+  .avatar {
+    @extend .flexCenter;
+    width: 50px;
+    height: 50px;
+    border-radius: 1000px;
+    overflow: hidden;
+  }
 
-    .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 25px;
-      overflow: hidden;
-    }
+  .left {
+    @extend .justifyBtw;
+    flex: 1;
+    width: 210px;
 
-    .left {
-      @extend .justifyBtw;
-      flex: 1;
-      width: 260px;
+    .info {
+      @extend .flexCol;
+      gap: 10px;
+      width: 85%;
+      color: #16161a;
+      width: 100%;
 
-      .info {
-        @extend .flexCol;
-        gap: 10px;
-        width: 85%;
-        color: #16161a;
-
-        .title {
-          font-weight: 600;
-        }
-
-        .message {
-          color: #16161a;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          letter-spacing: -0.5px;
-          user-select: none;
-        }
-      }
-
-      .darkInfo {
-        .title {
-          color: #f5f5f5;
-        }
-
-        .message {
-          color: #fff;
-        }
-      }
-
-      .right {
-        @extend .flexCol;
-        align-items: center;
-        justify-content: space-between;
+      .title {
+        font-weight: 600;
+        @extend .justifyBtw;
 
         .time {
+          font-weight: normal;
+          font-size: 0.9rem;
           color: #16161a;
         }
 
@@ -80,7 +54,43 @@
           color: #ccc;
         }
       }
+
+      .row2 {
+        display: flex;
+        width: 100%;
+
+        .message {
+          @extend .alignCen;
+          gap: 5px;
+          width: 85%;
+          color: #16161a;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          letter-spacing: -0.5px;
+          word-spacing: -0.5px;
+          font-size: 0.9rem;
+          height: 24px;
+          user-select: none;
+        }
+      }
     }
+
+    .darkInfo {
+      .title {
+        color: #f5f5f5;
+      }
+
+      .message {
+        color: #fff;
+      }
+    }
+  }
+
+  .moreBtn {
+    position: absolute;
+    top: 55%;
+    right: 3%;
   }
 }
 

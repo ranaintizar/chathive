@@ -1,0 +1,31 @@
+@import "styles/common";
+
+.sidebar {
+  position: relative;
+  @extend .flexCol;
+  width: 350px;
+  gap: 5px;
+  height: 100vh;
+  border-right: 1px solid #dadce0;
+  background: #fff;
+
+  .chatBtn {
+    position: absolute;
+    z-index: 10;
+    bottom: 3%;
+    left: 5%;
+  }
+
+  .chatContainer {
+    @extend .flexCol;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    height: 93vh;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
