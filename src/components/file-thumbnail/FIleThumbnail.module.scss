@@ -1,0 +1,43 @@
+@import "styles/common";
+
+.file {
+  position: relative;
+  @extend .alignCen;
+  gap: 10px;
+
+  .fileThumbnail {
+    width: 90px;
+    height: 90px;
+    padding: 10px 0 5px 0;
+    gap: 10px;
+    background: #ccc;
+    @extend .flexColCen;
+    border-radius: 5px;
+    cursor: pointer;
+
+    svg {
+      path {
+        fill: #202124;
+      }
+    }
+
+    .size {
+      color: #202124;
+      font-size: 0.75rem;
+    }
+
+    &:hover {
+      background: #1e90ff;
+
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+
+      .size {
+        color: #fff;
+      }
+    }
+  }
+}

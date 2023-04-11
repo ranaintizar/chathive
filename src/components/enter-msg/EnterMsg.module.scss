@@ -20,10 +20,11 @@
       all: unset;
       padding: 5px 10px;
       padding-top: 12px;
-      width: 80%;
+      width: 85%;
       line-height: 1.5rem;
       word-wrap: break-word;
       color: #000;
+      letter-spacing: -0.5px;
 
       &::-webkit-scrollbar {
         display: none;
@@ -101,5 +102,18 @@
     svg path {
       fill: #fff;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    width: 100%;
+    gap: 10px;
   }
 }

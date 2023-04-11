@@ -31,7 +31,8 @@ const GifPlayer = ({ src, width, height }: Props) => {
       style={{
         width: width + "px",
         height: height + "px",
-        border: "1px solid red",
+        border: "1px solid #ccc",
+        margin: "10px 0",
       }}
     >
       <source src={src} type="video/mp4" />
@@ -41,8 +42,7 @@ const GifPlayer = ({ src, width, height }: Props) => {
 };
 
 GifPlayer.defaultProps = {
-  width: 300,
-  height: 300,
+  width: 250,
+  height: 220,
 };
-
 export default GifPlayer;

@@ -14,8 +14,8 @@ interface Props {
   list: Array<string>;
   backBtn: Boolean;
   customElement?: JSX.Element;
+  customClass?: string;
   handleBackBtn: () => void;
-  handleListItemClick: (arg: string) => void;
 }
 
 const Header = ({
@@ -25,8 +25,8 @@ const Header = ({
   list,
   backBtn,
   customElement,
+  customClass,
   handleBackBtn,
-  handleListItemClick,
 }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
 
@@ -39,7 +39,8 @@ const Header = ({
           ? theme === "dark"
             ? stl.shadowDark
             : stl.shadowLight
-          : undefined
+          : undefined,
+        customClass
       )}
     >
       <div className={stl.right}>
@@ -58,13 +59,11 @@ const Header = ({
         />
         {customElement}
         <Dropdown
+          transformOrigin="top left"
           right="10%"
           theme={theme}
           list={list}
-          handleListItemClick={(item) => {
-            handleListItemClick(item);
-            setShowDropdown(false);
-          }}
+          handleListItemClick={(item) => console.log(item)}
           showDropdown={showDropdown}
           setShowDropdown={setShowDropdown}
         />
@@ -78,7 +77,6 @@ Header.defaultProps = {
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
   backBtn: false,
   handleBackBtn: () => console.log("Back Btn Clicked..."),
-  handleListItemClick: (item: string) => console.log(item),
 };
 
 export default Header;

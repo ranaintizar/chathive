@@ -17,6 +17,7 @@ interface Props {
   right: string;
   showDropdown: Boolean;
   setShowDropdown: any;
+  transformOrigin?: string;
   handleListItemClick: (arg: string) => void;
 }
 
@@ -31,6 +32,7 @@ const Dropdown = ({
   right,
   showDropdown,
   setShowDropdown,
+  transformOrigin,
   handleListItemClick,
 }: Props) => {
   const ref = React.useRef();
@@ -42,7 +44,7 @@ const Dropdown = ({
       //@ts-ignore
       ref={ref}
       style={{
-        transformOrigin: "top right",
+        transformOrigin: transformOrigin,
         width: width + "px",
         height: height + "px",
         top,
@@ -65,6 +67,7 @@ const Dropdown = ({
           key={i}
           onClick={() => {
             handleListItemClick(item);
+            setShowDropdown(false);
           }}
           className={stl.dropDownItem}
         >

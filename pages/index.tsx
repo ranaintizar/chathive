@@ -11,6 +11,7 @@ import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 import Header from "components/header";
 import Sidebar from "components/sidebar";
+import MessagesScreen from "components/messages-screen";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -72,7 +73,7 @@ export default function Home() {
         >
           Toggle Theme
         </button>
-        <Header backBtn={true} shadow={true} theme={theme} />
+        <MessagesScreen theme={theme} />
       </main>
     </>
   );

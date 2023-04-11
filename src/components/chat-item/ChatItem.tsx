@@ -14,16 +14,9 @@ interface Props {
   theme: string;
   list: Array<string>;
   handleOnClick: (arg: any) => void;
-  handleListItemClick: (arg: string) => void;
 }
 
-const ChatItem = ({
-  list,
-  theme,
-  data,
-  handleOnClick,
-  handleListItemClick,
-}: Props) => {
+const ChatItem = ({ list, theme, data, handleOnClick }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -94,10 +87,7 @@ const ChatItem = ({
         list={list}
         width={170}
         height={200}
-        handleListItemClick={(item) => {
-          setShowDropdown(false);
-          handleListItemClick(item);
-        }}
+        handleListItemClick={(item) => console.log(item)}
       />
     </div>
   );
@@ -110,7 +100,6 @@ ChatItem.defaultProps = {
     timeAgo: "2 Apr",
   },
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
-  handleListItemClick: (item: string) => console.log(item),
   handleOnClick: (data: any) => console.log(data),
 };
 
