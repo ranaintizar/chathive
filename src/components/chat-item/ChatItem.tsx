@@ -79,6 +79,7 @@ const ChatItem = ({ list, theme, data, handleOnClick }: Props) => {
         handleOnClick={() => setShowDropdown(true)}
       />
       <Dropdown
+        transformOrigin="top right"
         top="60%"
         right="6%"
         theme={theme}

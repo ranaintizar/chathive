@@ -8,51 +8,8 @@ import GifPlayer from "components/gif-player";
 import FileThumbnail from "components/file-thumbnail";
 
 import stl from "./MessagesScreen.module.scss";
-import MoreBtn from "components/more-btn/MoreBtn";
-import Dropdown from "components/dropdown";
 
 const MessagesScreen = ({ theme, messages, myId }: any) => {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [showDropdown, setShowDropdown] = React.useState(false);
-  const id = messages[0].recieverId;
-
-  const downloadFile = (fileInfo: any) => {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = "blob";
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var blob = xhr.response;
-          var a = document.createElement("a");
-          a.href = window.URL.createObjectURL(blob);
-          a.download = fileInfo.fileName;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } else if (xhr.status === 404) {
-          console.log("File Not Found");
-        } else if (xhr.status === 0) {
-          console.log("Network Disconnected");
-        }
-      }
-    };
-    xhr.open("GET", fileInfo.fileUrl);
-    xhr.send();
-  };
-
-  const formatBytes = (bytes: number) => {
-    const KB = 1024;
-    const MB = 1024 * 1024;
-
-    if (bytes < KB) {
-      return bytes + " bytes";
-    } else if (bytes < MB) {
-      return (bytes / KB).toFixed(2) + " KB";
-    } else {
-      return (bytes / MB).toFixed(2) + " MB";
-    }
-  };
-
   return (
     <div className={stl.msgScreen}>
       <Header theme={theme} shadow={true} customClass={stl.header} />
@@ -62,29 +19,35 @@ const MessagesScreen = ({ theme, messages, myId }: any) => {
             key={i}
             className={clsx(
               stl.msg,
-              msg.recieverId === myId ? stl.right : stl.left
+              msg.senderId === myId ? stl.right : stl.left
             )}
           >
             {(msg.messageType === "text" && (
               <MessageItem
-                left={msg.recieverId === myId}
+                variant={msg.senderId !== myId ? "secondary" : "primary"}
+                left={msg.senderId === myId}
                 content={msg.messageContent}
                 theme={theme}
               />
             )) ||
               (msg.messageType === "gif" && (
-                <GifPlayer src={msg.messageContent} />
+                <GifPlayer
+                  left={msg.senderId === myId}
+                  theme={theme}
+                  src={msg.messageContent}
+                />
               )) ||
               (msg.messageType === "file" && (
                 <FileThumbnail
+                  left={msg.senderId === myId}
                   theme={theme}
-                  handleOnClick={() => downloadFile(msg.fileInfo)}
-                  content={formatBytes(msg.fileInfo.fileSize)}
+                  fileInfo={msg.fileInfo}
                 />
               ))}
           </div>
         ))}
       </div>
+
       <EnterMsg theme={theme} />
     </div>
   );
@@ -103,7 +66,7 @@ MessagesScreen.defaultProps = {
       messageContent:
         "https://media0.giphy.com/media/37XQkomo1PbKzFsLYP/giphy-downsized-small.mp4?cid=7fd8f1f4twpo34dsupsq7hc1ebzunqo0x4tq73x78jhwe938&rid=giphy-downsized-small.mp4&ct=g",
       recieverId: "RecieverId1",
-      senderId: "SenderId1",
+      senderId: "SenderId2",
     },
     {
       messageType: "file",
@@ -119,7 +82,7 @@ MessagesScreen.defaultProps = {
       },
     },
   ],
-  myId: "RecieverId1",
+  myId: "SenderId1",
 };
 
 export default MessagesScreen;

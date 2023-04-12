@@ -14,24 +14,9 @@ interface Props {
   handleListItemClick: (arg: string) => void;
 }
 
-const MessageItem = ({
-  theme,
-  variant,
-  content,
-  list,
-  left,
-  handleListItemClick,
-}: Props) => {
+const MessageItem = ({ theme, variant, content, list, left }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
-
-  const handleHover = () => {
-    setIsVisible(true);
-  };
-
-  const handleBlur = () => {
-    setIsVisible(false);
-  };
 
   const Message = () => {
     return (
@@ -75,8 +60,8 @@ const MessageItem = ({
 
   return (
     <div
-      onMouseEnter={handleHover}
-      onMouseLeave={handleBlur}
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
       className={stl.container}
     >
       {left ? (
@@ -84,8 +69,8 @@ const MessageItem = ({
           <MoreOpt />
           <Dropdown
             transformOrigin="top right"
-            top="30%"
-            right="90%"
+            top="40%"
+            left="-47%"
             theme={theme}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
@@ -101,8 +86,8 @@ const MessageItem = ({
           <Message />
           <Dropdown
             transformOrigin="top left"
-            top="30%"
-            left="92%"
+            top="45%"
+            left="97%"
             theme={theme}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
