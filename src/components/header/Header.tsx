@@ -59,8 +59,8 @@ const Header = ({
         />
         {customElement}
         <Dropdown
-          transformOrigin="top left"
-          right="10%"
+          transformOrigin="top right"
+          right="40%"
           theme={theme}
           list={list}
           handleListItemClick={(item) => console.log(item)}

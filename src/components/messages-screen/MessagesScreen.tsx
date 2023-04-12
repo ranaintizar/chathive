@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import clsx from "clsx";
 
 import EnterMsg from "components/enter-msg";
@@ -11,44 +12,63 @@ import stl from "./MessagesScreen.module.scss";
 
 const MessagesScreen = ({ theme, messages, myId }: any) => {
   return (
-    <div className={stl.msgScreen}>
+    <div
+      className={clsx(
+        stl.msgScreen,
+        theme === "dark" ? stl.darkMsgScreen : undefined
+      )}
+    >
       <Header theme={theme} shadow={true} customClass={stl.header} />
-      <div className={stl.msgContainer}>
-        {messages.map((msg: any, i: number) => (
-          <div
-            key={i}
-            className={clsx(
-              stl.msg,
-              msg.senderId === myId ? stl.right : stl.left
-            )}
-          >
-            {(msg.messageType === "text" && (
-              <MessageItem
-                variant={msg.senderId !== myId ? "secondary" : "primary"}
-                left={msg.senderId === myId}
-                content={msg.messageContent}
-                theme={theme}
-              />
-            )) ||
-              (msg.messageType === "gif" && (
-                <GifPlayer
-                  left={msg.senderId === myId}
-                  theme={theme}
-                  src={msg.messageContent}
-                />
-              )) ||
-              (msg.messageType === "file" && (
-                <FileThumbnail
-                  left={msg.senderId === myId}
-                  theme={theme}
-                  fileInfo={msg.fileInfo}
-                />
-              ))}
+      {(messages && (
+        <>
+          <div className={stl.msgContainer}>
+            {messages.map((msg: any, i: number) => (
+              <div
+                key={i}
+                className={clsx(
+                  stl.msg,
+                  msg.senderId === myId ? stl.right : stl.left
+                )}
+              >
+                {(msg.messageType === "text" && (
+                  <MessageItem
+                    variant={msg.senderId !== myId ? "secondary" : "primary"}
+                    left={msg.senderId === myId}
+                    content={msg.messageContent}
+                    theme={theme}
+                  />
+                )) ||
+                  (msg.messageType === "gif" && (
+                    <GifPlayer
+                      left={msg.senderId === myId}
+                      theme={theme}
+                      src={msg.messageContent}
+                    />
+                  )) ||
+                  (msg.messageType === "file" && (
+                    <FileThumbnail
+                      left={msg.senderId === myId}
+                      theme={theme}
+                      fileInfo={msg.fileInfo}
+                    />
+                  ))}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <EnterMsg theme={theme} />
+          <EnterMsg theme={theme} />
+        </>
+      )) || (
+        <div className={stl.emptyScreen}>
+          <Image
+            priority
+            src="/empty-chat.png"
+            width={300}
+            height={300}
+            alt="Empty-Screen"
+          />
+          <h2>Select a chat from sidebar to view messages</h2>
+        </div>
+      )}
     </div>
   );
 };
