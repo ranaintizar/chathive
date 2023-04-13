@@ -10,16 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         env:
-          APIKEY: ${{ secrets.APIKEY }}
-          FIREBASEAPIKEY: ${{ secrets.FIREBASEAPIKEY }}
-          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-          DATABASEURL: ${{ secrets.DATABASEURL }}
-          PROJECTID: ${{ secrets.PROJECTID }}
-          STORAGEBUCKET: ${{ secrets.STORAGEBUCKET }}
-          MESSAGINGSENDERID: ${{ secrets.MESSAGINGSENDERID }}
-          APPID: ${{ secrets.APPID }}
-          MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
-          BUCKET: ${{ secrets.BUCKET }}
+          APIKEY: ${ secrets.APIKEY }
+          FIREBASEAPIKEY: ${ secrets.FIREBASEAPIKEY }
+          AUTHDOMAIN: ${ secrets.AUTHDOMAIN }
+          DATABASEURL: ${ secrets.DATABASEURL }
+          PROJECTID: ${ secrets.PROJECTID }
+          STORAGEBUCKET: ${ secrets.STORAGEBUCKET }
+          MESSAGINGSENDERID: ${ secrets.MESSAGINGSENDERID }
+          APPID: ${ secrets.APPID }
+          MEASUREMENTID: ${ secrets.MEASUREMENTID }
+          BUCKET: ${ secrets.BUCKET }
         run: |
           echo "APIKEY is : ${APIKEY}"
       - run: yarn --frozen-lockfile && yarn build
