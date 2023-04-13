@@ -9,19 +9,19 @@ name: Deploy to Firebase Hosting on merge
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    env:
-      APIKEY: ${{ secrets.APIKEY }}
-      FIREBASEAPIKEY: ${{ secrets.FIREBASEAPIKEY }}
-      AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-      DATABASEURL: ${{ secrets.DATABASEURL }}
-      PROJECTID: ${{ secrets.PROJECTID }}
-      STORAGEBUCKET: ${{ secrets.STORAGEBUCKET }}
-      MESSAGINGSENDERID: ${{ secrets.MESSAGINGSENDERID }}
-      APPID: ${{ secrets.APPID }}
-      MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
-      BUCKET: ${{ secrets.BUCKET }}
     steps:
       - uses: actions/checkout@v3
+        env:
+          APIKEY: ${{ secrets.APIKEY }}
+          FIREBASEAPIKEY: ${{ secrets.FIREBASEAPIKEY }}
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          DATABASEURL: ${{ secrets.DATABASEURL }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          STORAGEBUCKET: ${{ secrets.STORAGEBUCKET }}
+          MESSAGINGSENDERID: ${{ secrets.MESSAGINGSENDERID }}
+          APPID: ${{ secrets.APPID }}
+          MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
+          BUCKET: ${{ secrets.BUCKET }}
       - run: yarn --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
