@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "chathive",
     "public": "out",
     "ignore": [
       "firebase.json",
