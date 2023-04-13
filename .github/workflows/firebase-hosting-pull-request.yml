@@ -7,19 +7,19 @@ jobs:
   build_and_preview:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
+    env:
+      APIKEY: "${{ secrets.APIKEY }}"
+        FIREBASEAPIKEY: "${{ secrets.FIREBASEAPIKEY }}"
+        AUTHDOMAIN: "${{ secrets.AUTHDOMAIN }}"
+        DATABASEURL: "${{ secrets.DATABASEURL }}"
+        PROJECTID: "${{ secrets.PROJECTID }}"
+        STORAGEBUCKET: "${{ secrets.STORAGEBUCKET }}"
+        MESSAGINGSENDERID: "${{ secrets.MESSAGINGSENDERID }}"
+        APPID: "${{ secrets.APPID }}"
+        MEASUREMENTID: "${{ secrets.MEASUREMENTID }}"
+        BUCKET: "${{ secrets.BUCKET }}"
     steps:
       - uses: actions/checkout@v3
-        env:
-          APIKEY: "${{ secrets.APIKEY }}"
-          FIREBASEAPIKEY: "${{ secrets.FIREBASEAPIKEY }}"
-          AUTHDOMAIN: "${{ secrets.AUTHDOMAIN }}"
-          DATABASEURL: "${{ secrets.DATABASEURL }}"
-          PROJECTID: "${{ secrets.PROJECTID }}"
-          STORAGEBUCKET: "${{ secrets.STORAGEBUCKET }}"
-          MESSAGINGSENDERID: "${{ secrets.MESSAGINGSENDERID }}"
-          APPID: "${{ secrets.APPID }}"
-          MEASUREMENTID: "${{ secrets.MEASUREMENTID }}"
-          BUCKET: "${{ secrets.BUCKET }}"
       -name: Testing Secrets
       run:
         echo "APIKEY is: ${APIKEY}"
