@@ -5,7 +5,7 @@ import Picker from "react-giphy-component";
 import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-import { db, storage } from "@/pages/api/firebase.js";
+import { db, storage } from "@/firebase.js";
 import { useOnClickOutside } from "src/useClickOutside";
 import Spinner from "components/spinner";
 import GifPlayer from "components/gif-player";
