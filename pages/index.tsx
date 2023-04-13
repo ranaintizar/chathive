@@ -69,6 +69,7 @@ export default function Home() {
             position: "absolute",
             top: "0",
             left: "0",
+            zIndex: "1000",
           }}
         >
           Toggle Theme

@@ -17,9 +17,7 @@ module.exports = withVideos({
     MEASUREMENTID: process.env.MEASUREMENTID,
     BUCKET: process.env.BUCKET,
   },
-  images: {
-    domains: ["i.postimg.cc"],
-  },
+  images: { unoptimized: true },
   reactStrictMode: true,
   webpack: (config) => {
     config.module.rules.push({
