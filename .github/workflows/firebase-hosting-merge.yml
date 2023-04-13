@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-"on":
+'on':
   push:
     branches:
       - master
@@ -11,24 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        env:
-          APIKEY: ${{ secrets.APIKEY }}
-          FIREBASEAPIKEY: ${{ secrets.FIREBASEAPIKEY }}
-          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-          DATABASEURL: ${{ secrets.DATABASEURL }}
-          PROJECTID: ${{ secrets.PROJECTID }}
-          STORAGEBUCKET: ${{ secrets.STORAGEBUCKET }}
-          MESSAGINGSENDERID: ${{ secrets.MESSAGINGSENDERID }}
-          APPID: ${{ secrets.APPID }}
-          MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
-          BUCKET: ${{ secrets.BUCKET }}
-        name: Log Environment Variables
-      - run:
-          echo "APIKEY is: ${secrets.APIKEY}"
       - run: yarn --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIRY_SHADOW_364605 }}"
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIRY_SHADOW_364605 }}'
           channelId: live
           projectId: airy-shadow-364605
