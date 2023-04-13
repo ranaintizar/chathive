@@ -10,36 +10,16 @@ interface Props {
   content: string;
   theme: string;
   list: Array<string>;
+  left: Boolean;
   handleListItemClick: (arg: string) => void;
 }
 
-const MessageItem = ({
-  theme,
-  variant,
-  content,
-  list,
-  handleListItemClick,
-}: Props) => {
+const MessageItem = ({ theme, variant, content, list, left }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
 
-  const handleHover = () => {
-    const moreBtn = document.getElementById("more-btn");
-    //@ts-ignore
-    moreBtn.style.opacity = "1";
-  };
-
-  const handleBlur = () => {
-    const moreBtn = document.getElementById("more-btn");
-    //@ts-ignore
-    moreBtn.style.opacity = "0";
-  };
-
-  return (
-    <div
-      onMouseEnter={handleHover}
-      onMouseLeave={handleBlur}
-      className={stl.container}
-    >
+  const Message = () => {
+    return (
       <div
         style={
           variant === "primary"
@@ -65,21 +45,60 @@ const MessageItem = ({
           {content}
         </span>
       </div>
-      <MoreBtn theme={theme} handleOnClick={() => setShowDropdown(true)} />
-      <Dropdown
-        top="50%"
-        right="1%"
+    );
+  };
+
+  const MoreOpt = () => {
+    return (
+      <MoreBtn
+        visible={isVisible}
         theme={theme}
-        showDropdown={showDropdown}
-        setShowDropdown={setShowDropdown}
-        list={list}
-        width={130}
-        height={110}
-        handleListItemClick={(item) => {
-          setShowDropdown(false);
-          handleListItemClick(item);
-        }}
+        handleOnClick={() => setShowDropdown(true)}
       />
+    );
+  };
+
+  return (
+    <div
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+      className={stl.container}
+    >
+      {left ? (
+        <>
+          <MoreOpt />
+          <Dropdown
+            transformOrigin="top right"
+            top="40%"
+            left="-47%"
+            theme={theme}
+            showDropdown={showDropdown}
+            setShowDropdown={setShowDropdown}
+            list={list}
+            width={130}
+            height={110}
+            handleListItemClick={(item) => console.log(item)}
+          />
+          <Message />
+        </>
+      ) : (
+        <>
+          <Message />
+          <Dropdown
+            transformOrigin="top left"
+            top="45%"
+            left="97%"
+            theme={theme}
+            showDropdown={showDropdown}
+            setShowDropdown={setShowDropdown}
+            list={list}
+            width={130}
+            height={110}
+            handleListItemClick={(item) => console.log(item)}
+          />
+          <MoreOpt />
+        </>
+      )}
     </div>
   );
 };

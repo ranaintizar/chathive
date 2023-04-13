@@ -2,15 +2,17 @@
 
 .container {
   position: relative;
-  width: 55%;
+  width: max-content;
   @extend .alignCen;
-  gap: 1rem;
+  max-width: 560px;
+  gap: 10px;
 
   .msgItem {
     padding: 8px 1rem;
     border-radius: 12px;
 
     .message {
+      font-size: 0.9rem;
       letter-spacing: -0.5px;
 
       &::selection {
@@ -21,8 +23,20 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: calc(70% + 40px);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    max-width: 80%;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .msgItem .message {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 }

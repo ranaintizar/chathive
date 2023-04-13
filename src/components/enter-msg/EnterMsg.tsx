@@ -6,11 +6,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import { db, storage } from "@/pages/api/firebase.js";
+import { useOnClickOutside } from "src/useClickOutside";
 import Spinner from "components/spinner";
 import GifPlayer from "components/gif-player";
 import EmojiIcon from "assets/emoji.svg";
 import GifIcon from "assets/gif.svg";
-import StickerIcon from "assets/sticker.svg";
 import AttachIcon from "assets/attach.svg";
 import SendIcon from "assets/send.svg";
 
@@ -37,6 +37,9 @@ const EnterMsg = ({ theme }: Props) => {
     fileType: "File Type",
     fileUrl: "https://url.com",
   });
+
+  const pickerRef = React.useRef(null);
+
   const collectionRef = collection(db, "files");
 
   const handleSubmit = () => {
@@ -79,6 +82,8 @@ const EnterMsg = ({ theme }: Props) => {
         }
       } else if (e.keyCode === 13) {
         e.preventDefault();
+        e.target.paddingTop = "12px";
+        e.target.style.height = "30px";
         handleSubmit();
       }
     }, 50);
@@ -87,33 +92,6 @@ const EnterMsg = ({ theme }: Props) => {
   const handleAttach = () => {
     const input = document.getElementById("fileInput");
     input?.click();
-  };
-
-  const downloadFile = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = "blob";
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var blob = xhr.response;
-          var a = document.createElement("a");
-          a.href = window.URL.createObjectURL(blob);
-          a.download = file.fileName;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } else if (xhr.status === 404) {
-          console.log("File Not Found");
-        } else if (xhr.status === 0) {
-          console.log("Network Disconnected");
-        }
-      }
-    };
-    xhr.open(
-      "GET",
-      "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FA13-01-NewMediaControls_3.mp4?alt=media&token=4c3a5b5a-14e8-4710-b4be-ce9c8ed36a1d"
-    );
-    xhr.send();
   };
 
   const handleFile = async (e: any) => {
@@ -173,6 +151,11 @@ const EnterMsg = ({ theme }: Props) => {
     setIsLoading(false);
   };
 
+  useOnClickOutside(() => {
+    setShowEmojis(false);
+    setShowGifs(false);
+  }, pickerRef);
+
   return isLoading ? (
     <Spinner title="Uploading file..." color="dodgerblue" />
   ) : (
@@ -216,9 +199,6 @@ const EnterMsg = ({ theme }: Props) => {
           >
             <GifIcon className={theme === "dark" ? stl.dark : undefined} />
           </button>
-          <button onClick={() => downloadFile()}>
-            <StickerIcon className={theme === "dark" ? stl.dark : undefined} />
-          </button>
           <input
             id="fileInput"
             type="file"
@@ -237,7 +217,7 @@ const EnterMsg = ({ theme }: Props) => {
           </button>
         </div>
         {showEmojis && (
-          <div className={stl.emojiPicker}>
+          <div ref={pickerRef} className={stl.emojiPicker}>
             <DynamicPicker
               width={320}
               height={400}
@@ -247,7 +227,7 @@ const EnterMsg = ({ theme }: Props) => {
           </div>
         )}
         {showGifs && (
-          <div className={stl.emojiPicker}>
+          <div ref={pickerRef} className={stl.emojiPicker}>
             <Picker
               onSelected={(e: any) => {
                 console.log(e.downsized_small.mp4);
