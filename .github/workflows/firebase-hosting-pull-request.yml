@@ -21,11 +21,11 @@ jobs:
           MEASUREMENTID: "${{ secrets.MEASUREMENTID }}"
           BUCKET: "${{ secrets.BUCKET }}"
       -name: Testing Secrets
-        run:
-          echo "APIKEY is: ${APIKEY}"
-       - run: yarn --frozen-lockfile && yarn build
-       - uses: FirebaseExtended/action-hosting-deploy@v0
-         with:
-           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIRY_SHADOW_364605 }}"
-           projectId: airy-shadow-364605
+      run:
+        echo "APIKEY is: ${APIKEY}"
+      - run: yarn --frozen-lockfile && yarn build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIRY_SHADOW_364605 }}"
+          projectId: airy-shadow-364605
