@@ -23,7 +23,7 @@ jobs:
           MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
           BUCKET: ${{ secrets.BUCKET }}
         name: Log Environment Variables
-        run:
+      - run:
           echo "APIKEY is: ${secrets.APIKEY}"
       - run: yarn --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
