@@ -25,7 +25,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "firebase.js",
+    "pages/api/firebase.js",
     "src/useClickOutside.js"
   ],
   "exclude": ["node_modules"]
