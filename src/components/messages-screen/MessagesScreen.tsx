@@ -1,14 +1,11 @@
 import React from "react";
-import Image from "next/image";
 import clsx from "clsx";
 
-import EnterMsg from "components/enter-msg";
 import Header from "components/header";
-import MessageItem from "components/message-item";
-import GifPlayer from "components/gif-player";
-import FileThumbnail from "components/file-thumbnail";
 
 import stl from "./MessagesScreen.module.scss";
+import MsgDisplayer from "components/message-displayer";
+import EmptyScreen from "components/empty-screen";
 
 const MessagesScreen = ({ theme, messages, myId }: any) => {
   return (
@@ -19,55 +16,8 @@ const MessagesScreen = ({ theme, messages, myId }: any) => {
       )}
     >
       <Header theme={theme} shadow={true} customClass={stl.header} />
-      {(messages && (
-        <>
-          <div className={stl.msgContainer}>
-            {messages.map((msg: any, i: number) => (
-              <div
-                key={i}
-                className={clsx(
-                  stl.msg,
-                  msg.senderId === myId ? stl.right : stl.left
-                )}
-              >
-                {(msg.messageType === "text" && (
-                  <MessageItem
-                    variant={msg.senderId !== myId ? "secondary" : "primary"}
-                    left={msg.senderId === myId}
-                    content={msg.messageContent}
-                    theme={theme}
-                  />
-                )) ||
-                  (msg.messageType === "gif" && (
-                    <GifPlayer
-                      left={msg.senderId === myId}
-                      theme={theme}
-                      src={msg.messageContent}
-                    />
-                  )) ||
-                  (msg.messageType === "file" && (
-                    <FileThumbnail
-                      left={msg.senderId === myId}
-                      theme={theme}
-                      fileInfo={msg.fileInfo}
-                    />
-                  ))}
-              </div>
-            ))}
-          </div>
-          <EnterMsg theme={theme} />
-        </>
-      )) || (
-        <div className={stl.emptyScreen}>
-          <Image
-            priority
-            src="/empty-chat.png"
-            width={300}
-            height={300}
-            alt="Empty-Screen"
-          />
-          <h2>Select a chat from sidebar to view messages</h2>
-        </div>
+      {(messages && <MsgDisplayer messages={messages} myId={myId} />) || (
+        <EmptyScreen />
       )}
     </div>
   );
