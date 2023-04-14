@@ -23,20 +23,15 @@ const DynamicPicker = dynamic(
 
 interface Props {
   theme: string;
+  customClass?: string;
 }
 
-const EnterMsg = ({ theme }: Props) => {
+const EnterMsg = ({ theme, customClass }: Props) => {
   const [message, setMessage] = React.useState("");
   const [showEmojis, setShowEmojis] = React.useState(false);
   const [showGifs, setShowGifs] = React.useState(false);
   const [element, setElement] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [file, setFile] = React.useState({
-    fileName: "File Name",
-    fileSize: 128,
-    fileType: "File Type",
-    fileUrl: "https://url.com",
-  });
 
   const pickerRef = React.useRef(null);
 
@@ -134,8 +129,6 @@ const EnterMsg = ({ theme }: Props) => {
                 fileType: fileMeta.contentType,
                 fileUrl: url,
               };
-              //@ts-ignore
-              setFile(fileInfo);
 
               await addDoc(collectionRef, fileInfo)
                 .then((docRef) =>
@@ -159,7 +152,7 @@ const EnterMsg = ({ theme }: Props) => {
   return isLoading ? (
     <Spinner title="Uploading file..." color="dodgerblue" />
   ) : (
-    <div className={stl.container}>
+    <div className={clsx(stl.container, customClass)}>
       <div
         className={clsx(
           stl.enterMsg,

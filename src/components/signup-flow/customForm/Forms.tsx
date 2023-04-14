@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { motion } from "framer-motion";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import Input from "../input";
 import Spinner from "components/spinner";
@@ -42,6 +43,8 @@ const CustomForm = ({
   const [color, setColor] = React.useState("");
   const [loading, setLoading] = React.useState(true);
 
+  const provider = new GoogleAuthProvider();
+
   useEffect(() => {
     if (flow === 0) {
       setColor("rgba(255, 0, 0, 0.7)");
@@ -55,6 +58,23 @@ const CustomForm = ({
       setLoading(false);
     }, 1000);
   }, []);
+
+  const GoogleSignIn = () => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const user = await result.user;
+        console.log(user);
+        //@ts-ignore
+        const data = { ...user };
+        await localStorage.setItem("user", JSON.stringify(data));
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, ":", errorMessage);
+      });
+  };
 
   return loading ? (
     theme === "dark" ? (
@@ -134,7 +154,7 @@ const CustomForm = ({
             className={stl.otherSignIn}
           >
             <span>OR Continue with</span>
-            <button onClick={() => console.log("Button Clicked...")}>
+            <button onClick={GoogleSignIn}>
               <GoogleIcon />
             </button>
           </motion.div>

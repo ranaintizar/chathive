@@ -18,7 +18,7 @@ module.exports = withVideos({
     BUCKET: process.env.BUCKET,
   },
   images: {
-    domains: ["i.postimg.cc"],
+    domains: ["firebasestorage.googleapis.com", "lh3.googleusercontent.com"],
   },
   reactStrictMode: true,
   webpack: (config) => {
