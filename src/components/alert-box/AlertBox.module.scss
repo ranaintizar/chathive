@@ -1,0 +1,57 @@
+@import "styles/common";
+
+.alertBox {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  border-radius: 10px;
+  max-width: 400px;
+  z-index: 100;
+  position: absolute;
+
+  .text {
+    padding: 12px;
+    height: 110px;
+    @extend .flexCol;
+    gap: 10px;
+
+    .title {
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+      color: red;
+    }
+
+    .msg {
+      letter-spacing: -0.5px;
+    }
+  }
+
+  .footer {
+    @extend .alignCen;
+    justify-content: flex-end;
+    flex: 1;
+    padding: 10px 12px;
+
+    button {
+      padding: 5px 10px;
+      background: #1e90ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 0 20px 4px #1e90ff;
+      }
+    }
+  }
+}
+
+.darkAlertBox {
+  background: #333;
+  box-shadow: none;
+
+  .text .msg {
+    color: #d6dbdc;
+  }
+}

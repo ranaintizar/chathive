@@ -53,9 +53,7 @@ const Dropdown = ({
         right,
       }}
       initial={{ scale: 0, opacity: 0 }}
-      animate={
-        showDropdown ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 1 }
-      }
+      animate={showDropdown ? { scale: 1, opacity: 1 } : undefined}
       transition={showDropdown ? { type: "spring" } : { type: "tween" }}
       className={clsx(
         stl.dropDown,
