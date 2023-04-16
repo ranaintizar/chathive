@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { motion } from "framer-motion";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  TwitterAuthProvider,
-  GithubAuthProvider,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  sendEmailVerification,
-  signInWithPhoneNumber,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 
-import { auth } from "@/pages/api/firebase";
+import {
+  googleSignIn,
+  twitterSignIn,
+  githubSignIn,
+  handleSignUp,
+  handleSignIn,
+} from "src/lib/firebaseFunctions";
 import Input from "../input";
 import Spinner from "components/spinner";
 import GoogleIcon from "assets/google.svg";
@@ -75,117 +69,6 @@ const CustomForm = ({
     }, 1000);
   }, []);
 
-  const googleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    const auth = getAuth();
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const user = result.user;
-        console.log(user);
-        const data = { ...user };
-        await localStorage.setItem("user", JSON.stringify(data));
-      })
-      .catch((err) => {
-        const errCode = err.code;
-        const errMsg = err.message;
-        handleAuthErrs(errCode, errMsg);
-      });
-  };
-
-  const twitterSignIn = () => {
-    const provider = new TwitterAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const user = result.user;
-        const credential = TwitterAuthProvider.credentialFromResult(result);
-        console.log("Credential : ", credential, "from Twitter Login");
-        const credData = { ...credential };
-        await localStorage.setItem("credential", JSON.stringify(credData));
-        console.log(user);
-        const data = { ...user };
-        await localStorage.setItem("user", JSON.stringify(data));
-      })
-      .catch((err) => {
-        const errCode = err.code;
-        const errMsg = err.message;
-        handleAuthErrs(errCode, errMsg);
-      });
-  };
-
-  const githubSignIn = () => {
-    const provider = new GithubAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const user = result.user;
-        console.log(user);
-        const data = { ...user };
-        await localStorage.setItem("user", JSON.stringify(data));
-      })
-      .catch((err) => {
-        const errCode = err.code;
-        const errMsg = err.message;
-        handleAuthErrs(errCode, errMsg);
-      });
-  };
-
-  const handleAuthErrs = (code: any, msg: any) => {
-    console.log("Code: ", code);
-    console.log("Message: ", msg);
-    if (code === "auth/email-already-in-use") {
-      alert("This is email is already in use.");
-    } else if (code === "auth/wrong-password") {
-      alert("Password is In-correct");
-    } else if (code === "auth/user-not-found") {
-      alert(
-        "The user with this email does not exist. Please check the email or sign up if you are a new user."
-      );
-    }
-  };
-
-  const handleSignUp = async (
-    email: string,
-    password: string,
-    displayName: string
-  ) => {
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
-        const user = userCredential.user;
-        return await updateProfile(user, {
-          displayName: displayName,
-          photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
-        });
-      })
-      .then(async () => {
-        const userData = await auth.currentUser;
-        //@ts-ignore
-        sendEmailVerification(userData).then(() => {
-          setIsVerified(false);
-        });
-        const user = { ...userData };
-        localStorage.setItem("user", JSON.stringify(user));
-      })
-      .catch((err) => {
-        const errCode = err.code;
-        const errMsg = err.message;
-        handleAuthErrs(errCode, errMsg);
-      });
-  };
-
-  const handleSignIn = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((credential) => {
-        const user = credential.user;
-        const userData = { ...user };
-        localStorage.setItem("user", JSON.stringify(userData));
-        console.log("User Signed In Successfully!");
-      })
-      .catch((err) => {
-        const errCode = err.code;
-        const errMsg = err.message;
-        handleAuthErrs(errCode, errMsg);
-      });
-  };
-
   return loading ? (
     theme === "dark" ? (
       <Spinner color="#1e90ff" />
@@ -241,7 +124,8 @@ const CustomForm = ({
                   //@ts-ignore
                   values.password,
                   //@ts-ignore
-                  values.fname + " " + values.lname
+                  values.fname + " " + values.lname,
+                  setIsVerified
                 );
               } else if (method === "signin") {
                 //@ts-ignore

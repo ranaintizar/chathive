@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { sendEmailVerification } from "firebase/auth";
 
 import { auth } from "./api/firebase";
 import SignupFlow from "components/signup-flow";
@@ -25,14 +24,8 @@ export default function Home() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        if (authUser.emailVerified) {
-          setIsVerified(true);
-        } else {
-          sendEmailVerification(authUser).then(() => {
-            console.log("Verification email sent!");
-          });
-        }
+      if (authUser?.emailVerified) {
+        setIsVerified(true);
         setUser(true);
       } else {
         setUser(false);

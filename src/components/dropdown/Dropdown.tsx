@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 
-import { useOnClickOutside } from "src/useClickOutside";
+import { useOnClickOutside } from "src/lib/useClickOutside";
 
 import stl from "./Dropdown.module.scss";
 
