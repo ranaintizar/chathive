@@ -12,6 +12,7 @@
     width: 100%;
     border-radius: 12px;
     font-size: 1.2rem;
+    letter-spacing: -0.5px;
 
     &::placeholder {
       color: #fff;
@@ -26,6 +27,18 @@
     letter-spacing: -0.5px;
     width: 100%;
     font-size: 0.9rem;
+  }
+
+  .forgotPassword {
+    width: 100%;
+    @extend .alignCen;
+    justify-content: flex-end;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .focused {

@@ -9,19 +9,24 @@ import stl from "./SignupFlow.module.scss";
 
 interface Props {
   theme: string;
+  setIsVerified: (arg: Boolean) => void;
 }
 
-const SignupFlow = ({ theme }: Props) => {
+const SignupFlow = ({ theme, setIsVerified }: Props) => {
   const [flow, setFlow] = React.useState(0);
   const [element, setElement] = React.useState(
-    <SignUp setFlow={setFlow} theme={theme} />
+    <SignUp setIsVerified={setIsVerified} setFlow={setFlow} theme={theme} />
   );
 
   useEffect(() => {
     if (flow === 0) {
-      setElement(<SignUp theme={theme} setFlow={setFlow} />);
+      setElement(
+        <SignUp setIsVerified={setIsVerified} theme={theme} setFlow={setFlow} />
+      );
     } else if (flow === 1) {
-      setElement(<SignIn theme={theme} setFlow={setFlow} />);
+      setElement(
+        <SignIn setIsVerified={setIsVerified} theme={theme} setFlow={setFlow} />
+      );
     } else if (flow === 2) {
       setElement(<Verify theme={theme} setFlow={setFlow} />);
     }

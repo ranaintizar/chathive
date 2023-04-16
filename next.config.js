@@ -19,6 +19,7 @@ module.exports = withVideos({
   },
   images: {
     domains: ["firebasestorage.googleapis.com", "lh3.googleusercontent.com"],
+    unoptimized: true,
   },
   reactStrictMode: true,
   webpack: (config) => {

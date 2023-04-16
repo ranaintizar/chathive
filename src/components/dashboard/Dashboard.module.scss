@@ -17,19 +17,15 @@
     padding: 1rem;
 
     .name,
-    .email {
+    .email,
+    .phoneNumber {
       display: flex;
       align-items: center;
       gap: 10px;
 
       h4 {
         font-weight: normal;
-      }
-    }
-
-    .accessToken {
-      h4 {
-        font-weight: normal;
+        cursor: pointer;
       }
     }
 
@@ -38,23 +34,29 @@
       border: 1px solid #3333;
     }
 
-    button {
-      border: 1px solid #1e90ff;
-      border-radius: 7px;
-      background: none;
-      padding: 10px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: all 0.3s;
+    .btnContainer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
 
-      &:hover {
-        background: #1e90ff;
-        border-color: transparent;
-        color: #fff;
-      }
+      button {
+        border: 1px solid #1e90ff;
+        border-radius: 7px;
+        background: none;
+        padding: 10px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s;
 
-      &:active {
-        transform: scale(0.9);
+        &:hover {
+          background: #1e90ff;
+          border-color: transparent;
+          color: #fff;
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
       }
     }
   }

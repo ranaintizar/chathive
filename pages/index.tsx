@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { onAuthStateChanged } from "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
 
 import { auth } from "./api/firebase";
 import SignupFlow from "components/signup-flow";
@@ -15,19 +15,27 @@ import Header from "components/header";
 import Sidebar from "components/sidebar";
 import MessagesScreen from "components/messages-screen";
 import Dashboard from "components/dashboard";
+import VerifyMsg from "components/verify-msg";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
   const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState(false);
+  const [isVerified, setIsVerified] = React.useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        //@ts-ignore
-        setUser(authUser);
+        if (authUser.emailVerified) {
+          setIsVerified(true);
+        } else {
+          sendEmailVerification(authUser).then(() => {
+            console.log("Verification email sent!");
+          });
+        }
+        setUser(true);
       } else {
-        setUser(null);
+        setUser(false);
       }
     });
 
@@ -72,15 +80,15 @@ export default function Home() {
                 height: "100vh",
                 background: "#202124",
                 position: "relative",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }
             : {
                 height: "100vh",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
                 background: "#fff",
               }
         }
@@ -99,9 +107,14 @@ export default function Home() {
         {isLoading ? (
           <Spinner spinnerColor="#1e90ff" />
         ) : user ? (
-          <Dashboard />
+          isVerified ? (
+            <Dashboard setIsVerified={setIsVerified} />
+          ) : (
+            <VerifyMsg email={auth.currentUser?.email} />
+          )
         ) : (
-          <SignupFlow theme={theme} />
+          //@ts-ignore
+          <SignupFlow setIsVerified={setIsVerified} theme={theme} />
         )}
       </main>
     </>

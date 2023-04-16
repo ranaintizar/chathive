@@ -1,11 +1,25 @@
 import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { motion } from "framer-motion";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+  GithubAuthProvider,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+  signInWithPhoneNumber,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
+import { auth } from "@/pages/api/firebase";
 import Input from "../input";
 import Spinner from "components/spinner";
 import GoogleIcon from "assets/google.svg";
+import TwitterIcon from "assets/twitter.svg";
+import GithubIcon from "assets/github.svg";
 
 import stl from "./Forms.module.scss";
 
@@ -23,6 +37,8 @@ interface Props {
   flow: number;
   theme: string;
   schema: Object;
+  method?: string;
+  setIsVerified: (arg: Boolean) => void;
 }
 
 const CustomForm = ({
@@ -38,12 +54,12 @@ const CustomForm = ({
   flow,
   theme,
   schema,
+  method,
   setFlow,
+  setIsVerified,
 }: Props) => {
   const [color, setColor] = React.useState("");
   const [loading, setLoading] = React.useState(true);
-
-  const provider = new GoogleAuthProvider();
 
   useEffect(() => {
     if (flow === 0) {
@@ -59,20 +75,114 @@ const CustomForm = ({
     }, 1000);
   }, []);
 
-  const GoogleSignIn = () => {
+  const googleSignIn = () => {
+    const provider = new GoogleAuthProvider();
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        const user = await result.user;
+        const user = result.user;
         console.log(user);
-        //@ts-ignore
         const data = { ...user };
         await localStorage.setItem("user", JSON.stringify(data));
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, ":", errorMessage);
+      .catch((err) => {
+        const errCode = err.code;
+        const errMsg = err.message;
+        handleAuthErrs(errCode, errMsg);
+      });
+  };
+
+  const twitterSignIn = () => {
+    const provider = new TwitterAuthProvider();
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const user = result.user;
+        const credential = TwitterAuthProvider.credentialFromResult(result);
+        console.log("Credential : ", credential, "from Twitter Login");
+        const credData = { ...credential };
+        await localStorage.setItem("credential", JSON.stringify(credData));
+        console.log(user);
+        const data = { ...user };
+        await localStorage.setItem("user", JSON.stringify(data));
+      })
+      .catch((err) => {
+        const errCode = err.code;
+        const errMsg = err.message;
+        handleAuthErrs(errCode, errMsg);
+      });
+  };
+
+  const githubSignIn = () => {
+    const provider = new GithubAuthProvider();
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const user = result.user;
+        console.log(user);
+        const data = { ...user };
+        await localStorage.setItem("user", JSON.stringify(data));
+      })
+      .catch((err) => {
+        const errCode = err.code;
+        const errMsg = err.message;
+        handleAuthErrs(errCode, errMsg);
+      });
+  };
+
+  const handleAuthErrs = (code: any, msg: any) => {
+    console.log("Code: ", code);
+    console.log("Message: ", msg);
+    if (code === "auth/email-already-in-use") {
+      alert("This is email is already in use.");
+    } else if (code === "auth/wrong-password") {
+      alert("Password is In-correct");
+    } else if (code === "auth/user-not-found") {
+      alert(
+        "The user with this email does not exist. Please check the email or sign up if you are a new user."
+      );
+    }
+  };
+
+  const handleSignUp = async (
+    email: string,
+    password: string,
+    displayName: string
+  ) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        return await updateProfile(user, {
+          displayName: displayName,
+          photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
+        });
+      })
+      .then(async () => {
+        const userData = await auth.currentUser;
+        //@ts-ignore
+        sendEmailVerification(userData).then(() => {
+          setIsVerified(false);
+        });
+        const user = { ...userData };
+        localStorage.setItem("user", JSON.stringify(user));
+      })
+      .catch((err) => {
+        const errCode = err.code;
+        const errMsg = err.message;
+        handleAuthErrs(errCode, errMsg);
+      });
+  };
+
+  const handleSignIn = (email: string, password: string) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((credential) => {
+        const user = credential.user;
+        const userData = { ...user };
+        localStorage.setItem("user", JSON.stringify(userData));
+        console.log("User Signed In Successfully!");
+      })
+      .catch((err) => {
+        const errCode = err.code;
+        const errMsg = err.message;
+        handleAuthErrs(errCode, errMsg);
       });
   };
 
@@ -124,8 +234,19 @@ const CustomForm = ({
             validationSchema={schema}
             validateOnBlur={true}
             onSubmit={(values, actions) => {
-              console.log(values, "this");
-              setFlow(2);
+              if (method === "signup") {
+                handleSignUp(
+                  //@ts-ignore
+                  values.email,
+                  //@ts-ignore
+                  values.password,
+                  //@ts-ignore
+                  values.fname + " " + values.lname
+                );
+              } else if (method === "signin") {
+                //@ts-ignore
+                handleSignIn(values.email, values.password);
+              }
               actions.resetForm();
             }}
           >
@@ -133,6 +254,7 @@ const CustomForm = ({
               <Form>
                 {fields.map((field: any) => (
                   <Input
+                    method={method}
                     id={field.id}
                     placeholder={field.placeholder}
                     key={field.key}
@@ -154,9 +276,17 @@ const CustomForm = ({
             className={stl.otherSignIn}
           >
             <span>OR Continue with</span>
-            <button onClick={GoogleSignIn}>
-              <GoogleIcon />
-            </button>
+            <div className={stl.btnContainer}>
+              <button onClick={googleSignIn}>
+                <GoogleIcon />
+              </button>
+              <button onClick={twitterSignIn}>
+                <TwitterIcon />
+              </button>
+              <button onClick={githubSignIn}>
+                <GithubIcon />
+              </button>
+            </div>
           </motion.div>
         )}
       </div>
