@@ -2,10 +2,10 @@ import React from "react";
 import clsx from "clsx";
 
 import Header from "components/header";
-
-import stl from "./MessagesScreen.module.scss";
 import MsgDisplayer from "components/message-displayer";
 import EmptyScreen from "components/empty-screen";
+
+import stl from "./MessagesScreen.module.scss";
 
 const MessagesScreen = ({ theme, messages, myId }: any) => {
   return (
@@ -40,7 +40,6 @@ MessagesScreen.defaultProps = {
     },
     {
       messageType: "file",
-      messageContent: "File Url",
       recieverId: "RecieverId1sss",
       senderId: "SenderId1",
       fileInfo: {
@@ -48,7 +47,7 @@ MessagesScreen.defaultProps = {
         fileSize: 6177,
         fileType: "image/svg+xml",
         fileUrl:
-          "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FlogoIcon.svg?alt=media&token=3c533811-c046-477b-bd44-ec40396e0d8c",
+          "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FScreenshot%20from%202023-03-30%2016-49-25.png?alt=media&token=de5a5f12-11fb-4118-b003-174b25fa1ba0",
       },
     },
   ],

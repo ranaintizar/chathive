@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 import Picker from "react-giphy-component";
-import { addDoc, collection } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-import { db, storage } from "@/pages/api/firebase.js";
-import { useOnClickOutside } from "src/useClickOutside";
+import { useOnClickOutside } from "src/lib/useClickOutside";
+import { handleFile } from "src/lib/firebaseFunctions";
 import Spinner from "components/spinner";
 import GifPlayer from "components/gif-player";
 import EmojiIcon from "assets/emoji.svg";
@@ -23,24 +21,17 @@ const DynamicPicker = dynamic(
 
 interface Props {
   theme: string;
+  customClass?: string;
 }
 
-const EnterMsg = ({ theme }: Props) => {
+const EnterMsg = ({ theme, customClass }: Props) => {
   const [message, setMessage] = React.useState("");
   const [showEmojis, setShowEmojis] = React.useState(false);
   const [showGifs, setShowGifs] = React.useState(false);
   const [element, setElement] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [file, setFile] = React.useState({
-    fileName: "File Name",
-    fileSize: 128,
-    fileType: "File Type",
-    fileUrl: "https://url.com",
-  });
 
   const pickerRef = React.useRef(null);
-
-  const collectionRef = collection(db, "files");
 
   const handleSubmit = () => {
     console.log(message);
@@ -94,63 +85,6 @@ const EnterMsg = ({ theme }: Props) => {
     input?.click();
   };
 
-  const handleFile = async (e: any) => {
-    const files = e.target.files;
-    const maxFiles = 3;
-    if (files.length > maxFiles) {
-      alert(`Please select up to ${maxFiles} files.`);
-    } else if (files.length <= maxFiles) {
-      for (let i = 0; i < files.length; i++) {
-        setIsLoading(true);
-        const file = files[i];
-
-        const storageRef = ref(
-          storage,
-          `${process.env.BUCKET}/files/${file.name}`
-        );
-
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(`Upload is ${progress}% done`);
-          },
-          (error) => {
-            console.error(error);
-          },
-          () => {
-            console.log("Upload successful");
-
-            getDownloadURL(storageRef).then(async (url) => {
-              console.log("Url is: ", url);
-              const fileMeta = (await uploadTask).metadata;
-
-              const fileInfo = {
-                fileName: fileMeta.name,
-                fileSize: fileMeta.size,
-                fileType: fileMeta.contentType,
-                fileUrl: url,
-              };
-              //@ts-ignore
-              setFile(fileInfo);
-
-              await addDoc(collectionRef, fileInfo)
-                .then((docRef) =>
-                  console.log("Stored info in Firestore document : ", docRef.id)
-                )
-                .catch((err) => console.log(err));
-            });
-          }
-        );
-      }
-    }
-
-    setIsLoading(false);
-  };
-
   useOnClickOutside(() => {
     setShowEmojis(false);
     setShowGifs(false);
@@ -159,7 +93,7 @@ const EnterMsg = ({ theme }: Props) => {
   return isLoading ? (
     <Spinner title="Uploading file..." color="dodgerblue" />
   ) : (
-    <div className={stl.container}>
+    <div className={clsx(stl.container, customClass)}>
       <div
         className={clsx(
           stl.enterMsg,
@@ -204,7 +138,8 @@ const EnterMsg = ({ theme }: Props) => {
             type="file"
             style={{ display: "none" }}
             multiple
-            onChange={handleFile}
+            //@ts-ignore
+            onChange={(e) => handleFile(e, setIsLoading)}
           />
           <button
             onClick={() => {

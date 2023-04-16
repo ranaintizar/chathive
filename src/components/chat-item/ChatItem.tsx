@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { useOnClickOutside } from "src/useClickOutside";
+import { useOnClickOutside } from "src/lib/useClickOutside";
 import ProfileImage from "assets/profileImage.jpeg";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";

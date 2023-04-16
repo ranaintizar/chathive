@@ -2,9 +2,18 @@ import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { motion } from "framer-motion";
 
+import {
+  googleSignIn,
+  twitterSignIn,
+  githubSignIn,
+  handleSignUp,
+  handleSignIn,
+} from "src/lib/firebaseFunctions";
 import Input from "../input";
 import Spinner from "components/spinner";
 import GoogleIcon from "assets/google.svg";
+import TwitterIcon from "assets/twitter.svg";
+import GithubIcon from "assets/github.svg";
 
 import stl from "./Forms.module.scss";
 
@@ -22,6 +31,8 @@ interface Props {
   flow: number;
   theme: string;
   schema: Object;
+  method?: string;
+  setIsVerified: (arg: Boolean) => void;
 }
 
 const CustomForm = ({
@@ -37,7 +48,9 @@ const CustomForm = ({
   flow,
   theme,
   schema,
+  method,
   setFlow,
+  setIsVerified,
 }: Props) => {
   const [color, setColor] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -104,8 +117,20 @@ const CustomForm = ({
             validationSchema={schema}
             validateOnBlur={true}
             onSubmit={(values, actions) => {
-              console.log(values, "this");
-              setFlow(2);
+              if (method === "signup") {
+                handleSignUp(
+                  //@ts-ignore
+                  values.email,
+                  //@ts-ignore
+                  values.password,
+                  //@ts-ignore
+                  values.fname + " " + values.lname,
+                  setIsVerified
+                );
+              } else if (method === "signin") {
+                //@ts-ignore
+                handleSignIn(values.email, values.password);
+              }
               actions.resetForm();
             }}
           >
@@ -113,6 +138,7 @@ const CustomForm = ({
               <Form>
                 {fields.map((field: any) => (
                   <Input
+                    method={method}
                     id={field.id}
                     placeholder={field.placeholder}
                     key={field.key}
@@ -134,9 +160,17 @@ const CustomForm = ({
             className={stl.otherSignIn}
           >
             <span>OR Continue with</span>
-            <button onClick={() => console.log("Button Clicked...")}>
-              <GoogleIcon />
-            </button>
+            <div className={stl.btnContainer}>
+              <button onClick={googleSignIn}>
+                <GoogleIcon />
+              </button>
+              <button onClick={twitterSignIn}>
+                <TwitterIcon />
+              </button>
+              <button onClick={githubSignIn}>
+                <GithubIcon />
+              </button>
+            </div>
           </motion.div>
         )}
       </div>

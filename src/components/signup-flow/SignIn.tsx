@@ -6,9 +6,10 @@ import Forms from "./customForm";
 interface Props {
   theme: string;
   setFlow: (arg: number) => void;
+  setIsVerified: (arg: Boolean) => void;
 }
 
-const SignIn = ({ setFlow, theme }: Props) => {
+const SignIn = ({ setFlow, theme, setIsVerified }: Props) => {
   const fields = [
     { id: "email", placeholder: "Email", key: 1 },
     { id: "password", placeholder: "Password", key: 2 },
@@ -22,7 +23,9 @@ const SignIn = ({ setFlow, theme }: Props) => {
   });
   return (
     <Forms
+      method="signin"
       schema={schema}
+      setIsVerified={setIsVerified}
       theme={theme}
       flow={1}
       height="400px"
@@ -32,6 +35,7 @@ const SignIn = ({ setFlow, theme }: Props) => {
       desc="Don't have an Account?"
       specialText="Sign Up"
       setFlow={setFlow}
+      submitText="Sign In"
     />
   );
 };

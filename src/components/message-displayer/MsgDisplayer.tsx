@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import clsx from "clsx";
 
 import MessageItem from "components/message-item";
@@ -10,7 +11,7 @@ import stl from "./MsgDisplayer.module.scss";
 
 const MsgDisplayer = ({ messages, myId, theme }: any) => {
   return (
-    <>
+    <div className={stl.msgDisplayer}>
       <div className={stl.msgContainer}>
         {messages.map((msg: any, i: number) => (
           <div
@@ -35,18 +36,27 @@ const MsgDisplayer = ({ messages, myId, theme }: any) => {
                   src={msg.messageContent}
                 />
               )) ||
-              (msg.messageType === "file" && (
+              (msg.messageType === "file" &&
+                msg.fileInfo.fileType.includes("image") && (
+                  <Image
+                    src={msg.fileInfo.fileUrl}
+                    width={500}
+                    height={700}
+                    alt="image"
+                    className={stl.image}
+                  />
+                )) || (
                 <FileThumbnail
                   left={msg.senderId === myId}
                   theme={theme}
                   fileInfo={msg.fileInfo}
                 />
-              ))}
+              )}
           </div>
         ))}
       </div>
-      <EnterMsg theme={theme} />
-    </>
+      <EnterMsg customClass={stl.enterMsg} theme={theme} />
+    </div>
   );
 };
 

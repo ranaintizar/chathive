@@ -89,22 +89,27 @@
       gap: 10px;
       width: 90%;
 
-      button {
-        width: 50px;
-        height: 50px;
-        background: #fff;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
+      .btnContainer {
         @extend .flexCenter;
-        transition: all 0.2s;
+        gap: 1rem;
 
-        &:hover {
-          transform: scale(1.1);
-        }
+        button {
+          width: 50px;
+          height: 50px;
+          background: #fff;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          @extend .flexCenter;
+          transition: all 0.2s;
 
-        &:active {
-          transform: scale(1.05);
+          &:hover {
+            transform: scale(1.1);
+          }
+
+          &:active {
+            transform: scale(1.05);
+          }
         }
       }
     }
