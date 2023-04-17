@@ -8,24 +8,26 @@ import BackIcon from "assets/back.svg";
 import stl from "./Header.module.scss";
 
 interface Props {
-  shadow: Boolean;
   theme: string;
   title: string;
   list: Array<string>;
   backBtn: Boolean;
   customElement?: JSX.Element;
   customClass?: string;
+  dropdown: Boolean;
+  titleCenter: Boolean;
   handleBackBtn: () => void;
 }
 
 const Header = ({
-  shadow,
   theme,
   title,
   list,
   backBtn,
   customElement,
   customClass,
+  dropdown,
+  titleCenter,
   handleBackBtn,
 }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
@@ -35,11 +37,6 @@ const Header = ({
       className={clsx(
         stl.header,
         theme === "dark" ? stl.darkHeader : undefined,
-        shadow
-          ? theme === "dark"
-            ? stl.shadowDark
-            : stl.shadowLight
-          : undefined,
         customClass
       )}
     >
@@ -49,25 +46,29 @@ const Header = ({
             <BackIcon />
           </div>
         ) : undefined}
-        {title}
+        <span className={clsx(stl.title, titleCenter ? stl.center : undefined)}>
+          {title}
+        </span>
       </div>
-      <div className={stl.left}>
-        <MoreBtn
-          handleOnClick={() => setShowDropdown(true)}
-          customClass={stl.moreBtn}
-          theme={theme}
-        />
-        {customElement}
-        <Dropdown
-          transformOrigin="top right"
-          right="40%"
-          theme={theme}
-          list={list}
-          handleListItemClick={(item) => console.log(item)}
-          showDropdown={showDropdown}
-          setShowDropdown={setShowDropdown}
-        />
-      </div>
+      {dropdown ? (
+        <div className={stl.left}>
+          <MoreBtn
+            handleOnClick={() => setShowDropdown(true)}
+            customClass={stl.moreBtn}
+            theme={theme}
+          />
+          {customElement}
+          <Dropdown
+            transformOrigin="top right"
+            right="40%"
+            theme={theme}
+            list={list}
+            handleListItemClick={(item) => console.log(item)}
+            showDropdown={showDropdown}
+            setShowDropdown={setShowDropdown}
+          />
+        </div>
+      ) : undefined}
     </div>
   );
 };
@@ -77,6 +78,8 @@ Header.defaultProps = {
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
   backBtn: false,
   handleBackBtn: () => console.log("Back Btn Clicked..."),
+  dropdown: true,
+  titleCenter: false,
 };
 
 export default Header;

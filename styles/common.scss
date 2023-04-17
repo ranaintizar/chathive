@@ -76,3 +76,9 @@
   justify-content: space-around;
   align-items: center;
 }
+
+.flexColStart {
+  @extend .flexCol;
+  justify-content: flex-start;
+  align-items: flex-start;
+}

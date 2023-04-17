@@ -1,0 +1,62 @@
+@import "styles/common";
+
+.sidebar {
+  width: 350px;
+  height: 100vh;
+  border-right: 1px solid #ccc;
+  background: #fff;
+
+  .options {
+    @extend .flexColStart;
+    height: 90vh;
+    padding: 40% 1rem 3rem;
+    gap: 10px;
+
+    .option {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.3rem;
+      border-radius: 10px;
+      cursor: pointer;
+      @extend .alignCen;
+      gap: 1rem;
+
+      .icon {
+        width: 30px;
+        height: 30px;
+        @extend .flexCenter;
+
+        svg {
+          path,
+          ellipse,
+          rect {
+            fill: #ccc;
+          }
+        }
+      }
+
+      &:hover {
+        background: #f1f2f5;
+      }
+
+      &:active {
+        background: #ccc;
+      }
+    }
+
+    .active {
+      color: #1e90ff;
+      font-weight: 600;
+
+      .icon {
+        svg {
+          path,
+          ellipse,
+          rect {
+            fill: #1e90ff;
+          }
+        }
+      }
+    }
+  }
+}
