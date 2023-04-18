@@ -9,7 +9,13 @@ import EnterMsg from "components/enter-msg";
 
 import stl from "./MsgDisplayer.module.scss";
 
-const MsgDisplayer = ({ messages, myId, theme }: any) => {
+interface Props {
+  messages: any;
+  myId: string;
+  theme: string;
+}
+
+const MsgDisplayer = ({ messages, myId, theme }: Props) => {
   return (
     <div className={stl.msgDisplayer}>
       <div className={stl.msgContainer}>

@@ -1,44 +1,52 @@
 @import "styles/common";
 
-.alertBox {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  border-radius: 10px;
-  width: 100%;
-  z-index: 150;
+.promptBox {
+  padding: 10px;
   position: absolute;
+  @extend .flexCol;
+  width: 100%;
+  height: max-content;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   background: #fff;
+  z-index: 100;
 
-  .text {
-    padding: 12px;
-    height: 110px;
-    @extend .flexCol;
-    gap: 10px;
+  .header {
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+    color: #1e90ff;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+  }
 
-    .title {
+  .body {
+    padding: 10px 0;
+
+    input {
+      width: 100%;
+      padding: 7px 10px;
       font-size: 1.1rem;
-      letter-spacing: -0.5px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .msg {
-      letter-spacing: -0.5px;
+      border-radius: 7px;
+      background: #f1f2f5;
+      border: none;
+      outline: none;
     }
   }
 
   .footer {
     @extend .alignCen;
     justify-content: flex-end;
-    flex: 1;
+    width: 100%;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 0 12px;
 
     button {
+      box-sizing: border-box;
       padding: 5px 10px;
       background: rgb(30, 144, 255);
       color: #fff;
       border: none;
+      width: 80px;
       border-radius: 6px;
       font-size: 1.05rem;
       cursor: pointer;
@@ -57,14 +65,5 @@
         background: none;
       }
     }
-  }
-}
-
-.darkAlertBox {
-  background: #333;
-  box-shadow: none;
-
-  .text .msg {
-    color: #d6dbdc;
   }
 }

@@ -32,12 +32,17 @@ const sendVerificationEmail = () => {
     );
 };
 
-const updateName = (name: string) => {
+const updateName = (name: string, setUser: (arg: any) => void) => {
   console.log("Updating Name...");
   //@ts-ignore
   updateProfile(auth.currentUser, { displayName: name })
     .then(() => {
       const user = auth.currentUser;
+      setUser({
+        displayName: user?.displayName,
+        email: user?.email,
+        photoURL: user?.photoURL,
+      });
       const userData = { ...user };
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("Name Updated!");
@@ -45,58 +50,58 @@ const updateName = (name: string) => {
     .catch((err: any) => console.log("Error while Updating Name:", err));
 };
 
-const updatePhoto = (e: any) => {
+const updatePhoto = (setUser: (arg: any) => void, e: any) => {
   const file = e.target.files[0];
   const uid = auth.currentUser?.uid;
-  if (file.type.includes("image")) {
-    const profilePicRef = ref(
-      storage,
-      `${process.env.BUCKET}/files/${uid}/profilePic`
-    );
+  const profilePicRef = ref(
+    storage,
+    `${process.env.BUCKET}/files/${uid}/profilePic`
+  );
 
-    deleteObject(profilePicRef)
-      .then((res) => {
-        console.log(res);
-        console.log("File Deleted Successfully!");
-      })
-      .catch((err) => {
-        console.log("Error while deleting file:", err);
-      });
+  deleteObject(profilePicRef)
+    .then((res) => {
+      console.log(res);
+      console.log("File Deleted Successfully!");
+    })
+    .catch((err) => {
+      console.log("Error while deleting file:", err);
+    });
 
-    const storageRef = ref(
-      storage,
-      `${process.env.BUCKET}/files/${uid}/profilePic`
-    );
+  const storageRef = ref(
+    storage,
+    `${process.env.BUCKET}/files/${uid}/profilePic`
+  );
 
-    const uploadTask = uploadBytesResumable(storageRef, file);
+  const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      },
-      (error) => {
-        console.error(error);
-      },
-      () => {
-        console.log("Upload successful");
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload is ${progress}% done`);
+    },
+    (error) => {
+      console.error(error);
+    },
+    () => {
+      console.log("Upload successful");
 
-        getDownloadURL(storageRef).then(async (url) => {
-          console.log("Url is: ", url);
-          //@ts-ignore
-          updateProfile(auth.currentUser, { photoURL: url }).then(() => {
-            const user = auth.currentUser;
-            const userData = { ...user };
-            localStorage.setItem("user", JSON.stringify(userData));
+      getDownloadURL(storageRef).then(async (url) => {
+        console.log("Url is: ", url);
+        //@ts-ignore
+        updateProfile(auth.currentUser, { photoURL: url }).then(() => {
+          const user = auth.currentUser;
+          setUser({
+            displayName: user?.displayName,
+            email: user?.email,
+            photoURL: user?.photoURL,
           });
+          const userData = { ...user };
+          localStorage.setItem("user", JSON.stringify(userData));
         });
-      }
-    );
-  } else {
-    alert("Invalid file type selected. Please select an image file.");
-  }
+      });
+    }
+  );
 };
 
 const handleUpdatePass = (password: string) => {
@@ -116,13 +121,19 @@ const handleUpdatePass = (password: string) => {
 
 const handleUpdateEmail = (
   email: string,
-  setIsVerified: (arg: Boolean) => void
+  setIsVerified: (arg: Boolean) => void,
+  setUser: (arg: any) => void
 ) => {
   console.log("Updating Email...");
   //@ts-ignore
   updateEmail(auth.currentUser, email)
     .then(async () => {
       const user = await auth.currentUser;
+      setUser({
+        displayName: user?.displayName,
+        email: user?.email,
+        photoURL: user?.photoURL,
+      });
       const userData = { ...user };
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("Email Updated");
