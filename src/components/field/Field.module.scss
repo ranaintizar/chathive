@@ -60,3 +60,15 @@
     right: 20%;
   }
 }
+
+.darkField {
+  .label {
+    color: #ccc;
+  }
+
+  .btnContainer {
+    button {
+      color: #fff;
+    }
+  }
+}

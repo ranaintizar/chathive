@@ -8,6 +8,7 @@
   height: 90%;
 
   .imgContainer {
+    position: relative;
     @extend .flexCenter;
     width: 195px;
     height: 195px;
@@ -16,9 +17,29 @@
     overflow: hidden;
     cursor: pointer;
 
+    .iconContainer {
+      opacity: 0;
+      position: absolute;
+      bottom: 1%;
+      right: 20%;
+
+      .icon {
+        transform: scale(0.6);
+        background: #fff;
+        padding: 5px;
+        border-radius: 50%;
+      }
+    }
+
     .image {
       object-fit: cover;
       border-radius: 50%;
+    }
+
+    &:hover {
+      .iconContainer {
+        opacity: 1;
+      }
     }
   }
 
@@ -27,5 +48,6 @@
     gap: 1.5rem;
     padding: 10px;
     width: 90%;
+    max-width: 500px;
   }
 }

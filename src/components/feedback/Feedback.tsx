@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import clsx from "clsx";
 
 import { Field, Form, Formik } from "formik";
 import SendIcon from "assets/send.svg";
@@ -16,7 +17,12 @@ const Feedback = ({ theme }: any) => {
   return isLoading ? (
     <Spinner spinnerColor="#1e90ff" />
   ) : (
-    <div className={stl.feedback}>
+    <div
+      className={clsx(
+        stl.feedback,
+        theme === "dark" ? stl.darkFeedback : undefined
+      )}
+    >
       <Formik
         initialValues={{ username: "", email: "", feedback: "" }}
         onSubmit={(values, actions: any) => {

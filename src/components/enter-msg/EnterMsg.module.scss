@@ -31,10 +31,6 @@
       }
     }
 
-    .darkTextArea {
-      color: #fff;
-    }
-
     .btnContainer {
       @extend .alignCen;
       gap: 5px;
@@ -84,6 +80,10 @@
 
   .darkEnterMsg {
     background: #3c4043;
+
+    textarea {
+      color: #fff;
+    }
   }
 
   .submitBtn {

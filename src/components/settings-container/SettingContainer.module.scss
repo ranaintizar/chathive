@@ -1,6 +1,7 @@
 @import "styles/common";
 
 .stngContainer {
+  width: 100%;
   @extend .flexCol;
   gap: 3px;
 
@@ -17,6 +18,14 @@
       background: #fff;
       border-radius: 1.2rem;
       max-width: 1000px;
+    }
+  }
+
+  .darkSettingWrapper {
+    background: #202124;
+
+    .setting {
+      background: #333;
     }
   }
 }

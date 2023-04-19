@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import clsx from "clsx";
 
 import stl from "./About.module.scss";
+import Spinner from "components/spinner";
 
 const About = ({ theme }: any) => {
-  return (
-    <div className={stl.about}>
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000);
+  }, []);
+
+  return isLoading ? (
+    <Spinner spinnerColor="#1e90ff" />
+  ) : (
+    <div
+      className={clsx(stl.about, theme === "dark" ? stl.darkAbout : undefined)}
+    >
       <div>
         ChatHive is a web-based chat application created by{" "}
         <a href="https://linktr.ee/ranaintizar" target="_blank">

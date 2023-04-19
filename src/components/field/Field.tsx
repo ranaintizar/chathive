@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import {
   updateName,
@@ -47,7 +48,9 @@ const Field = ({
   };
 
   return (
-    <div className={stl.field}>
+    <div
+      className={clsx(stl.field, theme === "dark" ? stl.darkField : undefined)}
+    >
       <span className={stl.label}>{title}</span>
       <span className={stl.title}>{content}</span>
       <div className={stl.btnContainer}>

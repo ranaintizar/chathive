@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import clsx from "clsx";
 
 import Field from "components/field";
 import AlertBox from "components/alert-box";
@@ -29,7 +30,12 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
   return isLoading ? (
     <Spinner spinnerColor="#1e90ff" />
   ) : (
-    <div className={stl.accSettings}>
+    <div
+      className={clsx(
+        stl.accSettings,
+        theme === "dark" ? stl.darkAccSetting : undefined
+      )}
+    >
       <div className={stl.row}>
         <Field
           theme={theme}

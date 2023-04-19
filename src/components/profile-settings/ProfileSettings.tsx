@@ -5,6 +5,7 @@ import { updatePhoto } from "src/lib/firebaseFunctions";
 import AlertBox from "components/alert-box";
 import Spinner from "components/spinner";
 import Field from "components/field";
+import EditIcon from "assets/edit.svg";
 
 import stl from "./ProfileSettings.module.scss";
 
@@ -54,6 +55,9 @@ const ProfileSettings = ({ theme, setIsVerified }: Props) => {
           alt="profile-image"
           className={stl.image}
         />
+        <span className={stl.iconContainer}>
+          <EditIcon className={stl.icon} />
+        </span>
       </div>
       <input
         type="file"

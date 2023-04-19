@@ -60,3 +60,21 @@
     }
   }
 }
+
+.darkSidebar {
+  background: #202124;
+
+  .options {
+    .option {
+      color: #f1f2f5;
+
+      &:hover {
+        color: #202124;
+      }
+    }
+
+    .active {
+      color: #1e90ff;
+    }
+  }
+}

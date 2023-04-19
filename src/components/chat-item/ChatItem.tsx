@@ -49,23 +49,9 @@ const ChatItem = ({ list, theme, data, handleOnClick }: Props) => {
         className={stl.avatar}
       />
       <div className={stl.left}>
-        <div
-          onClick={() => handleOnClick(data)}
-          className={clsx(
-            stl.info,
-            theme === "dark" ? stl.darkInfo : undefined
-          )}
-        >
+        <div onClick={() => handleOnClick(data)} className={stl.info}>
           <span className={stl.title}>
-            {data.displayName}{" "}
-            <span
-              className={clsx(
-                stl.time,
-                theme === "dark" ? stl.darkTime : undefined
-              )}
-            >
-              {data.timeAgo}
-            </span>
+            {data.displayName} <span className={stl.time}>{data.timeAgo}</span>
           </span>
           <span className={stl.row2}>
             <span className={stl.message}>{data.message}</span>

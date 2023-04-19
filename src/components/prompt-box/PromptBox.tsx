@@ -69,7 +69,11 @@ const PromptBox = ({
       animate={visible ? { scale: 1, opacity: 1 } : undefined}
       transition={visible ? { type: "spring" } : { type: "tween" }}
       style={{ maxWidth: maxWidth + "px" }}
-      className={clsx(stl.promptBox, customClass)}
+      className={clsx(
+        stl.promptBox,
+        customClass,
+        theme === "dark" ? stl.darkPrompt : undefined
+      )}
     >
       <div className={stl.header}>
         {(name === "displayName" && "Change Your Name") ||

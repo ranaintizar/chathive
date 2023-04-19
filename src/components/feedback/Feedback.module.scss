@@ -26,7 +26,7 @@
       padding: 10px;
       font-size: 1.2rem;
       outline: none;
-      border-bottom: 2px solid #1e90ff;
+      border-bottom: 3px solid #1e90ff;
     }
 
     .textArea {
@@ -59,6 +59,20 @@
       path {
         fill: #fff;
       }
+    }
+  }
+}
+
+.darkFeedback {
+  form {
+    .input {
+      background: #333;
+      color: #f1f2f5;
+    }
+
+    .textArea {
+      background: #333;
+      color: #f1f2f5;
     }
   }
 }
