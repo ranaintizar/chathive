@@ -27,42 +27,5 @@
     gap: 1.5rem;
     padding: 10px;
     width: 90%;
-
-    .field {
-      @extend .flexCol;
-      gap: 5px;
-
-      .label {
-        font-size: 1.2rem;
-        font-weight: 600;
-      }
-
-      .title {
-        padding: 10px;
-        background: #f1f2f5;
-        border-radius: 7px;
-      }
-
-      .btnContainer {
-        @extend .alignCen;
-        justify-content: flex-end;
-        margin-top: 5px;
-
-        button {
-          padding: 5px 10px;
-          background: none;
-          border: 1px solid #1e90ff;
-          width: max-content;
-          border-radius: 5px;
-          font-size: 1.2rem;
-          cursor: pointer;
-
-          &:hover {
-            background: #1e90ff;
-            color: #fff;
-          }
-        }
-      }
-    }
   }
 }

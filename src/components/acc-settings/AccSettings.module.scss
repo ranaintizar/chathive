@@ -1,0 +1,94 @@
+@import "styles/common";
+
+.accSettings {
+  @extend .flexColCen;
+  gap: 2rem;
+  width: 90%;
+  height: 90%;
+  max-width: 700px;
+
+  h2 {
+    margin-bottom: 4rem;
+  }
+
+  .row {
+    width: 100%;
+    @extend .alignCen;
+
+    justify-content: space-between;
+
+    .field {
+      @extend .flexCol;
+      gap: 5px;
+      width: 100%;
+
+      .label {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .title {
+        padding: 10px;
+        background: #f1f2f5;
+        border-radius: 7px;
+        color: black;
+      }
+
+      .btnContainer {
+        @extend .alignCen;
+        justify-content: flex-end;
+        margin-top: 5px;
+
+        button {
+          padding: 5px 10px;
+          background: none;
+          border: 1px solid #1e90ff;
+          color: #1e90ff;
+          width: max-content;
+          border-radius: 5px;
+          font-size: 1.2rem;
+          cursor: pointer;
+
+          &:hover {
+            background: #1e90ff;
+            color: #fff;
+          }
+        }
+
+        .logoutBtn {
+          color: coral;
+          border-color: coral;
+
+          &:hover {
+            background: coral;
+          }
+        }
+
+        .delBtn {
+          color: red;
+          border-color: red;
+
+          &:hover {
+            background: red;
+          }
+        }
+      }
+    }
+  }
+
+  .logout {
+    background: coral !important;
+
+    &:hover {
+      background: rgb(255, 115, 80) !important;
+    }
+  }
+
+  .delete {
+    background: rgb(255, 0, 0) !important;
+
+    &:hover {
+      background: rgb(220, 0, 0) !important;
+    }
+  }
+}

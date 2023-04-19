@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 
-import { auth } from "./api/firebase";
 import SignupFlow from "components/signup-flow";
 import ChatItem from "components/chat-item/ChatItem";
 import MessageItem from "components/message-item";
@@ -13,31 +12,10 @@ import Dropdown from "components/dropdown";
 import Header from "components/header";
 import Sidebar from "components/sidebar";
 import MessagesScreen from "components/messages-screen";
-import Dashboard from "components/dashboard";
-import VerifyMsg from "components/verify-msg";
+import SettingScreen from "components/settings-screen";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState(false);
-  const [isVerified, setIsVerified] = React.useState(false);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser?.emailVerified) {
-        setIsVerified(true);
-        setUser(true);
-      } else {
-        setUser(false);
-      }
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
 
   if (typeof window !== "undefined") {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -92,23 +70,11 @@ export default function Home() {
             position: "absolute",
             top: "0",
             left: "0",
-            zIndex: "100",
           }}
         >
           Toggle Theme
         </button>
-        {isLoading ? (
-          <Spinner spinnerColor="#1e90ff" />
-        ) : user ? (
-          isVerified ? (
-            <Dashboard setIsVerified={setIsVerified} />
-          ) : (
-            <VerifyMsg email={auth.currentUser?.email} />
-          )
-        ) : (
-          //@ts-ignore
-          <SignupFlow setIsVerified={setIsVerified} theme={theme} />
-        )}
+        <SettingScreen theme={theme} />
       </main>
     </>
   );

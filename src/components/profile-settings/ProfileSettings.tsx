@@ -1,22 +1,21 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 
-import {
-  updatePhoto,
-  updateName,
-  handleUpdateEmail,
-} from "src/lib/firebaseFunctions";
+import { updatePhoto } from "src/lib/firebaseFunctions";
 import AlertBox from "components/alert-box";
 import Spinner from "components/spinner";
-import PromptBox from "components/prompt-box";
+import Field from "components/field";
 
 import stl from "./ProfileSettings.module.scss";
 
-const ProfileSettings = ({ theme, setIsVerified }: any) => {
+interface Props {
+  theme: string;
+  setIsVerified: (arg: Boolean) => void;
+}
+
+const ProfileSettings = ({ theme, setIsVerified }: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [isPromptVisible, setIsPropmtVisible] = React.useState(false);
-  const [promptName, setPromptName] = React.useState("");
   const [user, setUser] = React.useState({
     displayName: "",
     photoURL: "",
@@ -41,17 +40,6 @@ const ProfileSettings = ({ theme, setIsVerified }: any) => {
   const handleUploadPhoto = () => {
     const input = document.getElementById("uploadProfPic");
     input?.click();
-  };
-
-  const update = (val: string) => {
-    console.log("Updating...");
-
-    if (promptName === "displayName") {
-      updateName(val, setUser);
-    } else if (promptName === "email") {
-      handleUpdateEmail(val, setIsVerified, setUser);
-    }
-    setIsPropmtVisible(false);
   };
 
   return isLoading ? (
@@ -91,42 +79,25 @@ const ProfileSettings = ({ theme, setIsVerified }: any) => {
         handleCancel={() => setIsVisible(false)}
       />
       <div className={stl.info}>
-        <div className={stl.field}>
-          <span className={stl.label}>Name:</span>
-          <span className={stl.title}>{user.displayName}</span>
-          <div className={stl.btnContainer}>
-            <button
-              onClick={() => {
-                setPromptName("displayName");
-                setIsPropmtVisible(true);
-              }}
-            >
-              Change
-            </button>
-          </div>
-        </div>
-        <div className={stl.field}>
-          <span className={stl.label}>Email:</span>
-          <span className={stl.title}>{user.email}</span>
-          <div className={stl.btnContainer}>
-            <button
-              onClick={() => {
-                setPromptName("email");
-                setIsPropmtVisible(true);
-              }}
-            >
-              Change
-            </button>
-          </div>
-        </div>
+        <Field
+          theme={theme}
+          title="Name"
+          name="displayName"
+          setUser={setUser}
+          setIsVerified={setIsVerified}
+          content={user.displayName}
+          btnLabel="Change"
+        />
+        <Field
+          theme={theme}
+          title="Email"
+          name="email"
+          setUser={setUser}
+          setIsVerified={setIsVerified}
+          content={user.email}
+          btnLabel="Change"
+        />
       </div>
-      <PromptBox
-        theme={theme}
-        name={promptName}
-        visible={isPromptVisible}
-        handleCancelClick={() => setIsPropmtVisible(false)}
-        handleOkClick={update}
-      />
     </div>
   );
 };

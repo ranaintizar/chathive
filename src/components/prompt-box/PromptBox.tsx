@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import * as Yup from "yup";
+import clsx from "clsx";
 import { motion } from "framer-motion";
+import * as Yup from "yup";
 
 import AlertBox from "components/alert-box";
 
@@ -11,6 +12,7 @@ interface Props {
   name: string;
   visible: Boolean;
   maxWidth: number;
+  customClass?: string;
   handleOkClick: (arg: any) => void;
   handleCancelClick: () => void;
 }
@@ -20,6 +22,7 @@ const PromptBox = ({
   name,
   visible,
   maxWidth,
+  customClass,
   handleOkClick,
   handleCancelClick,
 }: Props) => {
@@ -41,6 +44,14 @@ const PromptBox = ({
     .required("Email is required")
     .email("Invalid email address");
 
+  const passwordSchema = Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Password must contain at least one special character"
+    );
+
   const handleErr = (err: string) => {
     console.log("Handling Errors");
 
@@ -58,16 +69,21 @@ const PromptBox = ({
       animate={visible ? { scale: 1, opacity: 1 } : undefined}
       transition={visible ? { type: "spring" } : { type: "tween" }}
       style={{ maxWidth: maxWidth + "px" }}
-      className={stl.promptBox}
+      className={clsx(stl.promptBox, customClass)}
     >
       <div className={stl.header}>
-        {name === "displayName" ? "Change Your Name" : "Change Your Email"}
+        {(name === "displayName" && "Change Your Name") ||
+          (name === "email" && "Change Your Email") ||
+          (name === "password" && "Change Your Password")}
       </div>
       <div className={stl.body}>
         <input
           value={value}
+          //@ts-ignore
           placeholder={
-            name === "displayName" ? "Enter New Name" : "Enter New Email"
+            (name === "displayName" && "Enter New Name") ||
+            (name === "email" && "Enter New Email") ||
+            (name === "password" && "Enter New Password")
           }
           onChange={(e) => setValue(e.target.value)}
         />
@@ -78,15 +94,21 @@ const PromptBox = ({
         </button>
         <button
           onClick={() => {
-            name === "displayName"
-              ? nameSchema
+            (name === "displayName" &&
+              nameSchema
+                .validate(value)
+                .then(() => handleOkClick(value))
+                .catch((err) => handleErr(err.message))) ||
+              (name === "email" &&
+                emailSchema
                   .validate(value)
                   .then(() => handleOkClick(value))
-                  .catch((err) => handleErr(err.message))
-              : emailSchema
+                  .catch((err) => handleErr(err.message))) ||
+              (name === "password" &&
+                passwordSchema
                   .validate(value)
                   .then(() => handleOkClick(value))
-                  .catch((err) => handleErr(err.message));
+                  .catch((err) => handleErr(err.message)));
           }}
         >
           Ok

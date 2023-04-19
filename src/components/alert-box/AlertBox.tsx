@@ -14,6 +14,7 @@ interface Props {
   cancelBtn: Boolean;
   cancelLabel: string;
   maxWidth: number;
+  btnCustomClass?: string;
   handleCancel: () => void;
   handleOnClick: () => void;
 }
@@ -28,6 +29,7 @@ const AlertBox = ({
   cancelBtn,
   cancelLabel,
   maxWidth,
+  btnCustomClass,
   handleCancel,
   handleOnClick,
 }: Props) => {
@@ -54,7 +56,9 @@ const AlertBox = ({
             {cancelLabel}
           </button>
         )}
-        <button onClick={handleOnClick}>{btnLabel}</button>
+        <button onClick={handleOnClick} className={btnCustomClass}>
+          {btnLabel}
+        </button>
       </div>
     </motion.div>
   );

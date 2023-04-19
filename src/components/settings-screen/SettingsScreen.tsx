@@ -5,7 +5,12 @@ import SettingContainer from "components/settings-container";
 
 import stl from "./SettingScreen.module.scss";
 
-const SettingScreen = ({ theme, setIsVerified }: any) => {
+interface Props {
+  theme: string;
+  setIsVerified: (arg: Boolean) => void;
+}
+
+const SettingScreen = ({ theme, setIsVerified }: Props) => {
   return (
     <div className={stl.stngScrn}>
       {/* <SettingSidebar

@@ -4,7 +4,11 @@ import { sendVerificationEmail } from "src/lib/firebaseFunctions";
 
 import stl from "./VerifyMsg.module.scss";
 
-const VerifyMsg = ({ email }: any) => {
+interface Props {
+  email: string;
+}
+
+const VerifyMsg = ({ email }: Props) => {
   return (
     <div className={stl.verifyMsg}>
       <h2>
