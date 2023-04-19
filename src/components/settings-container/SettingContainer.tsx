@@ -5,6 +5,7 @@ import ProfileSettings from "components/profile-settings";
 import AccSettings from "components/acc-settings";
 
 import stl from "./SettingContainer.module.scss";
+import Feedback from "components/feedback";
 
 interface Props {
   theme: string;
@@ -19,6 +20,7 @@ const SettingContainer = ({ theme, setIsVerified }: Props) => {
         <div className={stl.setting}>
           {/* <ProfileSettings theme={theme} setIsVerified={setIsVerified} /> */}
           <AccSettings theme={theme} setIsVerified={setIsVerified} />
+          {/* <Feedback theme={theme} /> */}
         </div>
       </div>
     </div>

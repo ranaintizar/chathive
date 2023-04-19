@@ -30,7 +30,6 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
     <Spinner spinnerColor="#1e90ff" />
   ) : (
     <div className={stl.accSettings}>
-      <h2>Account Settings</h2>
       <div className={stl.row}>
         <Field
           theme={theme}
