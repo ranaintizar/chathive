@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";

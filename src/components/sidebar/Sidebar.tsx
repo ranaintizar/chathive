@@ -13,7 +13,7 @@ const Sidebar = ({ theme }: any) => {
 
   return (
     <div className={stl.sidebar}>
-      <Header theme={theme} shadow={true} />
+      <Header theme={theme} />
       <StartChatBtn customClass={stl.chatBtn} />
       <div className={stl.chatContainer}>{chatArray.map((chat) => chat)}</div>
     </div>

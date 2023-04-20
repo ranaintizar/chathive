@@ -15,7 +15,7 @@ const MessagesScreen = ({ theme, messages, myId }: any) => {
         theme === "dark" ? stl.darkMsgScreen : undefined
       )}
     >
-      <Header theme={theme} shadow={true} customClass={stl.header} />
+      <Header theme={theme} customClass={stl.header} />
       {(messages && <MsgDisplayer messages={messages} myId={myId} />) || (
         <EmptyScreen />
       )}
