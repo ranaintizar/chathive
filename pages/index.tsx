@@ -106,10 +106,7 @@ export default function Home() {
           isVerified ? (
             <SettingScreen theme={theme} setIsVerified={setIsVerified} />
           ) : (
-            <VerifyMsg
-              setIsVerified={setIsVerified}
-              email={auth.currentUser?.email}
-            />
+            <VerifyMsg email={auth.currentUser?.email} />
           )
         ) : (
           //@ts-ignore
