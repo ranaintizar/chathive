@@ -1,0 +1,13 @@
+@import "styles/common";
+
+.imgDisplayer {
+  position: relative;
+  @extend .alignCen;
+  gap: 10px;
+
+  img {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: auto !important;
+  }
+}

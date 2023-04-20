@@ -53,7 +53,7 @@ MessagesScreen.defaultProps = {
         fileSize: 6177,
         fileType: "image/svg+xml",
         fileUrl:
-          "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FScreenshot%20from%202023-03-30%2016-49-25.png?alt=media&token=de5a5f12-11fb-4118-b003-174b25fa1ba0",
+          "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FlogoIcon.svg?alt=media&token=3c533811-c046-477b-bd44-ec40396e0d8c",
       },
     },
   ],
