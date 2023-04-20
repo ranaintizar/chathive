@@ -22,6 +22,7 @@ import {
 import * as Yup from "yup";
 
 const collectionRef = collection(db, "files");
+const feedbackRef = collection(db, "feedback");
 
 const sendVerificationEmail = () => {
   //@ts-ignore
@@ -110,6 +111,7 @@ const handleUpdatePass = (password: string) => {
   updatePassword(auth.currentUser, password)
     .then(() => {
       console.log("Password Updated!");
+      alert("Password Changed Successfully!");
     })
     .catch((err: any) => {
       console.log("Error while updating Password:", err);
@@ -129,6 +131,15 @@ const handleUpdateEmail = (
   updateEmail(auth.currentUser, email)
     .then(async () => {
       const user = await auth.currentUser;
+      //@ts-ignore
+      sendEmailVerification(user)
+        .then(() => console.log("Verification Email Sent!"))
+        .catch((err) =>
+          console.log(
+            "Error while sending verification email from Update Email:",
+            err
+          )
+        );
       setUser({
         displayName: user?.displayName,
         email: user?.email,
@@ -138,8 +149,11 @@ const handleUpdateEmail = (
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("Email Updated");
     })
-    .then(() => setIsVerified(false))
-    .catch((err: any) => console.log("Error while updating Email:", err));
+    .then(() => console.log("Email Updated!"))
+    .catch((err: any) => {
+      handleAuthErrs(err.code, err.message);
+      console.log("Error while updating Email:", err);
+    });
 };
 
 const handleDelAcc = () => {
@@ -201,7 +215,7 @@ const handleSignUp = async (
       const userData = await auth.currentUser;
       //@ts-ignore
       sendEmailVerification(userData).then(() => {
-        setIsVerified(false);
+        console.log("Verification Email sent from SignUp");
       });
       const user = { ...userData };
       localStorage.setItem("user", JSON.stringify(user));
@@ -363,6 +377,14 @@ const handleForgotPassword = async (formikProps: any) => {
   }
 };
 
+const addFeedback = async (name: string, email: string, msg: string) => {
+  await addDoc(feedbackRef, { name, email, msg })
+    .then((docRef) => alert("Feedback Sent!"))
+    .catch((err) =>
+      console.log("Error while adding Feedback in Firestore", err)
+    );
+};
+
 export {
   updateName,
   updatePhoto,
@@ -378,4 +400,5 @@ export {
   handleForgotPassword,
   handleDelAcc,
   sendVerificationEmail,
+  addFeedback,
 };
