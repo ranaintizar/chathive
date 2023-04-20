@@ -349,12 +349,17 @@ const handleForgotPassword = async (formikProps: any) => {
   try {
     await emailSchema.validate({ email });
     sendPasswordResetEmail(auth, email)
-      .then(() => console.log("Password Reset link sent to", email))
+      .then(() => alert(`Password Reset link sent to ${email}`))
       .catch((err) =>
         console.log("Error while sending Password Reset link", err)
       );
-  } catch (error) {
-    console.log("Error from Validation:", error);
+  } catch (error: any) {
+    if (error.message === "Email is required") {
+      alert("Enter email then click on Forgot Password");
+    } else if (error.message === "Invalid email address") {
+      alert("Enter email is not valid");
+    }
+    console.log("Error from Validation:", { error });
   }
 };
 

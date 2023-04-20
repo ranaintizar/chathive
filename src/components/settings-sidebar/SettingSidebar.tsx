@@ -4,7 +4,7 @@ import clsx from "clsx";
 import Header from "components/header";
 import ProfileIcon from "assets/profile.svg";
 import SettingsIcon from "assets/settings.svg";
-import AppearanceIcon from "assets/appearance.svg";
+import FeedbackIcon from "assets/feedback.svg";
 import AboutIcon from "assets/about.svg";
 
 import stl from "./SettingSidebar.module.scss";
@@ -67,7 +67,7 @@ const SettingSidebar = ({ theme, handleOnClick }: Props) => {
           className={clsx(stl.option, isSelected === "feedback" && stl.active)}
         >
           <span className={stl.icon}>
-            <AppearanceIcon />
+            <FeedbackIcon />
           </span>
           Feedback
         </span>
