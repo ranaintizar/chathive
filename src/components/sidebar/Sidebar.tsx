@@ -1,11 +1,16 @@
 import React from "react";
 
-import stl from "./Sidebar.module.scss";
 import Header from "components/header";
 import StartChatBtn from "components/start-chat-button";
 import ChatItem from "components/chat-item/ChatItem";
 
-const Sidebar = ({ theme }: any) => {
+import stl from "./Sidebar.module.scss";
+
+interface Props {
+  theme: string;
+}
+
+const Sidebar = ({ theme }: Props) => {
   let chatArray = [];
   for (let i = 0; i < 30; i++) {
     chatArray.push(<ChatItem theme={theme} key={i} />);

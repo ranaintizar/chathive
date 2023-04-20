@@ -15,10 +15,15 @@ interface Props {
 }
 
 const SettingSidebar = ({ theme, handleOnClick }: Props) => {
-  const [isSelected, setIsSelected] = React.useState("");
+  const [isSelected, setIsSelected] = React.useState("profile");
 
   return (
-    <div className={stl.sidebar}>
+    <div
+      className={clsx(
+        stl.sidebar,
+        theme === "dark" ? stl.darkSidebar : undefined
+      )}
+    >
       <Header
         title="Settings"
         titleCenter={true}
@@ -56,18 +61,15 @@ const SettingSidebar = ({ theme, handleOnClick }: Props) => {
         <span
           id="appearance"
           onClick={() => {
-            handleOnClick("appearance");
-            setIsSelected("appearance");
+            handleOnClick("feedback");
+            setIsSelected("feedback");
           }}
-          className={clsx(
-            stl.option,
-            isSelected === "appearance" && stl.active
-          )}
+          className={clsx(stl.option, isSelected === "feedback" && stl.active)}
         >
           <span className={stl.icon}>
             <AppearanceIcon />
           </span>
-          Appearance
+          Feedback
         </span>
         <span
           id="about"

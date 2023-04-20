@@ -107,7 +107,6 @@ const EnterMsg = ({ theme, customClass }: Props) => {
             setShowGifs(false);
           }}
           value={message}
-          className={theme === "dark" ? stl.darkTextArea : undefined}
           placeholder="Press Shift + Enter for next line and Enter to send."
           onChange={(e) => {
             setMessage(e.target.value);

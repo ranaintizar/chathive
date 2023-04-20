@@ -15,6 +15,7 @@ import Sidebar from "components/sidebar";
 import MessagesScreen from "components/messages-screen";
 import Dashboard from "components/dashboard";
 import VerifyMsg from "components/verify-msg";
+import SettingScreen from "components/settings-screen";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -101,7 +102,7 @@ export default function Home() {
           <Spinner spinnerColor="#1e90ff" />
         ) : user ? (
           isVerified ? (
-            <Dashboard setIsVerified={setIsVerified} />
+            <SettingScreen theme={theme} setIsVerified={setIsVerified} />
           ) : (
             <VerifyMsg email={auth.currentUser?.email} />
           )

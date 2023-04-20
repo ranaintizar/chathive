@@ -5,14 +5,40 @@ import SettingContainer from "components/settings-container";
 
 import stl from "./SettingScreen.module.scss";
 
-const SettingScreen = ({ theme }: any) => {
+interface Props {
+  theme: string;
+  setIsVerified: any;
+}
+
+const SettingScreen = ({ theme, setIsVerified }: Props) => {
+  const [title, setTitle] = React.useState("Profile");
+  const [name, setName] = React.useState("profile");
+
+  const handleSideBarItem = (item: string) => {
+    if (item === "profile") {
+      setTitle("Profile");
+      setName("profile");
+    } else if (item === "account") {
+      setTitle("Account");
+      setName("account");
+    } else if (item === "feedback") {
+      setTitle("Feedback");
+      setName("feedback");
+    } else if (item === "about") {
+      setTitle("About");
+      setName("about");
+    }
+  };
+
   return (
     <div className={stl.stngScrn}>
-      {/* <SettingSidebar
+      <SettingSidebar theme={theme} handleOnClick={handleSideBarItem} />
+      <SettingContainer
+        name={name}
+        title={title}
         theme={theme}
-        handleOnClick={(name: string) => console.log(name)}
-      /> */}
-      <SettingContainer theme={theme} />
+        setIsVerified={setIsVerified}
+      />
     </div>
   );
 };

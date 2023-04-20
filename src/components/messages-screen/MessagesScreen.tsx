@@ -7,7 +7,13 @@ import EmptyScreen from "components/empty-screen";
 
 import stl from "./MessagesScreen.module.scss";
 
-const MessagesScreen = ({ theme, messages, myId }: any) => {
+interface Props {
+  theme: string;
+  messages: Array<Object>;
+  myId: string;
+}
+
+const MessagesScreen = ({ theme, messages, myId }: Props) => {
   return (
     <div
       className={clsx(
@@ -16,9 +22,9 @@ const MessagesScreen = ({ theme, messages, myId }: any) => {
       )}
     >
       <Header theme={theme} customClass={stl.header} />
-      {(messages && <MsgDisplayer messages={messages} myId={myId} />) || (
-        <EmptyScreen />
-      )}
+      {(messages && (
+        <MsgDisplayer theme={theme} messages={messages} myId={myId} />
+      )) || <EmptyScreen />}
     </div>
   );
 };

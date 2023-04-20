@@ -1,0 +1,53 @@
+@import "styles/common";
+
+.profile {
+  position: relative;
+  @extend .flexColCen;
+  gap: 5rem;
+  width: 100%;
+  height: 90%;
+
+  .imgContainer {
+    position: relative;
+    @extend .flexCenter;
+    width: 195px;
+    height: 195px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+
+    .iconContainer {
+      opacity: 0;
+      position: absolute;
+      bottom: 1%;
+      right: 20%;
+
+      .icon {
+        transform: scale(0.6);
+        background: #fff;
+        padding: 5px;
+        border-radius: 50%;
+      }
+    }
+
+    .image {
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    &:hover {
+      .iconContainer {
+        opacity: 1;
+      }
+    }
+  }
+
+  .info {
+    @extend .flexCol;
+    gap: 1.5rem;
+    padding: 10px;
+    width: 90%;
+    max-width: 500px;
+  }
+}
