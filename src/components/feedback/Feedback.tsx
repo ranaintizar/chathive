@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import { addFeedback } from "src/lib/firebaseFunctions";
 import { Field, Form, Formik } from "formik";
 import SendIcon from "assets/send.svg";
+import Spinner from "components/spinner";
 
 import stl from "./Feedback.module.scss";
-import Spinner from "components/spinner";
 
 const Feedback = ({ theme }: any) => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -26,7 +27,7 @@ const Feedback = ({ theme }: any) => {
       <Formik
         initialValues={{ username: "", email: "", feedback: "" }}
         onSubmit={(values, actions: any) => {
-          console.log(values);
+          addFeedback(values.username, values.email, values.feedback);
           actions.resetForm();
         }}
       >

@@ -22,6 +22,7 @@ import {
 import * as Yup from "yup";
 
 const collectionRef = collection(db, "files");
+const feedbackRef = collection(db, "feedback");
 
 const sendVerificationEmail = () => {
   //@ts-ignore
@@ -110,6 +111,7 @@ const handleUpdatePass = (password: string) => {
   updatePassword(auth.currentUser, password)
     .then(() => {
       console.log("Password Updated!");
+      alert("Password Changed Successfully!");
     })
     .catch((err: any) => {
       console.log("Error while updating Password:", err);
@@ -129,6 +131,15 @@ const handleUpdateEmail = (
   updateEmail(auth.currentUser, email)
     .then(async () => {
       const user = await auth.currentUser;
+      //@ts-ignore
+      sendEmailVerification(user)
+        .then(() => console.log("Verification Email Sent!"))
+        .catch((err) =>
+          console.log(
+            "Error while sending verification email from Update Email:",
+            err
+          )
+        );
       setUser({
         displayName: user?.displayName,
         email: user?.email,
@@ -138,8 +149,11 @@ const handleUpdateEmail = (
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("Email Updated");
     })
-    .then(() => setIsVerified(false))
-    .catch((err: any) => console.log("Error while updating Email:", err));
+    .then(() => console.log("Email Updated!"))
+    .catch((err: any) => {
+      handleAuthErrs(err.code, err.message);
+      console.log("Error while updating Email:", err);
+    });
 };
 
 const handleDelAcc = () => {
@@ -201,7 +215,7 @@ const handleSignUp = async (
       const userData = await auth.currentUser;
       //@ts-ignore
       sendEmailVerification(userData).then(() => {
-        setIsVerified(false);
+        console.log("Verification Email sent from SignUp");
       });
       const user = { ...userData };
       localStorage.setItem("user", JSON.stringify(user));
@@ -349,13 +363,26 @@ const handleForgotPassword = async (formikProps: any) => {
   try {
     await emailSchema.validate({ email });
     sendPasswordResetEmail(auth, email)
-      .then(() => console.log("Password Reset link sent to", email))
+      .then(() => alert(`Password Reset link sent to ${email}`))
       .catch((err) =>
         console.log("Error while sending Password Reset link", err)
       );
-  } catch (error) {
-    console.log("Error from Validation:", error);
+  } catch (error: any) {
+    if (error.message === "Email is required") {
+      alert("Enter email then click on Forgot Password");
+    } else if (error.message === "Invalid email address") {
+      alert("Enter email is not valid");
+    }
+    console.log("Error from Validation:", { error });
   }
+};
+
+const addFeedback = async (name: string, email: string, msg: string) => {
+  await addDoc(feedbackRef, { name, email, msg })
+    .then((docRef) => alert("Feedback Sent!"))
+    .catch((err) =>
+      console.log("Error while adding Feedback in Firestore", err)
+    );
 };
 
 export {
@@ -373,4 +400,5 @@ export {
   handleForgotPassword,
   handleDelAcc,
   sendVerificationEmail,
+  addFeedback,
 };

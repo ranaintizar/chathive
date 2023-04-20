@@ -25,9 +25,11 @@ export default function Home() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser?.emailVerified) {
-        setIsVerified(true);
+      if (authUser) {
         setUser(true);
+        if (authUser?.emailVerified) {
+          setIsVerified(true);
+        }
       } else {
         setUser(false);
       }
@@ -104,7 +106,10 @@ export default function Home() {
           isVerified ? (
             <SettingScreen theme={theme} setIsVerified={setIsVerified} />
           ) : (
-            <VerifyMsg email={auth.currentUser?.email} />
+            <VerifyMsg
+              setIsVerified={setIsVerified}
+              email={auth.currentUser?.email}
+            />
           )
         ) : (
           //@ts-ignore

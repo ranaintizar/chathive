@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import { handleSignOut, handleDelAcc } from "src/lib/firebaseFunctions";
 import Field from "components/field";
 import AlertBox from "components/alert-box";
 import Spinner from "components/spinner";
@@ -21,6 +22,10 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
     titleColor: "coral",
     btnLabel: "Yes, Logout",
     customClass: stl.logout,
+    okClick: () => {
+      setIsVisible(false);
+      handleSignOut();
+    },
   });
 
   useEffect(() => {
@@ -59,6 +64,10 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
                 titleColor: "coral",
                 btnLabel: "Yes, Logout",
                 customClass: stl.logout,
+                okClick: () => {
+                  setIsVisible(false);
+                  handleSignOut();
+                },
               });
               setIsVisible(true);
             }}
@@ -81,6 +90,10 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
                   titleColor: "red",
                   btnLabel: "Yes, Delete",
                   customClass: stl.delete,
+                  okClick: () => {
+                    setIsVisible(false);
+                    handleDelAcc();
+                  },
                 });
                 setIsVisible(true);
               }}
@@ -99,6 +112,7 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
         visible={isVisible}
         cancelBtn={true}
         btnCustomClass={alertData.customClass}
+        handleOnClick={alertData.okClick}
         handleCancel={() => setIsVisible(false)}
       />
     </div>
