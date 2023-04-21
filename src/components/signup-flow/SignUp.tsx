@@ -39,7 +39,6 @@ const SignUp = ({ setFlow, theme, setIsVerified }: Props) => {
     <Forms
       method="signup"
       schema={schema}
-      setIsVerified={setIsVerified}
       theme={theme}
       flow={0}
       fields={fields}

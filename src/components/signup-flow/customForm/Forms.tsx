@@ -32,7 +32,6 @@ interface Props {
   theme: string;
   schema: Object;
   method?: string;
-  setIsVerified: (arg: Boolean) => void;
 }
 
 const CustomForm = ({
@@ -50,7 +49,6 @@ const CustomForm = ({
   schema,
   method,
   setFlow,
-  setIsVerified,
 }: Props) => {
   const [color, setColor] = React.useState("");
   const [loading, setLoading] = React.useState(true);

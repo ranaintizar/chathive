@@ -13,7 +13,6 @@ import Dropdown from "components/dropdown";
 import Header from "components/header";
 import Sidebar from "components/sidebar";
 import MessagesScreen from "components/messages-screen";
-import Dashboard from "components/dashboard";
 import VerifyMsg from "components/verify-msg";
 import SettingScreen from "components/settings-screen";
 
