@@ -4,6 +4,7 @@ import clsx from "clsx";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 import BackIcon from "assets/back.svg";
+import ToggleThemeBtn from "components/toggle-theme-btn";
 
 import stl from "./Header.module.scss";
 
@@ -16,6 +17,8 @@ interface Props {
   customClass?: string;
   dropdown: Boolean;
   titleCenter: Boolean;
+  themeBtn: Boolean;
+  toggleTheme?: () => void;
   handleBackBtn: () => void;
 }
 
@@ -28,7 +31,9 @@ const Header = ({
   customClass,
   dropdown,
   titleCenter,
+  toggleTheme,
   handleBackBtn,
+  themeBtn,
 }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
 
@@ -50,6 +55,11 @@ const Header = ({
           {title}
         </span>
       </div>
+      {themeBtn ? (
+        <div className={stl.themeBtn}>
+          <ToggleThemeBtn handleOnClick={toggleTheme} />
+        </div>
+      ) : undefined}
       {dropdown ? (
         <div className={stl.left}>
           <MoreBtn
@@ -80,6 +90,7 @@ Header.defaultProps = {
   handleBackBtn: () => console.log("Back Btn Clicked..."),
   dropdown: true,
   titleCenter: false,
+  themeBtn: false,
 };
 
 export default Header;

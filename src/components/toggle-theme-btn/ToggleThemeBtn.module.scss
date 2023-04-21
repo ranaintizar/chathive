@@ -1,0 +1,34 @@
+@import "styles/common";
+
+.toggleBtn {
+  position: relative;
+
+  .iconContainer {
+    @extend .alignCen;
+    justify-content: space-between;
+    border-radius: 1rem;
+    background: #f1f2f5;
+    padding: 5px;
+    width: 70px;
+  }
+
+  .dotBtn {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: #ccc;
+    position: absolute;
+    top: 15%;
+    left: 7%;
+    transition: all 0.3s;
+  }
+
+  .activeBtn {
+    background: #333;
+  }
+
+  .active {
+    background: #666;
+    left: 61%;
+  }
+}

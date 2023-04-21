@@ -71,9 +71,9 @@ const CustomForm = ({
 
   return loading ? (
     theme === "dark" ? (
-      <Spinner color="#1e90ff" />
+      <Spinner />
     ) : (
-      <Spinner color="#fff" />
+      <Spinner spinnerColor="#fff" />
     )
   ) : (
     <div className={stl.signUp}>
@@ -124,8 +124,7 @@ const CustomForm = ({
                   //@ts-ignore
                   values.password,
                   //@ts-ignore
-                  values.fname + " " + values.lname,
-                  setIsVerified
+                  values.fname + " " + values.lname
                 );
               } else if (method === "signin") {
                 //@ts-ignore

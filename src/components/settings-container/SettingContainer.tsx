@@ -13,13 +13,27 @@ interface Props {
   theme: string;
   name: string;
   title: string;
+  toggleTheme?: () => void;
   setIsVerified: (arg: Boolean) => void;
 }
 
-const SettingContainer = ({ theme, title, name, setIsVerified }: Props) => {
+const SettingContainer = ({
+  theme,
+  title,
+  name,
+  setIsVerified,
+  toggleTheme,
+}: Props) => {
   return (
     <div className={stl.stngContainer}>
-      <Header theme={theme} title={title} titleCenter={true} dropdown={false} />
+      <Header
+        themeBtn={true}
+        toggleTheme={toggleTheme}
+        theme={theme}
+        title={title}
+        titleCenter={true}
+        dropdown={false}
+      />
       <div
         className={clsx(
           stl.settingWrapper,

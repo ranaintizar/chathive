@@ -32,9 +32,9 @@ const ProfileSettings = ({ theme, setIsVerified }: Props) => {
     //@ts-ignore
     const user = JSON.parse(data);
     setUser({
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      email: user.email,
+      displayName: user?.displayName,
+      photoURL: user?.photoURL,
+      email: user?.email,
     });
   }, []);
 
