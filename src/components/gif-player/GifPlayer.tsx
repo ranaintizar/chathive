@@ -56,7 +56,6 @@ const GifPlayer = ({ src, width, height, theme, left }: Props) => {
             setShowDropdown={setShowDropdown}
           />
           <video
-            id="video"
             ref={videoRef}
             autoPlay
             onEnded={() => {
@@ -81,7 +80,6 @@ const GifPlayer = ({ src, width, height, theme, left }: Props) => {
       ) : (
         <>
           <video
-            id="video"
             ref={videoRef}
             autoPlay
             onEnded={() => {

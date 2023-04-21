@@ -1,0 +1,39 @@
+@import "styles/common";
+
+.videoPlayer {
+  position: relative;
+  @extend .alignCen;
+  gap: 1rem;
+
+  .video {
+    border-radius: 10px;
+    overflow: hidden;
+
+    video {
+      width: 350px;
+    }
+
+    .actionBtn {
+      @extend .flexCenter;
+      outline: none;
+      border: none;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #333;
+      position: absolute;
+      left: 40%;
+      top: 42%;
+      font-size: 1.3rem;
+      color: #fff;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    &:hover {
+      .actionBtn {
+        opacity: 1;
+      }
+    }
+  }
+}

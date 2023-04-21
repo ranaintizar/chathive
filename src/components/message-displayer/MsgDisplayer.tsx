@@ -3,9 +3,10 @@ import clsx from "clsx";
 
 import MessageItem from "components/message-item";
 import GifPlayer from "components/gif-player";
-import FileThumbnail from "components/file-thumbnail";
 import EnterMsg from "components/enter-msg";
 import ImageDisplayer from "components/image-displayer";
+import VideoDisplayer from "components/video-displayer";
+import FileThumbnail from "components/file-thumbnail";
 
 import stl from "./MsgDisplayer.module.scss";
 
@@ -43,19 +44,28 @@ const MsgDisplayer = ({ messages, myId, theme }: Props) => {
                 />
               )) ||
               (msg.messageType === "file" &&
-                msg.fileInfo.fileType.includes("image") && (
+                ((msg.fileInfo.fileType.includes("image") && (
                   <ImageDisplayer
                     swap={msg.senderId === myId}
                     src={msg.fileInfo.fileUrl}
                     theme={theme}
                   />
-                )) || (
-                <FileThumbnail
-                  left={msg.senderId === myId}
-                  theme={theme}
-                  fileInfo={msg.fileInfo}
-                />
-              )}
+                )) ||
+                  (msg.fileInfo.fileType.includes("video") && (
+                    <VideoDisplayer
+                      swap={msg.senderId === myId}
+                      theme={theme}
+                      src={msg.fileInfo.fileUrl}
+                      type={msg.fileInfo.fileType}
+                    />
+                  )) || (
+                    <FileThumbnail
+                      left={msg.senderId === myId}
+                      theme={theme}
+                      fileInfo={msg.fileInfo}
+                    />
+                  ))) ||
+              undefined}
           </div>
         ))}
       </div>
