@@ -14,6 +14,7 @@ interface Props {
 
 const ImageDisplayer = ({ swap, theme, src }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
 
   const handleOptions = (itemName: string) => {
     if (itemName === "Delete") {
@@ -23,14 +24,18 @@ const ImageDisplayer = ({ swap, theme, src }: Props) => {
     }
   };
 
-  const Img = () => {
-    return <Image src={src} width={350} height={400} alt="image" />;
-  };
-
   return swap ? (
-    <div className={stl.imgDisplayer}>
-      <MoreBtn theme={theme} handleOnClick={() => setShowDropdown(true)} />
-      <Img />
+    <div
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+      className={stl.imgDisplayer}
+    >
+      <MoreBtn
+        visible={isVisible}
+        theme={theme}
+        handleOnClick={() => setShowDropdown(true)}
+      />
+      <Image src={src} width={350} height={400} alt="image" />
       <Dropdown
         theme={theme}
         list={["Delete", "Download"]}
@@ -46,8 +51,12 @@ const ImageDisplayer = ({ swap, theme, src }: Props) => {
     </div>
   ) : (
     <div className={stl.imgDisplayer}>
-      <Img />
-      <MoreBtn theme={theme} handleOnClick={() => setShowDropdown(true)} />
+      <Image src={src} width={350} height={400} alt="image" />
+      <MoreBtn
+        visible={isVisible}
+        theme={theme}
+        handleOnClick={() => setShowDropdown(true)}
+      />
       <Dropdown
         theme={theme}
         list={["Delete", "Download"]}

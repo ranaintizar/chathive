@@ -56,6 +56,18 @@ MessagesScreen.defaultProps = {
           "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2FlogoIcon.svg?alt=media&token=3c533811-c046-477b-bd44-ec40396e0d8c",
       },
     },
+    {
+      messageType: "file",
+      recieverId: "RecieverId1sss",
+      senderId: "SenderId111",
+      fileInfo: {
+        fileName: "Hi",
+        fileSize: 202640,
+        fileType: "video/mp4",
+        fileUrl:
+          "https://firebasestorage.googleapis.com/v0/b/airy-shadow-364605.appspot.com/o/files%2Fvideo-1639686692.mp4?alt=media&token=df5228a4-cb14-4d8e-a135-bf4d5e92b8a2",
+      },
+    },
   ],
   myId: "SenderId1",
 };
