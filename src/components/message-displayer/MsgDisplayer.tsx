@@ -1,11 +1,11 @@
 import React from "react";
-import Image from "next/image";
 import clsx from "clsx";
 
 import MessageItem from "components/message-item";
 import GifPlayer from "components/gif-player";
 import FileThumbnail from "components/file-thumbnail";
 import EnterMsg from "components/enter-msg";
+import ImageDisplayer from "components/image-displayer";
 
 import stl from "./MsgDisplayer.module.scss";
 
@@ -44,12 +44,10 @@ const MsgDisplayer = ({ messages, myId, theme }: Props) => {
               )) ||
               (msg.messageType === "file" &&
                 msg.fileInfo.fileType.includes("image") && (
-                  <Image
+                  <ImageDisplayer
+                    swap={msg.senderId === myId}
                     src={msg.fileInfo.fileUrl}
-                    width={500}
-                    height={700}
-                    alt="image"
-                    className={stl.image}
+                    theme={theme}
                   />
                 )) || (
                 <FileThumbnail

@@ -121,11 +121,7 @@ const handleUpdatePass = (password: string) => {
     });
 };
 
-const handleUpdateEmail = (
-  email: string,
-  setIsVerified: (arg: Boolean) => void,
-  setUser: (arg: any) => void
-) => {
+const handleUpdateEmail = (email: string, setUser: (arg: any) => void) => {
   console.log("Updating Email...");
   //@ts-ignore
   updateEmail(auth.currentUser, email)
@@ -161,6 +157,20 @@ const handleDelAcc = () => {
   user
     ?.delete()
     .then(() => {
+      const uid = auth.currentUser?.uid;
+      const profilePicRef = ref(
+        storage,
+        `${process.env.BUCKET}/files/${uid}/profilePic`
+      );
+
+      deleteObject(profilePicRef)
+        .then((res) => {
+          console.log(res);
+          console.log("File Deleted Successfully!");
+        })
+        .catch((err) => {
+          console.log("Error while deleting file:", err);
+        });
       localStorage.clear();
       console.log("Successfule deleted!");
     })
@@ -200,8 +210,7 @@ const handleSignIn = (email: string, password: string) => {
 const handleSignUp = async (
   email: string,
   password: string,
-  displayName: string,
-  setIsVerified: (arg: Boolean) => void
+  displayName: string
 ) => {
   createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
