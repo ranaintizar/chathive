@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import MessageItem from "components/message-item";
@@ -17,11 +17,35 @@ interface Props {
 }
 
 const MsgDisplayer = ({ messages, myId, theme }: Props) => {
+  const ref = React.useRef(null);
+
+  useEffect(() => {
+    // @ts-ignore
+    ref.current.scrollTop = ref.current.scrollHeight;
+  }, []);
+
+  const formatedTime = (date: Date) => {
+    const options = {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZoneName: "short",
+    };
+    //@ts-ignore
+    const dateString = date.toLocaleString("en-US", options);
+    return dateString.replace(",", " at");
+  };
+
   return (
     <div className={stl.msgDisplayer}>
-      <div className={stl.msgContainer}>
+      <div ref={ref} className={stl.msgContainer}>
         {messages.map((msg: any, i: number) => (
           <div
+            title={formatedTime(msg.time)}
             key={i}
             className={clsx(
               stl.msg,
