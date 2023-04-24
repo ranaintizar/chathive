@@ -66,7 +66,7 @@ const Spinner = ({
 
 Spinner.defaultProps = {
   color: "#000",
-  spinnerColor: "#fff",
+  spinnerColor: "#1e90ff",
   borderWidth: 6,
   width: 100,
   height: 100,

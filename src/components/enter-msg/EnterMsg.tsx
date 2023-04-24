@@ -91,7 +91,7 @@ const EnterMsg = ({ theme, customClass }: Props) => {
   }, pickerRef);
 
   return isLoading ? (
-    <Spinner title="Uploading file..." color="dodgerblue" />
+    <Spinner title="Uploading file..." />
   ) : (
     <div className={clsx(stl.container, customClass)}>
       <div

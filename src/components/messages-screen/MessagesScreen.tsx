@@ -11,9 +11,10 @@ interface Props {
   theme: string;
   messages: Array<Object>;
   myId: string;
+  toggleTheme: () => void;
 }
 
-const MessagesScreen = ({ theme, messages, myId }: Props) => {
+const MessagesScreen = ({ theme, messages, myId, toggleTheme }: Props) => {
   return (
     <div
       className={clsx(
@@ -21,7 +22,12 @@ const MessagesScreen = ({ theme, messages, myId }: Props) => {
         theme === "dark" ? stl.darkMsgScreen : undefined
       )}
     >
-      <Header theme={theme} customClass={stl.header} />
+      <Header
+        toggleTheme={toggleTheme}
+        themeBtn={true}
+        theme={theme}
+        customClass={stl.header}
+      />
       {(messages && (
         <MsgDisplayer theme={theme} messages={messages} myId={myId} />
       )) || <EmptyScreen />}

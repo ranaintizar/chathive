@@ -4,15 +4,17 @@ import clsx from "clsx";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import Verify from "./Verify";
+import ToggleThemeBtn from "components/toggle-theme-btn";
 
 import stl from "./SignupFlow.module.scss";
 
 interface Props {
   theme: string;
-  setIsVerified: (arg: Boolean) => void;
+  setIsVerified: any;
+  toggleTheme: () => void;
 }
 
-const SignupFlow = ({ theme, setIsVerified }: Props) => {
+const SignupFlow = ({ theme, setIsVerified, toggleTheme }: Props) => {
   const [flow, setFlow] = React.useState(0);
   const [element, setElement] = React.useState(
     <SignUp setIsVerified={setIsVerified} setFlow={setFlow} theme={theme} />
@@ -40,6 +42,7 @@ const SignupFlow = ({ theme, setIsVerified }: Props) => {
       )}
     >
       {element}
+      <ToggleThemeBtn handleOnClick={toggleTheme} customClass={stl.themeBtn} />
     </div>
   );
 };

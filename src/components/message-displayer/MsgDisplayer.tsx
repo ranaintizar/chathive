@@ -7,6 +7,7 @@ import EnterMsg from "components/enter-msg";
 import ImageDisplayer from "components/image-displayer";
 import VideoDisplayer from "components/video-displayer";
 import FileThumbnail from "components/file-thumbnail";
+import Spinner from "components/spinner";
 
 import stl from "./MsgDisplayer.module.scss";
 
@@ -17,11 +18,19 @@ interface Props {
 }
 
 const MsgDisplayer = ({ messages, myId, theme }: Props) => {
+  const [isLoading, setIsLoading] = React.useState(true);
+
   const ref = React.useRef(null);
 
   useEffect(() => {
-    // @ts-ignore
-    ref.current.scrollTop = ref.current.scrollHeight;
+    setTimeout(() => setIsLoading(false), 1000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      // @ts-ignore
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }, 1500);
   }, []);
 
   const formatedTime = (date: Date) => {
@@ -40,7 +49,9 @@ const MsgDisplayer = ({ messages, myId, theme }: Props) => {
     return dateString.replace(",", " at");
   };
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <div className={stl.msgDisplayer}>
       <div ref={ref} className={stl.msgContainer}>
         {messages.map((msg: any, i: number) => (

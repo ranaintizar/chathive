@@ -89,28 +89,24 @@ export default function Home() {
               }
         }
       >
-        <button
-          onClick={toggleTheme}
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "0",
-            zIndex: "100",
-          }}
-        >
-          Toggle Theme
-        </button>
         {isLoading ? (
           <Spinner spinnerColor="#1e90ff" />
         ) : user ? (
           isVerified ? (
-            <SettingScreen theme={theme} setIsVerified={setIsVerified} />
+            <SettingScreen
+              toggleTheme={toggleTheme}
+              theme={theme}
+              setIsVerified={setIsVerified}
+            />
           ) : (
             <VerifyMsg email={auth.currentUser?.email} />
           )
         ) : (
-          //@ts-ignore
-          <SignupFlow setIsVerified={setIsVerified} theme={theme} />
+          <SignupFlow
+            toggleTheme={toggleTheme}
+            setIsVerified={setIsVerified}
+            theme={theme}
+          />
         )}
       </main>
     </>
