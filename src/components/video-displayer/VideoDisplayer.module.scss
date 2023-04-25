@@ -4,10 +4,12 @@
   position: relative;
   @extend .alignCen;
   gap: 1rem;
+  padding: 10px;
 
   .video {
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #ccc;
 
     video {
       width: 350px;

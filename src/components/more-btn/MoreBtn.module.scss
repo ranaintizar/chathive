@@ -18,12 +18,6 @@
   }
 }
 
-.darkBtn {
-  &:hover {
-    background: #222;
-  }
-
-  .button svg circle {
-    fill: #fff;
-  }
+.darkBtn .button svg circle {
+  fill: #444;
 }

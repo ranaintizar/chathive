@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { handleDelMsg } from "src/lib/firebaseFunctions";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 
@@ -9,14 +10,30 @@ interface Props {
   variant: string;
   content: string;
   theme: string;
-  list: Array<string>;
   left: Boolean;
+  msgId: string;
+  chatId: string;
   handleListItemClick: (arg: string) => void;
 }
 
-const MessageItem = ({ theme, variant, content, list, left }: Props) => {
+const MessageItem = ({
+  theme,
+  variant,
+  content,
+  left,
+  msgId,
+  chatId,
+}: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
+  const [uid, setUID] = React.useState("");
+
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUID(user.uid);
+  }, []);
 
   const Message = () => {
     return (
@@ -58,6 +75,27 @@ const MessageItem = ({ theme, variant, content, list, left }: Props) => {
     );
   };
 
+  const handleCopy = () => {
+    const textarea = document.createElement("textarea");
+    textarea.value = content;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    document.addEventListener("copy", function (event) {
+      alert("Text copied to clipboard!");
+    });
+  };
+
+  const handleListItemClick = (item: string) => {
+    if (item === "Delete") {
+      handleDelMsg(uid, chatId, msgId);
+    } else if (item === "Copy Text") {
+      handleCopy();
+    }
+  };
+
   return (
     <div
       onMouseEnter={() => setIsVisible(true)}
@@ -74,10 +112,10 @@ const MessageItem = ({ theme, variant, content, list, left }: Props) => {
             theme={theme}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
-            list={list}
+            list={["Delete", "Copy Text"]}
             width={130}
             height={110}
-            handleListItemClick={(item) => console.log(item)}
+            handleListItemClick={handleListItemClick}
           />
           <Message />
         </>
@@ -91,7 +129,7 @@ const MessageItem = ({ theme, variant, content, list, left }: Props) => {
             theme={theme}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
-            list={list}
+            list={["Delete", "Copy Text"]}
             width={130}
             height={110}
             handleListItemClick={(item) => console.log(item)}
@@ -105,7 +143,6 @@ const MessageItem = ({ theme, variant, content, list, left }: Props) => {
 
 MessageItem.defaultProps = {
   variant: "primary",
-  list: ["Option 1", "Option 2"],
   content:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id libero non velit ultricies sodales. Donec eget ultricies sapien. Aliquam erat volutpat. Donec ut est nibh. Fusce dapibus ante non libero cursus auctor. Etiam dictum ipsum a enim viverra sollicitudin. Sed eu diam ex. Aliquam quis velit ut elit vestibulum ultricies vel quis elit. Sed aliquam risus eget ligula fringilla, eu rutrum velit bibendum. Nam volutpat ante vitae nulla bibendum, ac tincidunt nibh lobortis.",
   handleListItemClick: (item: string) => console.log(item),

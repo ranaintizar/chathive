@@ -6,10 +6,9 @@ import Forms from "./customForm";
 interface Props {
   theme: string;
   setFlow: (arg: number) => void;
-  setIsVerified: (arg: Boolean) => void;
 }
 
-const SignUp = ({ setFlow, theme, setIsVerified }: Props) => {
+const SignUp = ({ setFlow, theme }: Props) => {
   const fields = [
     { id: "fname", placeholder: "First Name", key: 1 },
     { id: "lname", placeholder: "Last Name", key: 2 },

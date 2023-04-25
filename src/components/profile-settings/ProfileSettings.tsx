@@ -11,10 +11,9 @@ import stl from "./ProfileSettings.module.scss";
 
 interface Props {
   theme: string;
-  setIsVerified: (arg: Boolean) => void;
 }
 
-const ProfileSettings = ({ theme, setIsVerified }: Props) => {
+const ProfileSettings = ({ theme }: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isVisible, setIsVisible] = React.useState(false);
   const [user, setUser] = React.useState({
@@ -88,7 +87,6 @@ const ProfileSettings = ({ theme, setIsVerified }: Props) => {
           title="Name"
           name="displayName"
           setUser={setUser}
-          setIsVerified={setIsVerified}
           content={user.displayName}
           btnLabel="Change"
         />
@@ -97,7 +95,6 @@ const ProfileSettings = ({ theme, setIsVerified }: Props) => {
           title="Email"
           name="email"
           setUser={setUser}
-          setIsVerified={setIsVerified}
           content={user.email}
           btnLabel="Change"
         />

@@ -14,16 +14,9 @@ interface Props {
   name: string;
   title: string;
   toggleTheme?: () => void;
-  setIsVerified: (arg: Boolean) => void;
 }
 
-const SettingContainer = ({
-  theme,
-  title,
-  name,
-  setIsVerified,
-  toggleTheme,
-}: Props) => {
+const SettingContainer = ({ theme, title, name, toggleTheme }: Props) => {
   return (
     <div className={stl.stngContainer}>
       <Header
@@ -41,12 +34,8 @@ const SettingContainer = ({
         )}
       >
         <div className={stl.setting}>
-          {(name === "profile" && (
-            <ProfileSettings theme={theme} setIsVerified={setIsVerified} />
-          )) ||
-            (name === "account" && (
-              <AccSettings theme={theme} setIsVerified={setIsVerified} />
-            )) ||
+          {(name === "profile" && <ProfileSettings theme={theme} />) ||
+            (name === "account" && <AccSettings theme={theme} />) ||
             (name === "feedback" && <Feedback theme={theme} />) ||
             (name === "about" && <About theme={theme} />)}
         </div>

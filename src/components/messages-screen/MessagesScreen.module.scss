@@ -5,14 +5,18 @@
   width: 100%;
   height: 100vh;
   background: #ccc;
-  @extend .flexColCen;
-  justify-content: center;
+  @extend .justifyBtw;
   background: #fff;
 
   .header {
     position: absolute;
     z-index: 10;
     top: 0;
+  }
+
+  .messages {
+    display: flex;
+    width: calc(100% - 320px);
   }
 }
 

@@ -3,7 +3,6 @@ import Image from "next/image";
 import clsx from "clsx";
 
 import { useOnClickOutside } from "src/lib/useClickOutside";
-import ProfileImage from "assets/profileImage.jpeg";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 
@@ -42,7 +41,7 @@ const ChatItem = ({ list, theme, data, handleOnClick }: Props) => {
       )}
     >
       <Image
-        src={ProfileImage.src}
+        src={data.src}
         width={45}
         height={45}
         alt="profile-img"
@@ -50,9 +49,7 @@ const ChatItem = ({ list, theme, data, handleOnClick }: Props) => {
       />
       <div className={stl.left}>
         <div onClick={() => handleOnClick(data)} className={stl.info}>
-          <span className={stl.title}>
-            {data.displayName} <span className={stl.time}>{data.timeAgo}</span>
-          </span>
+          <span className={stl.title}>{data.displayName}</span>
           <span className={stl.row2}>
             <span className={stl.message}>{data.message}</span>
           </span>

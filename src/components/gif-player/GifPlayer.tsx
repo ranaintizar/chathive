@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { handleDelMsg } from "src/lib/firebaseFunctions";
 import MoreBtn from "components/more-btn/MoreBtn";
+import Dropdown from "components/dropdown";
 
 import stl from "./GifPlayer.module.scss";
-import Dropdown from "components/dropdown";
 interface Props {
   src: string;
   width: number;
   height: number;
   theme: string;
   left: Boolean;
+  msgId: string;
+  chatId: string;
 }
 
-const GifPlayer = ({ src, width, height, theme, left }: Props) => {
+const GifPlayer = ({
+  src,
+  width,
+  height,
+  theme,
+  left,
+  msgId,
+  chatId,
+}: Props) => {
   const [playCount, setPlayCount] = React.useState(0);
   const [isVisible, setIsVisible] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [uid, setUID] = React.useState("");
+
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUID(user.uid);
+  }, []);
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -34,6 +53,13 @@ const GifPlayer = ({ src, width, height, theme, left }: Props) => {
     );
   };
 
+  const handleListItemClick = (item: string) => {
+    if (item === "Delete") {
+      handleDelMsg(uid, chatId, msgId);
+      console.log(msgId);
+    }
+  };
+
   return (
     <div
       onMouseEnter={() => setIsVisible(true)}
@@ -46,12 +72,12 @@ const GifPlayer = ({ src, width, height, theme, left }: Props) => {
           <Dropdown
             theme={theme}
             transformOrigin="top right"
-            top="48%"
-            left="-48%"
-            list={["Option 1", "Option 2"]}
-            handleListItemClick={(item) => console.log("List Item: ", item)}
-            width={150}
-            height={110}
+            top="49%"
+            left="-37%"
+            list={["Delete"]}
+            handleListItemClick={handleListItemClick}
+            width={120}
+            height={50}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
           />
@@ -64,7 +90,6 @@ const GifPlayer = ({ src, width, height, theme, left }: Props) => {
             onClick={() => {
               setPlayCount(0);
               videoRef.current?.play();
-              console.log("CLied");
             }}
             style={{
               width: width + "px",
@@ -103,12 +128,12 @@ const GifPlayer = ({ src, width, height, theme, left }: Props) => {
           <Dropdown
             theme={theme}
             transformOrigin="top left"
-            top="48%"
+            top="49%"
             left="95%"
-            list={["Option 1", "Option 2"]}
-            handleListItemClick={(item) => console.log("List Item: ", item)}
-            width={150}
-            height={110}
+            list={["Delete"]}
+            handleListItemClick={handleListItemClick}
+            width={120}
+            height={50}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
           />

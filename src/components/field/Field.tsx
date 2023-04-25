@@ -18,7 +18,6 @@ interface Props {
   btnLabel: string;
   className?: string;
   setUser?: (arg: any) => void;
-  setIsVerified: (arg: Boolean) => void;
 }
 
 const Field = ({
@@ -29,7 +28,6 @@ const Field = ({
   btnLabel,
   className,
   setUser,
-  setIsVerified,
 }: Props) => {
   const [isPromptVisible, setIsPropmtVisible] = React.useState(false);
 

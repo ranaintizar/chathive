@@ -4,9 +4,12 @@ import clsx from "clsx";
 import Picker from "react-giphy-component";
 
 import { useOnClickOutside } from "src/lib/useClickOutside";
-import { handleFile } from "src/lib/firebaseFunctions";
+import {
+  addTextMsg,
+  handleFile,
+  handleGifSubmit,
+} from "src/lib/firebaseFunctions";
 import Spinner from "components/spinner";
-import GifPlayer from "components/gif-player";
 import EmojiIcon from "assets/emoji.svg";
 import GifIcon from "assets/gif.svg";
 import AttachIcon from "assets/attach.svg";
@@ -22,21 +25,33 @@ const DynamicPicker = dynamic(
 interface Props {
   theme: string;
   customClass?: string;
+  chatId: string;
 }
 
-const EnterMsg = ({ theme, customClass }: Props) => {
+const EnterMsg = ({ theme, customClass, chatId }: Props) => {
   const [message, setMessage] = React.useState("");
   const [showEmojis, setShowEmojis] = React.useState(false);
   const [showGifs, setShowGifs] = React.useState(false);
   const [element, setElement] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [uid, setUID] = React.useState("");
+  const [name, setUsername] = React.useState("");
+
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUID(user.uid);
+    setUsername(user.displayName);
+  }, []);
 
   const pickerRef = React.useRef(null);
 
   const handleSubmit = () => {
-    console.log(message);
     if (message === "") {
       alert("Can't send Empty Message");
+    } else {
+      addTextMsg(message, uid, name, chatId);
     }
     setMessage("");
   };
@@ -44,11 +59,6 @@ const EnterMsg = ({ theme, customClass }: Props) => {
   useEffect(() => {
     setTimeout(() => setElement(null), 3000);
   }, [element]);
-
-  const handleGifSubmit = (src: string) => {
-    // @ts-ignore
-    setElement(<GifPlayer src={src} />);
-  };
 
   const handleKey = (e: any) => {
     setTimeout(() => {
@@ -137,8 +147,7 @@ const EnterMsg = ({ theme, customClass }: Props) => {
             type="file"
             style={{ display: "none" }}
             multiple
-            //@ts-ignore
-            onChange={(e) => handleFile(e, setIsLoading)}
+            onChange={(e) => handleFile(e, setIsLoading, uid, name, chatId)}
           />
           <button
             onClick={() => {
@@ -164,8 +173,8 @@ const EnterMsg = ({ theme, customClass }: Props) => {
           <div ref={pickerRef} className={stl.emojiPicker}>
             <Picker
               onSelected={(e: any) => {
-                console.log(e.downsized_small.mp4);
-                handleGifSubmit(e.downsized_small.mp4);
+                setShowGifs(false);
+                handleGifSubmit(e.downsized_small.mp4, uid, name, chatId);
               }}
               apiKey={process.env.APIKEY}
             />
