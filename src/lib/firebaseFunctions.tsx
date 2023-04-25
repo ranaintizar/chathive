@@ -12,6 +12,8 @@ import {
   deleteDoc,
   serverTimestamp,
   setDoc,
+  getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import {
   sendPasswordResetEmail,
@@ -161,6 +163,12 @@ const handleUpdateEmail = (email: string, setUser: (arg: any) => void) => {
 
 const handleDelAcc = () => {
   const user = auth.currentUser;
+  //@ts-ignore
+  const userDoc = doc(db, "users", user?.uid);
+  deleteDoc(userDoc)
+    .then(() => console.log("Deleted user Doc Successfully!"))
+    .catch((err) => console.log("Error while deleting user Doc", err));
+
   const profilePicRef = ref(
     storage,
     `${process.env.BUCKET}/files/${user?.uid}/profilePic`
@@ -177,22 +185,8 @@ const handleDelAcc = () => {
   user
     ?.delete()
     .then(() => {
-      const uid = auth.currentUser?.uid;
-      const profilePicRef = ref(
-        storage,
-        `${process.env.BUCKET}/files/${uid}/profilePic`
-      );
-
-      deleteObject(profilePicRef)
-        .then((res) => {
-          console.log(res);
-          console.log("File Deleted Successfully!");
-        })
-        .catch((err) => {
-          console.log("Error while deleting file:", err);
-        });
       localStorage.clear();
-      console.log("Successfule deleted!");
+      console.log("User successfully deleted!");
     })
     .catch((err) => {
       console.log(err);
@@ -235,28 +229,6 @@ const handleSignUp = async (
   createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
-      console.log(user);
-      const userDoc = doc(db, "users", user?.uid);
-      setDoc(userDoc, {
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-      })
-        .then(() => console.log("Added User Doc!"))
-        .catch((err) => console.log("Error while adding User Doc", err));
-      // const chatDoc = doc(userDoc, "chats", user.uid + user.uid);
-      // const msgsRef = collection(chatDoc, "messages");
-      // const id = generateRandomString(20);
-      // const msgDoc = doc(msgsRef, id);
-      // await setDoc(msgDoc, {
-      //   messageContent: "Welcome to ChatHive.",
-      //   messageType: "text",
-      //   senderID: id,
-      //   time: serverTimestamp(),
-      //   username: "ChatHive",
-      // })
-      //   .then(() => console.log("Added Dummy Message!"))
-      //   .catch((err) => console.log("Error while adding dummy message.", err));
 
       return await updateProfile(user, {
         displayName: displayName,
@@ -268,6 +240,37 @@ const handleSignUp = async (
       //@ts-ignore
       sendEmailVerification(userData).then(async () => {
         console.log("Verification Email sent from SignUp");
+        //@ts-ignore
+        const userDoc = doc(db, "users", userData?.uid);
+        await setDoc(userDoc, {
+          displayName: userData?.displayName,
+          email: userData?.email,
+          photoURL: userData?.photoURL,
+        })
+          .then(async () => {
+            console.log("Added User Doc!");
+          })
+          .catch((err) => console.log("Error while adding User Doc", err));
+        // const chatDoc = doc(
+        //   userDoc,
+        //   "chats",
+        //   //@ts-ignore
+        //   generateRandomString(20)
+        // );
+        // const msgsRef = collection(chatDoc, "messages");
+        // const id = generateRandomString(20);
+        // const msgDoc = doc(msgsRef, id);
+        // await setDoc(msgDoc, {
+        //   messageContent: "Welcome to ChatHive.",
+        //   messageType: "text",
+        //   senderID: id,
+        //   time: serverTimestamp(),
+        //   username: "ChatHive",
+        // })
+        //   .then(() => console.log("Added Dummy Message!"))
+        //   .catch((err) =>
+        //     console.log("Error while adding dummy message.", err)
+        //   );
       });
       const user = { ...userData };
       localStorage.setItem("user", JSON.stringify(user));
@@ -301,9 +304,19 @@ const githubSignIn = () => {
   const provider = new GithubAuthProvider();
   signInWithPopup(auth, provider)
     .then(async (result) => {
-      const user = result.user;
-      console.log(user);
+      const user = auth.currentUser;
       const data = { ...user };
+      //@ts-ignore
+      const userDoc = doc(db, "users", data?.uid);
+      await setDoc(userDoc, {
+        displayName: data?.displayName,
+        email: data?.email,
+        photoURL: data?.photoURL,
+      })
+        .then(async () => {
+          console.log("Added User Doc!");
+        })
+        .catch((err) => console.log("Error while adding User Doc", err));
       await localStorage.setItem("user", JSON.stringify(data));
     })
     .catch((err) => {
@@ -317,13 +330,24 @@ const twitterSignIn = () => {
   const provider = new TwitterAuthProvider();
   signInWithPopup(auth, provider)
     .then(async (result) => {
-      const user = result.user;
       const credential = TwitterAuthProvider.credentialFromResult(result);
       console.log("Credential : ", credential, "from Twitter Login");
       const credData = { ...credential };
       await localStorage.setItem("credential", JSON.stringify(credData));
+      const user = auth.currentUser;
       console.log(user);
       const data = { ...user };
+      //@ts-ignore
+      const userDoc = doc(db, "users", data?.uid);
+      await setDoc(userDoc, {
+        displayName: data?.displayName,
+        email: data?.email,
+        photoURL: data?.photoURL,
+      })
+        .then(async () => {
+          console.log("Added User Doc!");
+        })
+        .catch((err) => console.log("Error while adding User Doc", err));
       await localStorage.setItem("user", JSON.stringify(data));
     })
     .catch((err) => {
@@ -337,9 +361,20 @@ const googleSignIn = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
     .then(async (result) => {
-      const user = result.user;
+      const user = auth.currentUser;
       console.log(user);
       const data = { ...user };
+      //@ts-ignore
+      const userDoc = doc(db, "users", data?.uid);
+      await setDoc(userDoc, {
+        displayName: data?.displayName,
+        email: data?.email,
+        photoURL: data?.photoURL,
+      })
+        .then(async () => {
+          console.log("Added User Doc!");
+        })
+        .catch((err) => console.log("Error while adding User Doc", err));
       await localStorage.setItem("user", JSON.stringify(data));
     })
     .catch((err) => {
@@ -587,6 +622,61 @@ const downloadFile = (fileInfo: any) => {
   xhr.send();
 };
 
+const handleStartChat = async (
+  chatName: string,
+  setIsLoading: any,
+  uid: string
+) => {
+  let flag;
+  setIsLoading(true);
+  const chatsRef = collection(db, "users", uid, "chats");
+  await getDocs(chatsRef).then((snapshot) =>
+    snapshot.docs.forEach(async (chat) => {
+      if (chat.data().chatName.includes(chatName)) {
+        alert("Chat with the same name exists!");
+        flag = false;
+      } else {
+        flag = true;
+      }
+    })
+  );
+
+  console.log(flag);
+
+  if (flag) {
+    const chatDoc = doc(chatsRef, generateRandomString(20));
+    await setDoc(chatDoc, {
+      chatName,
+      createdAt: serverTimestamp(),
+    })
+      .then(() => console.log("Created Chat"))
+      .catch((err) => console.log("Error while creating chat", err));
+  }
+
+  setIsLoading(false);
+};
+
+const handleDelChat = (uid: string, chatId: string) => {
+  console.log("Deleting Chat...");
+  const userDoc = doc(db, "users", uid);
+  const chatRef = doc(userDoc, "chats", chatId);
+  deleteDoc(chatRef)
+    .then(() => console.log("Chat Deleted Successfully!"))
+    .catch((err) => console.log("Error while deleting Chat", err));
+};
+
+const updateChatName = (newName: string, uid: string, chatId: string) => {
+  const userDoc = doc(db, "users", uid);
+  const chatDoc = doc(userDoc, "chats", chatId);
+  updateDoc(chatDoc, { chatName: newName })
+    .then(() => {
+      console.log("Chat name updated successfully!");
+    })
+    .catch((error) => {
+      console.error("Error updating chat name: ", error);
+    });
+};
+
 export {
   updateName,
   updatePhoto,
@@ -608,4 +698,7 @@ export {
   handleGifSubmit,
   deleteFile,
   downloadFile,
+  handleStartChat,
+  handleDelChat,
+  updateChatName,
 };

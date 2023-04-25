@@ -26,6 +26,9 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
   const [chats, setChats] = React.useState([]);
   const [chatId, setChatId] = React.useState("dsfasdf");
   const [messages, setMessages] = React.useState([]);
+  const [isEmpty, setIsEmpty] = React.useState(true);
+  const [title, setTitle] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -36,7 +39,7 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
         let chatArray = [];
         snapshot.docs.map((doc, i) =>
           chatArray.push({
-            displayName: doc.data().chatName,
+            chatName: doc.data().chatName,
             chatId: doc.id,
             src: doc.data().chatPhoto,
             message: "This is Last Message from this",
@@ -76,25 +79,34 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
       <Sidebar
         chats={chats}
         theme={theme}
-        handleChatClick={(item) => setChatId(item.chatId)}
+        handleChatClick={(item) => {
+          setChatId(item.chatId);
+          setTitle(item.chatName);
+          setIsEmpty(false);
+          setIsLoading(true);
+        }}
+      />
+      <Header
+        title={title}
+        toggleTheme={toggleTheme}
+        themeBtn={true}
+        theme={theme}
+        titleCenter={true}
+        customClass={stl.header}
       />
       <div className={stl.messages}>
-        <Header
-          title="Chat Name"
-          toggleTheme={toggleTheme}
-          themeBtn={true}
-          theme={theme}
-          titleCenter={true}
-          customClass={stl.header}
-        />
-        {(messages.length !== 0 && (
+        {isEmpty ? (
+          <EmptyScreen />
+        ) : (
           <MsgDisplayer
             theme={theme}
             messages={messages}
             myId={myId}
             chatId={chatId}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
-        )) || <EmptyScreen />}
+        )}
       </div>
     </div>
   );
