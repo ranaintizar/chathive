@@ -27,13 +27,12 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
   const [chatId, setChatId] = React.useState("dsfasdf");
   const [messages, setMessages] = React.useState([]);
   const [isEmpty, setIsEmpty] = React.useState(true);
-  const [title, setTitle] = React.useState("");
+  const [title, setTitle] = React.useState("Messages");
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      const userRef = doc(db, "users", myId);
-      const chatsRef = collection(userRef, "chats");
+      const chatsRef = collection(db, "chats");
       onSnapshot(chatsRef, (snapshot) => {
         //@ts-ignore
         let chatArray = [];
@@ -41,7 +40,6 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
           chatArray.push({
             chatName: doc.data().chatName,
             chatId: doc.id,
-            src: doc.data().chatPhoto,
             message: "This is Last Message from this",
             key: i,
           })
@@ -53,8 +51,7 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
   }, [myId]);
 
   useEffect(() => {
-    const userDoc = doc(db, "users", myId);
-    const chatsRef = collection(userDoc, "chats");
+    const chatsRef = collection(db, "chats");
     const chatDoc = doc(chatsRef, chatId);
     const msgRef = collection(chatDoc, "messages");
     const sortedMsgs = query(msgRef, orderBy("time", "asc"));

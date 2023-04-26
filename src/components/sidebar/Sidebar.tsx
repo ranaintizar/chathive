@@ -69,7 +69,7 @@ const Sidebar = ({ theme, chats, handleChatClick }: Props) => {
         handleCancelClick={() => setIsVisible(false)}
         handleOkClick={(chatName) => {
           setIsVisible(false);
-          handleStartChat(chatName, setIsLoading, uid);
+          handleStartChat(chatName, setIsLoading);
         }}
         customClass={stl.prompt}
       />

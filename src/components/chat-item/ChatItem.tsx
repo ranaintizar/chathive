@@ -33,7 +33,7 @@ const ChatItem = ({ theme, data, handleOnClick }: Props) => {
 
   const handleListItemClick = (item: string) => {
     if (item === "Delete") {
-      handleDelChat(uid, data.chatId);
+      handleDelChat(data.chatId);
     } else if (item === "Change Name") {
       setIsPromptVisible(true);
     }
@@ -50,13 +50,13 @@ const ChatItem = ({ theme, data, handleOnClick }: Props) => {
         theme === "dark" ? stl.darkChatItem : undefined
       )}
     >
-      <Image
+      {/* <Image
         src={data.src}
         width={45}
         height={45}
         alt="profile-img"
         className={stl.avatar}
-      />
+      /> */}
       <div className={stl.left}>
         <div onClick={() => handleOnClick(data)} className={stl.info}>
           <span className={stl.title}>{data.chatName}</span>
@@ -90,7 +90,7 @@ const ChatItem = ({ theme, data, handleOnClick }: Props) => {
         theme={theme}
         handleOkClick={(newName) => {
           setIsPromptVisible(false);
-          updateChatName(newName, uid, data.chatId);
+          updateChatName(newName, data.chatId);
         }}
         customClass={stl.prompt}
       />

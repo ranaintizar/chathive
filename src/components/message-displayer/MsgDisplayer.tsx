@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
+import clsx from "clsx";
 
+import { formatDate } from "src/lib";
 import EnterMsg from "components/enter-msg";
 import Spinner from "components/spinner";
 import Message from "components/message/Message";
@@ -51,17 +53,29 @@ const MsgDisplayer = ({
           <div className={stl.noConvesation}>No Conversation Yet.</div>
         ) : (
           messages.map((msg: any, i: number) => (
-            <Message
-              theme={theme}
-              type={msg.messageType}
-              content={msg.messageContent}
-              senderId={msg.senderId}
-              time={msg.time}
-              index={i}
-              id={myId}
-              msgId={msg.id}
-              chatId={chatId}
-            />
+            <div
+              className={clsx(
+                stl.msgInfo,
+                msg.senderId !== myId && stl.msgInfoRt
+              )}
+            >
+              <div className={stl.info}>
+                {msg.senderId === myId
+                  ? "You," + formatDate(msg.time)
+                  : msg.username + "," + formatDate(msg.time)}
+              </div>
+              <Message
+                theme={theme}
+                type={msg.messageType}
+                content={msg.messageContent}
+                senderId={msg.senderId}
+                time={msg.time}
+                index={i}
+                id={myId}
+                msgId={msg.id}
+                chatId={chatId}
+              />
+            </div>
           ))
         )}
       </div>

@@ -32,6 +32,7 @@ import { generateRandomString } from ".";
 import * as Yup from "yup";
 
 const feedbackRef = collection(db, "feedback");
+const chatsRef = collection(db, "chats");
 
 const sendVerificationEmail = () => {
   //@ts-ignore
@@ -251,26 +252,6 @@ const handleSignUp = async (
             console.log("Added User Doc!");
           })
           .catch((err) => console.log("Error while adding User Doc", err));
-        // const chatDoc = doc(
-        //   userDoc,
-        //   "chats",
-        //   //@ts-ignore
-        //   generateRandomString(20)
-        // );
-        // const msgsRef = collection(chatDoc, "messages");
-        // const id = generateRandomString(20);
-        // const msgDoc = doc(msgsRef, id);
-        // await setDoc(msgDoc, {
-        //   messageContent: "Welcome to ChatHive.",
-        //   messageType: "text",
-        //   senderID: id,
-        //   time: serverTimestamp(),
-        //   username: "ChatHive",
-        // })
-        //   .then(() => console.log("Added Dummy Message!"))
-        //   .catch((err) =>
-        //     console.log("Error while adding dummy message.", err)
-        //   );
       });
       const user = { ...userData };
       localStorage.setItem("user", JSON.stringify(user));
@@ -397,8 +378,7 @@ const addFileMsg = async (
   const username = name;
   const id = generateRandomString(20);
 
-  const userDoc = doc(db, "users", uid);
-  const chatDoc = doc(userDoc, "chats", chatId);
+  const chatDoc = doc(chatsRef, chatId);
   const msgsRef = collection(chatDoc, "messages");
   const docRef = doc(msgsRef, id);
 
@@ -507,9 +487,8 @@ const addFeedback = async (name: string, email: string, msg: string) => {
     );
 };
 
-const handleDelMsg = async (uid: string, chatId: string, msgId: string) => {
-  const userDoc = doc(db, "users", uid);
-  const chatRef = doc(userDoc, "chats", chatId);
+const handleDelMsg = async (chatId: string, msgId: string) => {
+  const chatRef = doc(chatsRef, chatId);
   const msgRef = doc(chatRef, "messages", msgId);
   await deleteDoc(msgRef)
     .then(() => alert("Message Deleted Successfully!"))
@@ -529,8 +508,6 @@ const addTextMsg = async (
   const username = name;
   const id = generateRandomString(20);
 
-  const userDoc = doc(db, "users", uid);
-  const chatsRef = collection(userDoc, "chats");
   const chatsDoc = doc(chatsRef, chatId);
   const msgsRef = collection(chatsDoc, "messages");
   const docRef = doc(msgsRef, id);
@@ -564,8 +541,6 @@ const handleGifSubmit = async (
   const username = name;
   const id = generateRandomString(20);
 
-  const userDoc = doc(db, "users", uid);
-  const chatsRef = collection(userDoc, "chats");
   const chatsDoc = doc(chatsRef, chatId);
   const msgsRef = collection(chatsDoc, "messages");
   const docRef = doc(msgsRef, id);
@@ -622,14 +597,10 @@ const downloadFile = (fileInfo: any) => {
   xhr.send();
 };
 
-const handleStartChat = async (
-  chatName: string,
-  setIsLoading: any,
-  uid: string
-) => {
+const handleStartChat = async (chatName: string, setIsLoading: any) => {
   let flag;
   setIsLoading(true);
-  const chatsRef = collection(db, "users", uid, "chats");
+
   await getDocs(chatsRef).then((snapshot) =>
     snapshot.docs.forEach(async (chat) => {
       if (chat.data().chatName.includes(chatName)) {
@@ -640,8 +611,6 @@ const handleStartChat = async (
       }
     })
   );
-
-  console.log(flag);
 
   if (flag) {
     const chatDoc = doc(chatsRef, generateRandomString(20));
@@ -656,18 +625,16 @@ const handleStartChat = async (
   setIsLoading(false);
 };
 
-const handleDelChat = (uid: string, chatId: string) => {
+const handleDelChat = (chatId: string) => {
   console.log("Deleting Chat...");
-  const userDoc = doc(db, "users", uid);
-  const chatRef = doc(userDoc, "chats", chatId);
+  const chatRef = doc(chatsRef, chatId);
   deleteDoc(chatRef)
     .then(() => console.log("Chat Deleted Successfully!"))
     .catch((err) => console.log("Error while deleting Chat", err));
 };
 
-const updateChatName = (newName: string, uid: string, chatId: string) => {
-  const userDoc = doc(db, "users", uid);
-  const chatDoc = doc(userDoc, "chats", chatId);
+const updateChatName = (newName: string, chatId: string) => {
+  const chatDoc = doc(chatsRef, chatId);
   updateDoc(chatDoc, { chatName: newName })
     .then(() => {
       console.log("Chat name updated successfully!");

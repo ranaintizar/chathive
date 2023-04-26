@@ -3,7 +3,7 @@
 .chatItem {
   position: relative;
   @extend .alignCen;
-  width: 320px;
+  width: 300px;
   height: 70px;
   border-radius: 12px;
   gap: 5px;
@@ -58,7 +58,7 @@
         .message {
           @extend .alignCen;
           gap: 5px;
-          width: 85%;
+          width: 90%;
           color: #16161a;
           overflow: hidden;
           text-overflow: ellipsis;
