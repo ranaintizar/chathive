@@ -10,7 +10,6 @@ import stl from "./SignupFlow.module.scss";
 
 interface Props {
   theme: string;
-  setIsVerified: any;
   toggleTheme: () => void;
 }
 

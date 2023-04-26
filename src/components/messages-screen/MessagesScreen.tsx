@@ -20,9 +20,10 @@ interface Props {
   messages: Array<Object>;
   myId: string;
   toggleTheme: () => void;
+  setShowMsgs: any;
 }
 
-const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
+const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
   const [chats, setChats] = React.useState([]);
   const [chatId, setChatId] = React.useState("dsfasdf");
   const [messages, setMessages] = React.useState([]);
@@ -82,6 +83,7 @@ const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
           setIsEmpty(false);
           setIsLoading(true);
         }}
+        setShowMsgs={setShowMsgs}
       />
       <Header
         title={title}

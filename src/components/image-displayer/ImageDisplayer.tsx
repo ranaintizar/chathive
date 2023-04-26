@@ -42,7 +42,7 @@ const ImageDisplayer = ({
   const handleOptions = (itemName: string) => {
     if (itemName === "Delete") {
       deleteFile(fileInfo.fileName);
-      handleDelMsg(uid, chatId, msgId);
+      handleDelMsg(chatId, msgId);
     } else if (itemName === "Download") {
       downloadFile(fileInfo);
     }

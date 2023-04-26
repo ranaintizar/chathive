@@ -3,19 +3,10 @@ import Head from "next/head";
 
 import { auth } from "./api/firebase";
 import SignupFlow from "components/signup-flow";
-import ChatItem from "components/chat-item/ChatItem";
-import MessageItem from "components/message-item";
-import EnterMsg from "components/enter-msg";
 import Spinner from "components/spinner";
-import StartChatBtn from "components/start-chat-button";
-import MoreBtn from "components/more-btn/MoreBtn";
-import Dropdown from "components/dropdown";
-import Header from "components/header";
-import Sidebar from "components/sidebar";
 import MessagesScreen from "components/messages-screen";
 import VerifyMsg from "components/verify-msg";
 import SettingScreen from "components/settings-screen";
-import Data from "components/data-example";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -23,15 +14,7 @@ export default function Home() {
   const [user, setUser] = React.useState(false);
   const [id, setId] = React.useState("null");
   const [isVerified, setIsVerified] = React.useState(false);
-
-  // const save = () => {
-  //   localStorage.setItem(
-  //     "user",
-  //     JSON.stringify({ uid: id, displayName: "Rana Aftab" })
-  //   );
-  // };
-
-  // save();
+  const [showMsgs, setShowMsgs] = React.useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -55,14 +38,6 @@ export default function Home() {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
-  if (typeof window !== "undefined") {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      console.log("Dark mode is enabled.");
-    } else {
-      console.log("Light mode is enabled.");
-    }
-  }
-
   const toggleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
@@ -82,49 +57,30 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/favicon.ico" />
       </Head>
-      <main
-        style={
-          theme === "dark"
-            ? {
-                height: "100vh",
-                background: "#202124",
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }
-            : {
-                height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "none",
-              }
-        }
-      >
+      <main>
         {isLoading ? (
           <Spinner spinnerColor="#fff" />
         ) : user ? (
           isVerified ? (
-            // <SettingScreen
-            //   toggleTheme={toggleTheme}
-            //   theme={theme}
-            //   setIsVerified={setIsVerified}
-            // />
-            <MessagesScreen theme={theme} toggleTheme={toggleTheme} myId={id} />
+            showMsgs ? (
+              <MessagesScreen
+                theme={theme}
+                toggleTheme={toggleTheme}
+                myId={id}
+                setShowMsgs={setShowMsgs}
+              />
+            ) : (
+              <SettingScreen
+                theme={theme}
+                toggleTheme={toggleTheme}
+                setShowMsgs={setShowMsgs}
+              />
+            )
           ) : (
-            // <SettingScreen theme={theme} toggleTheme={toggleTheme} />
-            // <Data />
             <VerifyMsg email={auth.currentUser?.email} />
           )
         ) : (
-          <SignupFlow
-            toggleTheme={toggleTheme}
-            setIsVerified={setIsVerified}
-            theme={theme}
-          />
-          // <MessagesScreen theme={theme} toggleTheme={toggleTheme} myId={id} />
-          // <Data />
+          <SignupFlow toggleTheme={toggleTheme} theme={theme} />
         )}
       </main>
     </>

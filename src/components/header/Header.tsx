@@ -20,6 +20,7 @@ interface Props {
   themeBtn: Boolean;
   toggleTheme?: () => void;
   handleBackBtn: () => void;
+  handleListItemClick: (arg: string) => void;
 }
 
 const Header = ({
@@ -34,6 +35,7 @@ const Header = ({
   toggleTheme,
   handleBackBtn,
   themeBtn,
+  handleListItemClick,
 }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
 
@@ -77,7 +79,7 @@ const Header = ({
             right="40%"
             theme={theme}
             list={list}
-            handleListItemClick={(item) => console.log(item)}
+            handleListItemClick={handleListItemClick}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
           />
@@ -94,6 +96,7 @@ Header.defaultProps = {
   dropdown: true,
   titleCenter: false,
   themeBtn: false,
+  handleListItemClick: (item: string) => console.log(item),
 };
 
 export default Header;

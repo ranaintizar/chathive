@@ -55,7 +55,7 @@ const GifPlayer = ({
 
   const handleListItemClick = (item: string) => {
     if (item === "Delete") {
-      handleDelMsg(uid, chatId, msgId);
+      handleDelMsg(chatId, msgId);
       console.log(msgId);
     }
   };

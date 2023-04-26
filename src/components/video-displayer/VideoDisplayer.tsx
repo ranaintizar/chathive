@@ -68,7 +68,7 @@ const VideoDisplayer = ({
   const handleListItemClick = (item: string) => {
     if (item === "Delete") {
       deleteFile(fileInfo.fileName);
-      handleDelMsg(uid, chatId, msgId);
+      handleDelMsg(chatId, msgId);
     } else if (item === "Download") {
       downloadFile(fileInfo);
     }

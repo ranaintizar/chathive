@@ -8,9 +8,10 @@ import stl from "./SettingScreen.module.scss";
 interface Props {
   theme: string;
   toggleTheme: any;
+  setShowMsgs: any;
 }
 
-const SettingScreen = ({ theme, toggleTheme }: Props) => {
+const SettingScreen = ({ theme, toggleTheme, setShowMsgs }: Props) => {
   const [title, setTitle] = React.useState("Profile");
   const [name, setName] = React.useState("profile");
 
@@ -32,7 +33,11 @@ const SettingScreen = ({ theme, toggleTheme }: Props) => {
 
   return (
     <div className={stl.stngScrn}>
-      <SettingSidebar theme={theme} handleOnClick={handleSideBarItem} />
+      <SettingSidebar
+        theme={theme}
+        handleOnClick={handleSideBarItem}
+        setShowMsgs={setShowMsgs}
+      />
       <SettingContainer
         toggleTheme={toggleTheme}
         name={name}
