@@ -27,6 +27,7 @@ export default function Home() {
           setIsVerified(false);
         }
       } else {
+        setShowMsgs(true);
         setUser(false);
       }
     });

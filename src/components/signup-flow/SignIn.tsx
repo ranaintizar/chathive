@@ -26,13 +26,14 @@ const SignIn = ({ setFlow, theme }: Props) => {
       schema={schema}
       theme={theme}
       flow={1}
-      height="400px"
+      height="430px"
       fields={fields}
       initialVals={{ email: "", password: "" }}
       title="Sign In"
       desc="Don't have an Account?"
       specialText="Sign Up"
       setFlow={setFlow}
+      others={true}
       submitText="Sign In"
     />
   );

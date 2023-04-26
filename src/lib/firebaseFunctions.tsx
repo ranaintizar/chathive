@@ -164,28 +164,30 @@ const handleUpdateEmail = (email: string, setUser: (arg: any) => void) => {
 
 const handleDelAcc = () => {
   const user = auth.currentUser;
-  //@ts-ignore
-  const userDoc = doc(db, "users", user?.uid);
-  deleteDoc(userDoc)
-    .then(() => console.log("Deleted user Doc Successfully!"))
-    .catch((err) => console.log("Error while deleting user Doc", err));
+  const id = user?.uid;
 
-  const profilePicRef = ref(
-    storage,
-    `${process.env.BUCKET}/files/${user?.uid}/profilePic`
-  );
-
-  deleteObject(profilePicRef)
-    .then((res) => {
-      console.log(res);
-      console.log("File Deleted Successfully!");
-    })
-    .catch((err) => {
-      console.log("Error while deleting file:", err);
-    });
   user
     ?.delete()
     .then(() => {
+      //@ts-ignore
+      const userDoc = doc(db, "users", id);
+      deleteDoc(userDoc)
+        .then(() => console.log("Deleted user Doc Successfully!"))
+        .catch((err) => console.log("Error while deleting user Doc", err));
+
+      const profilePicRef = ref(
+        storage,
+        `${process.env.BUCKET}/files/${id}/profilePic`
+      );
+
+      deleteObject(profilePicRef)
+        .then((res) => {
+          console.log(res);
+          console.log("File Deleted Successfully!");
+        })
+        .catch((err) => {
+          console.log("Error while deleting file:", err);
+        });
       localStorage.clear();
       console.log("User successfully deleted!");
     })
