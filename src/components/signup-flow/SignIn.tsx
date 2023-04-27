@@ -25,7 +25,6 @@ const SignIn = ({ setFlow, theme, setIsVerified }: Props) => {
     <Forms
       method="signin"
       schema={schema}
-      setIsVerified={setIsVerified}
       theme={theme}
       flow={1}
       height="400px"
