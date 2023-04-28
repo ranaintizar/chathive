@@ -7,6 +7,8 @@ import Spinner from "components/spinner";
 import MessagesScreen from "components/messages-screen";
 import VerifyMsg from "components/verify-msg";
 import SettingScreen from "components/settings-screen";
+import Toast from "components/toast";
+import ToggleThemeBtn from "components/toggle-theme-btn";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -15,6 +17,11 @@ export default function Home() {
   const [id, setId] = React.useState("null");
   const [isVerified, setIsVerified] = React.useState(false);
   const [showMsgs, setShowMsgs] = React.useState(true);
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  // useEffect(() => {
+  //   setTimeout(() => setIsVisible(false), 3000);
+  // }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -58,17 +65,31 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/favicon.ico" />
       </Head>
-      <main>
+      <main
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         {isLoading ? (
           <Spinner spinnerColor="#fff" />
         ) : user ? (
           isVerified ? (
             showMsgs ? (
-              <MessagesScreen
+              // <MessagesScreen
+              //   theme={theme}
+              //   toggleTheme={toggleTheme}
+              //   myId={id}
+              //   setShowMsgs={setShowMsgs}
+              // />
+              <Toast
                 theme={theme}
-                toggleTheme={toggleTheme}
-                myId={id}
-                setShowMsgs={setShowMsgs}
+                variant="failed"
+                text="Item moved successfully."
+                isVisible={isVisible}
+                setIsVisible={setIsVisible}
               />
             ) : (
               <SettingScreen
@@ -83,6 +104,7 @@ export default function Home() {
         ) : (
           <SignupFlow toggleTheme={toggleTheme} theme={theme} />
         )}
+        <ToggleThemeBtn handleOnClick={toggleTheme} />
       </main>
     </>
   );

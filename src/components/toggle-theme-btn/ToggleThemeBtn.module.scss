@@ -2,6 +2,7 @@
 
 .toggleBtn {
   position: relative;
+  cursor: pointer;
 
   .iconContainer {
     @extend .alignCen;
