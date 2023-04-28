@@ -12,14 +12,18 @@ interface Props {
   variant: "success" | "failed";
   text: string;
   isVisible: Boolean;
-  setIsVisible: any;
+  handleClose: any;
 }
 
-const Toast = ({ theme, variant, text, isVisible, setIsVisible }: Props) => {
+const Toast = ({ theme, variant, text, isVisible, handleClose }: Props) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 1000 }}
-      animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 1000 }}
+      initial={{ opacity: 0, x: 1000, zIndex: 0 }}
+      animate={
+        isVisible
+          ? { opacity: 1, x: 0, zIndex: 100 }
+          : { opacity: 0, x: 1000, zIndex: 0 }
+      }
       transition={{ type: "teen" }}
       className={clsx(
         stl.toast,
@@ -37,7 +41,7 @@ const Toast = ({ theme, variant, text, isVisible, setIsVisible }: Props) => {
         type="button"
         className={stl.button}
         aria-label="Close"
-        onClick={() => setIsVisible(false)}
+        onClick={handleClose}
       >
         <span className={stl.srOnly}>Close</span>
         <svg

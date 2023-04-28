@@ -33,11 +33,15 @@ import * as Yup from "yup";
 
 const feedbackRef = collection(db, "feedback");
 const chatsRef = collection(db, "chats");
+const toastDoc = doc(db, "toast", "Zr41YsymL2m0Y26ShAnZ");
 
 const sendVerificationEmail = () => {
   //@ts-ignore
   sendEmailVerification(auth.currentUser)
-    .then(() => console.log("Verification Email Sent!"))
+    .then(async () => {
+      console.log("Verification Email Sent!");
+      await updateToast("Verification email sent.", "success");
+    })
     .catch((err) =>
       console.log("Error while sending Verification Email:", err)
     );
@@ -47,7 +51,7 @@ const updateName = (name: string, setUser: (arg: any) => void) => {
   console.log("Updating Name...");
   //@ts-ignore
   updateProfile(auth.currentUser, { displayName: name })
-    .then(() => {
+    .then(async () => {
       const user = auth.currentUser;
       setUser({
         displayName: user?.displayName,
@@ -57,6 +61,7 @@ const updateName = (name: string, setUser: (arg: any) => void) => {
       const userData = { ...user };
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("Name Updated!");
+      await updateToast("Name changed successfully.", "success");
     })
     .catch((err: any) => console.log("Error while Updating Name:", err));
 };
@@ -70,13 +75,8 @@ const updatePhoto = (setUser: (arg: any) => void, e: any) => {
   );
 
   deleteObject(profilePicRef)
-    .then((res) => {
-      console.log(res);
-      console.log("File Deleted Successfully!");
-    })
-    .catch((err) => {
-      console.log("Error while deleting file:", err);
-    });
+    .then(() => console.log("File Deleted Successfully!"))
+    .catch((err) => console.log("Error while deleting file:", err));
 
   const storageRef = ref(
     storage,
@@ -100,7 +100,7 @@ const updatePhoto = (setUser: (arg: any) => void, e: any) => {
       getDownloadURL(storageRef).then(async (url) => {
         console.log("Url is: ", url);
         //@ts-ignore
-        updateProfile(auth.currentUser, { photoURL: url }).then(() => {
+        updateProfile(auth.currentUser, { photoURL: url }).then(async () => {
           const user = auth.currentUser;
           setUser({
             displayName: user?.displayName,
@@ -109,6 +109,7 @@ const updatePhoto = (setUser: (arg: any) => void, e: any) => {
           });
           const userData = { ...user };
           localStorage.setItem("user", JSON.stringify(userData));
+          await updateToast("Photo changed successfully.", "success");
         });
       });
     }
@@ -119,9 +120,9 @@ const handleUpdatePass = (password: string) => {
   console.log("Updating Password...");
   //@ts-ignore
   updatePassword(auth.currentUser, password)
-    .then(() => {
+    .then(async () => {
       console.log("Password Updated!");
-      alert("Password Changed Successfully!");
+      await updateToast("Password changed successfully.", "success");
     })
     .catch((err: any) => {
       console.log("Error while updating Password:", err);
@@ -153,6 +154,7 @@ const handleUpdateEmail = (email: string, setUser: (arg: any) => void) => {
       });
       const userData = { ...user };
       localStorage.setItem("user", JSON.stringify(userData));
+      await updateToast("Email changed successfully.", "success");
       console.log("Email Updated");
     })
     .then(() => console.log("Email Updated!"))
@@ -168,7 +170,7 @@ const handleDelAcc = () => {
 
   user
     ?.delete()
-    .then(() => {
+    .then(async () => {
       //@ts-ignore
       const userDoc = doc(db, "users", id);
       deleteDoc(userDoc)
@@ -185,11 +187,10 @@ const handleDelAcc = () => {
           console.log(res);
           console.log("File Deleted Successfully!");
         })
-        .catch((err) => {
-          console.log("Error while deleting file:", err);
-        });
+        .catch((err) => console.log("Error while deleting file:", err));
       localStorage.clear();
       console.log("User successfully deleted!");
+      await updateToast("Account deleted successfully.", "success");
     })
     .catch((err) => {
       console.log(err);
@@ -202,9 +203,10 @@ const handleDelAcc = () => {
 const handleSignOut = () => {
   auth
     .signOut()
-    .then(() => {
+    .then(async () => {
       localStorage.removeItem("user");
       console.log("User Successfuly Signed Out");
+      await updateToast("Logged out successfully.", "success");
     })
     .catch((err) => console.log("Error While Signing Out User: ", err));
 };
@@ -216,6 +218,7 @@ const handleSignIn = (email: string, password: string) => {
       const userData = { ...user };
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("User Signed In Successfully!");
+      handleSigninSucess();
     })
     .catch((err) => {
       const errCode = err.code;
@@ -250,13 +253,12 @@ const handleSignUp = async (
           email: userData?.email,
           photoURL: userData?.photoURL,
         })
-          .then(async () => {
-            console.log("Added User Doc!");
-          })
+          .then(async () => console.log("Added User Doc!"))
           .catch((err) => console.log("Error while adding User Doc", err));
       });
       const user = { ...userData };
       localStorage.setItem("user", JSON.stringify(user));
+      await updateToast("Signed up successfully.", "success");
     })
     .catch((err) => {
       const errCode = err.code;
@@ -265,21 +267,17 @@ const handleSignUp = async (
     });
 };
 
-const handleAuthErrs = (code: any, msg: any) => {
+const handleAuthErrs = async (code: any, msg: any) => {
   console.log("Code: ", code);
   console.log("Message: ", msg);
   if (code === "auth/email-already-in-use") {
-    alert("This is email is already in use.");
+    await updateToast("Email already in use.", "failed");
   } else if (code === "auth/wrong-password") {
-    alert("Password is In-correct");
+    await updateToast("Password is incorrect.", "failed");
   } else if (code === "auth/user-not-found") {
-    alert(
-      "The user with this email does not exist. Please check the email or sign up if you are a new user."
-    );
+    await updateToast("No Account with this email.", "failed");
   } else if (code === "auth/requires-recent-login") {
-    alert(
-      "Sorry, you need to sign in again to perform this action. Please click on the sign-in button to continue."
-    );
+    await updateToast("Sign in again to do this.", "failed");
   }
 };
 
@@ -298,9 +296,10 @@ const githubSignIn = () => {
       })
         .then(async () => {
           console.log("Added User Doc!");
+          await localStorage.setItem("user", JSON.stringify(data));
+          handleSigninSucess();
         })
         .catch((err) => console.log("Error while adding User Doc", err));
-      await localStorage.setItem("user", JSON.stringify(data));
     })
     .catch((err) => {
       const errCode = err.code;
@@ -327,11 +326,10 @@ const twitterSignIn = () => {
         email: data?.email,
         photoURL: data?.photoURL,
       })
-        .then(async () => {
-          console.log("Added User Doc!");
-        })
+        .then(async () => console.log("Added User Doc!"))
         .catch((err) => console.log("Error while adding User Doc", err));
       await localStorage.setItem("user", JSON.stringify(data));
+      handleSigninSucess();
     })
     .catch((err) => {
       const errCode = err.code;
@@ -354,11 +352,10 @@ const googleSignIn = () => {
         email: data?.email,
         photoURL: data?.photoURL,
       })
-        .then(async () => {
-          console.log("Added User Doc!");
-        })
+        .then(async () => console.log("Added User Doc!"))
         .catch((err) => console.log("Error while adding User Doc", err));
       await localStorage.setItem("user", JSON.stringify(data));
+      handleSigninSucess();
     })
     .catch((err) => {
       const errCode = err.code;
@@ -391,12 +388,11 @@ const addFileMsg = async (
     time,
     username,
   })
-    .then(() => {
+    .then(async () => {
       console.log("Document added successfully!");
+      handleMsgSent();
     })
-    .catch((err) => {
-      console.error("Error while adding document:", err);
-    });
+    .catch((err) => console.error("Error while adding document:", err));
 };
 
 const handleFile = async (
@@ -470,15 +466,18 @@ const handleForgotPassword = async (formikProps: any) => {
   try {
     await emailSchema.validate({ email });
     sendPasswordResetEmail(auth, email)
-      .then(() => alert(`Password Reset link sent to ${email}`))
+      .then(async () => {
+        console.log(`Password Reset link sent to ${email}`);
+        await updateToast("Password reset link sent!", "success");
+      })
       .catch((err) =>
         console.log("Error while sending Password Reset link", err)
       );
   } catch (error: any) {
     if (error.message === "Email is required") {
-      alert("Enter email then click on Forgot Password");
+      await updateToast("Email is required.", "failed");
     } else if (error.message === "Invalid email address") {
-      alert("Enter email is not valid");
+      await updateToast("Email is not valid.", "failed");
     }
     console.log("Error from Validation:", { error });
   }
@@ -486,7 +485,7 @@ const handleForgotPassword = async (formikProps: any) => {
 
 const addFeedback = async (name: string, email: string, msg: string) => {
   await addDoc(feedbackRef, { name, email, msg })
-    .then(() => alert("Feedback Sent!"))
+    .then(async () => await updateToast("Thanks for your feedback.", "success"))
     .catch((err) =>
       console.log("Error while adding Feedback in Firestore", err)
     );
@@ -496,7 +495,9 @@ const handleDelMsg = async (chatId: string, msgId: string) => {
   const chatRef = doc(chatsRef, chatId);
   const msgRef = doc(chatRef, "messages", msgId);
   await deleteDoc(msgRef)
-    .then(() => alert("Message Deleted Successfully!"))
+    .then(
+      async () => await updateToast("Message  deleted successfully.", "success")
+    )
     .catch((err) => console.log("Error while Deleting Message", err));
 };
 
@@ -524,12 +525,11 @@ const addTextMsg = async (
     time,
     username,
   })
-    .then(() => {
+    .then(async () => {
       console.log("Document added successfully!");
+      handleMsgSent();
     })
-    .catch((err) => {
-      console.error("Error while adding document:", err);
-    });
+    .catch((err) => console.error("Error while adding document:", err));
 };
 
 const handleGifSubmit = async (
@@ -557,12 +557,11 @@ const handleGifSubmit = async (
     time,
     username,
   })
-    .then(() => {
+    .then(async () => {
       console.log("Document added successfully!");
+      handleMsgSent();
     })
-    .catch((err) => {
-      console.error("Error while adding document:", err);
-    });
+    .catch((err) => console.error("Error while adding document:", err));
 };
 
 const deleteFile = async (fileName: string) => {
@@ -573,15 +572,13 @@ const deleteFile = async (fileName: string) => {
       console.log(res);
       console.log("File Deleted Successfully!");
     })
-    .catch((err) => {
-      console.log("Error while deleting file:", err);
-    });
+    .catch((err) => console.log("Error while deleting file:", err));
 };
 
 const downloadFile = (fileInfo: any) => {
   const xhr = new XMLHttpRequest();
   xhr.responseType = "blob";
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = async function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         var blob = xhr.response;
@@ -591,6 +588,7 @@ const downloadFile = (fileInfo: any) => {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        await updateToast("File downloaded successfully.", "success");
       } else if (xhr.status === 404) {
         console.log("File Not Found");
       } else if (xhr.status === 0) {
@@ -623,7 +621,10 @@ const handleStartChat = async (chatName: string, setIsLoading: any) => {
       chatName,
       createdAt: serverTimestamp(),
     })
-      .then(() => console.log("Created Chat"))
+      .then(async () => {
+        console.log("Created Chat");
+        await updateToast("Chat created successfully.", "success");
+      })
       .catch((err) => console.log("Error while creating chat", err));
   }
 
@@ -634,19 +635,45 @@ const handleDelChat = (chatId: string) => {
   console.log("Deleting Chat...");
   const chatRef = doc(chatsRef, chatId);
   deleteDoc(chatRef)
-    .then(() => console.log("Chat Deleted Successfully!"))
+    .then(async () => {
+      console.log("Chat Deleted Successfully!");
+      await updateToast("Chat deleted successfully.", "success");
+    })
     .catch((err) => console.log("Error while deleting Chat", err));
 };
 
-const updateChatName = (newName: string, chatId: string) => {
+const updateChatName = async (newName: string, chatId: string) => {
   const chatDoc = doc(chatsRef, chatId);
-  updateDoc(chatDoc, { chatName: newName })
-    .then(() => {
+  await updateDoc(chatDoc, { chatName: newName })
+    .then(async () => {
       console.log("Chat name updated successfully!");
+      await updateToast("Chat renamed successfully.", "success");
     })
     .catch((error) => {
       console.error("Error updating chat name: ", error);
     });
+};
+
+const makeToastEmpty = async () => {
+  await updateToast("", "");
+};
+
+const updateToast = async (msg: string, variant: string) => {
+  await updateDoc(toastDoc, { text: msg, variant })
+    .then(() => console.log("Toast Updated!"))
+    .catch((err) => console.log("Error while updating toast", err));
+
+  setTimeout(() => {
+    makeToastEmpty();
+  }, 3000);
+};
+
+const handleMsgSent = async () => {
+  await updateToast("Message sent successfully.", "success");
+};
+
+const handleSigninSucess = async () => {
+  await updateToast("Signed in successfully.", "success");
 };
 
 export {
@@ -673,4 +700,5 @@ export {
   handleStartChat,
   handleDelChat,
   updateChatName,
+  makeToastEmpty,
 };

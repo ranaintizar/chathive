@@ -1,7 +1,9 @@
 import React from "react";
 
+import { makeToastEmpty } from "src/lib/firebaseFunctions";
 import SettingSidebar from "components/settings-sidebar";
 import SettingContainer from "components/settings-container";
+import Toast from "components/toast";
 
 import stl from "./SettingScreen.module.scss";
 
@@ -9,9 +11,15 @@ interface Props {
   theme: string;
   toggleTheme: any;
   setShowMsgs: any;
+  toastMsg: any;
 }
 
-const SettingScreen = ({ theme, toggleTheme, setShowMsgs }: Props) => {
+const SettingScreen = ({
+  theme,
+  toggleTheme,
+  setShowMsgs,
+  toastMsg,
+}: Props) => {
   const [title, setTitle] = React.useState("Profile");
   const [name, setName] = React.useState("profile");
 
@@ -43,6 +51,13 @@ const SettingScreen = ({ theme, toggleTheme, setShowMsgs }: Props) => {
         name={name}
         title={title}
         theme={theme}
+      />
+      <Toast
+        theme={theme}
+        variant={toastMsg.variant}
+        text={toastMsg.text}
+        isVisible={toastMsg.text !== ""}
+        handleClose={makeToastEmpty}
       />
     </div>
   );

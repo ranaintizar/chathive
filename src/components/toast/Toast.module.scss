@@ -1,8 +1,11 @@
 @import "styles/common";
 
 .toast {
+  position: absolute;
+  top: 8%;
+  right: 10px;
   @extend .alignCen;
-  max-width: 320px;
+  max-width: 330px;
   width: 100%;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -76,30 +79,22 @@
   }
 }
 
-.successLight {
-  .iconContainer {
-    color: #22c55e;
-    background-color: #dcfce7;
-  }
+.successLight .iconContainer {
+  color: #22c55e;
+  background-color: #dcfce7;
 }
 
-.successDark {
-  .iconContainer {
-    color: #bbf7d0;
-    background-color: #166534;
-  }
+.successDark .iconContainer {
+  color: #bbf7d0;
+  background-color: #166534;
 }
 
-.failedLight {
-  .iconContainer {
-    color: #ef4444;
-    background-color: #fee2e2;
-  }
+.failedLight .iconContainer {
+  color: #ef4444;
+  background-color: #fee2e2;
 }
 
-.failedDark {
-  .iconContainer {
-    color: #fecaca;
-    background-color: #991b1b;
-  }
+.failedDark .iconContainer {
+  color: #fecaca;
+  background-color: #991b1b;
 }
