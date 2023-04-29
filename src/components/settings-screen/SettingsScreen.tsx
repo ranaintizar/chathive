@@ -7,11 +7,10 @@ import stl from "./SettingScreen.module.scss";
 
 interface Props {
   theme: string;
-  setIsVerified: any;
   toggleTheme: any;
 }
 
-const SettingScreen = ({ theme, setIsVerified, toggleTheme }: Props) => {
+const SettingScreen = ({ theme, toggleTheme }: Props) => {
   const [title, setTitle] = React.useState("Profile");
   const [name, setName] = React.useState("profile");
 
@@ -39,7 +38,6 @@ const SettingScreen = ({ theme, setIsVerified, toggleTheme }: Props) => {
         name={name}
         title={title}
         theme={theme}
-        setIsVerified={setIsVerified}
       />
     </div>
   );

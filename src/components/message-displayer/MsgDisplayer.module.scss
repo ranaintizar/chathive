@@ -25,3 +25,7 @@
     height: 100px;
   }
 }
+
+.loadingContainer {
+  @extend .loadingContainer;
+}

@@ -2,17 +2,18 @@ import React, { useEffect } from "react";
 
 import EnterMsg from "components/enter-msg";
 import Spinner from "components/spinner";
+import Message from "components/message/Message";
 
 import stl from "./MsgDisplayer.module.scss";
-import Message from "components/message/Message";
 
 interface Props {
   messages: any;
   myId: string;
   theme: string;
+  chatId: string;
 }
 
-const MsgDisplayer = ({ messages, myId, theme }: Props) => {
+const MsgDisplayer = ({ messages, myId, theme, chatId }: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   const ref = React.useRef(null);
@@ -29,15 +30,27 @@ const MsgDisplayer = ({ messages, myId, theme }: Props) => {
   }, []);
 
   return isLoading ? (
-    <Spinner />
+    <div className={stl.loadingContainer}>
+      <Spinner />
+    </div>
   ) : (
     <div className={stl.msgDisplayer}>
       <div ref={ref} className={stl.msgContainer}>
         {messages.map((msg: any, i: number) => (
-          <Message theme={theme} msg={msg} index={i} id={myId} />
+          <Message
+            theme={theme}
+            type={msg.messageType}
+            content={msg.messageContent}
+            senderId={msg.senderId}
+            time={msg.time}
+            index={i}
+            id={myId}
+            msgId={msg.id}
+            chatId={chatId}
+          />
         ))}
       </div>
-      <EnterMsg customClass={stl.enterMsg} theme={theme} />
+      <EnterMsg customClass={stl.enterMsg} theme={theme} chatId={chatId} />
     </div>
   );
 };

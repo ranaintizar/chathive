@@ -10,10 +10,9 @@ import stl from "./AccSettings.module.scss";
 
 interface Props {
   theme: string;
-  setIsVerified: (arg: Boolean) => void;
 }
 
-const AccSettings = ({ theme, setIsVerified }: Props) => {
+const AccSettings = ({ theme }: Props) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [alertData, setAlertData] = React.useState({
@@ -46,7 +45,6 @@ const AccSettings = ({ theme, setIsVerified }: Props) => {
           theme={theme}
           title="Password"
           name="password"
-          setIsVerified={setIsVerified}
           content="*******"
           btnLabel="Change"
         />

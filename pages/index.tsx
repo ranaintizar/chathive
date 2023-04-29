@@ -15,12 +15,23 @@ import Sidebar from "components/sidebar";
 import MessagesScreen from "components/messages-screen";
 import VerifyMsg from "components/verify-msg";
 import SettingScreen from "components/settings-screen";
+import Data from "components/data-example";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(false);
+  const [id, setId] = React.useState("vXbaYZnp0NSCooY3t9l5");
   const [isVerified, setIsVerified] = React.useState(false);
+
+  // const save = () => {
+  //   localStorage.setItem(
+  //     "user",
+  //     JSON.stringify({ uid: id, displayName: "Rana Aftab" })
+  //   );
+  // };
+
+  // save();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -28,6 +39,8 @@ export default function Home() {
         setUser(true);
         if (authUser?.emailVerified) {
           setIsVerified(true);
+        } else {
+          setIsVerified(false);
         }
       } else {
         setUser(false);
@@ -84,20 +97,23 @@ export default function Home() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                background: "#fff",
+                background: "none",
               }
         }
       >
         {isLoading ? (
-          <Spinner spinnerColor="#1e90ff" />
+          <Spinner spinnerColor="#fff" />
         ) : user ? (
           isVerified ? (
-            <SettingScreen
-              toggleTheme={toggleTheme}
-              theme={theme}
-              setIsVerified={setIsVerified}
-            />
+            // <SettingScreen
+            //   toggleTheme={toggleTheme}
+            //   theme={theme}
+            //   setIsVerified={setIsVerified}
+            // />
+            // <MessagesScreen theme={theme} toggleTheme={toggleTheme} myId={id} />
+            <SettingScreen theme={theme} toggleTheme={toggleTheme} />
           ) : (
+            // <Data />
             <VerifyMsg email={auth.currentUser?.email} />
           )
         ) : (
@@ -106,6 +122,8 @@ export default function Home() {
             setIsVerified={setIsVerified}
             theme={theme}
           />
+          // <MessagesScreen theme={theme} toggleTheme={toggleTheme} myId={id} />
+          // <Data />
         )}
       </main>
     </>

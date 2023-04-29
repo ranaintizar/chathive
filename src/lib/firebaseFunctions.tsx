@@ -5,7 +5,14 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  deleteDoc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import {
   sendPasswordResetEmail,
   sendEmailVerification,
@@ -19,9 +26,9 @@ import {
   updateEmail,
   updatePassword,
 } from "firebase/auth";
+import { generateRandomString } from ".";
 import * as Yup from "yup";
 
-const collectionRef = collection(db, "files");
 const feedbackRef = collection(db, "feedback");
 
 const sendVerificationEmail = () => {
@@ -154,6 +161,19 @@ const handleUpdateEmail = (email: string, setUser: (arg: any) => void) => {
 
 const handleDelAcc = () => {
   const user = auth.currentUser;
+  const profilePicRef = ref(
+    storage,
+    `${process.env.BUCKET}/files/${user?.uid}/profilePic`
+  );
+
+  deleteObject(profilePicRef)
+    .then((res) => {
+      console.log(res);
+      console.log("File Deleted Successfully!");
+    })
+    .catch((err) => {
+      console.log("Error while deleting file:", err);
+    });
   user
     ?.delete()
     .then(() => {
@@ -215,6 +235,29 @@ const handleSignUp = async (
   createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
+      console.log(user);
+      const userDoc = doc(db, "users", user?.uid);
+      setDoc(userDoc, {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      })
+        .then(() => console.log("Added User Doc!"))
+        .catch((err) => console.log("Error while adding User Doc", err));
+      // const chatDoc = doc(userDoc, "chats", user.uid + user.uid);
+      // const msgsRef = collection(chatDoc, "messages");
+      // const id = generateRandomString(20);
+      // const msgDoc = doc(msgsRef, id);
+      // await setDoc(msgDoc, {
+      //   messageContent: "Welcome to ChatHive.",
+      //   messageType: "text",
+      //   senderID: id,
+      //   time: serverTimestamp(),
+      //   username: "ChatHive",
+      // })
+      //   .then(() => console.log("Added Dummy Message!"))
+      //   .catch((err) => console.log("Error while adding dummy message.", err));
+
       return await updateProfile(user, {
         displayName: displayName,
         photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
@@ -223,7 +266,7 @@ const handleSignUp = async (
     .then(async () => {
       const userData = await auth.currentUser;
       //@ts-ignore
-      sendEmailVerification(userData).then(() => {
+      sendEmailVerification(userData).then(async () => {
         console.log("Verification Email sent from SignUp");
       });
       const user = { ...userData };
@@ -306,7 +349,46 @@ const googleSignIn = () => {
     });
 };
 
-const handleFile = async (e: any, setIsLoading: (arg: Boolean) => void) => {
+const addFileMsg = async (
+  fileInfo: any,
+  uid: string,
+  name: string,
+  chatId: string
+) => {
+  const messageContent = { ...fileInfo };
+  const messageType = "file";
+  const senderId = uid;
+  const time = serverTimestamp();
+  const username = name;
+  const id = generateRandomString(20);
+
+  const userDoc = doc(db, "users", uid);
+  const chatDoc = doc(userDoc, "chats", chatId);
+  const msgsRef = collection(chatDoc, "messages");
+  const docRef = doc(msgsRef, id);
+
+  await setDoc(docRef, {
+    messageContent,
+    messageType,
+    senderId,
+    time,
+    username,
+  })
+    .then(() => {
+      console.log("Document added successfully!");
+    })
+    .catch((err) => {
+      console.error("Error while adding document:", err);
+    });
+};
+
+const handleFile = async (
+  e: any,
+  setIsLoading: (arg: any) => void,
+  uid: string,
+  name: string,
+  chatId: string
+) => {
   const files = e.target.files;
   const maxFiles = 3;
   if (files.length > maxFiles) {
@@ -344,14 +426,10 @@ const handleFile = async (e: any, setIsLoading: (arg: Boolean) => void) => {
               fileName: fileMeta.name,
               fileSize: fileMeta.size,
               fileType: fileMeta.contentType,
-              fileUrl: url,
+              fileURL: url,
             };
 
-            await addDoc(collectionRef, fileInfo)
-              .then((docRef) =>
-                console.log("Stored info in Firestore document : ", docRef.id)
-              )
-              .catch((err) => console.log(err));
+            addFileMsg(fileInfo, uid, name, chatId);
           });
         }
       );
@@ -388,10 +466,125 @@ const handleForgotPassword = async (formikProps: any) => {
 
 const addFeedback = async (name: string, email: string, msg: string) => {
   await addDoc(feedbackRef, { name, email, msg })
-    .then((docRef) => alert("Feedback Sent!"))
+    .then(() => alert("Feedback Sent!"))
     .catch((err) =>
       console.log("Error while adding Feedback in Firestore", err)
     );
+};
+
+const handleDelMsg = async (uid: string, chatId: string, msgId: string) => {
+  const userDoc = doc(db, "users", uid);
+  const chatRef = doc(userDoc, "chats", chatId);
+  const msgRef = doc(chatRef, "messages", msgId);
+  await deleteDoc(msgRef)
+    .then(() => alert("Message Deleted Successfully!"))
+    .catch((err) => console.log("Error while Deleting Message", err));
+};
+
+const addTextMsg = async (
+  msg: string,
+  uid: string,
+  name: string,
+  chatId: string
+) => {
+  const messageContent = msg;
+  const messageType = "text";
+  const senderId = uid;
+  const time = serverTimestamp();
+  const username = name;
+  const id = generateRandomString(20);
+
+  const userDoc = doc(db, "users", uid);
+  const chatsRef = collection(userDoc, "chats");
+  const chatsDoc = doc(chatsRef, chatId);
+  const msgsRef = collection(chatsDoc, "messages");
+  const docRef = doc(msgsRef, id);
+
+  await setDoc(docRef, {
+    messageType,
+    messageContent,
+    senderId,
+    time,
+    username,
+  })
+    .then(() => {
+      console.log("Document added successfully!");
+    })
+    .catch((err) => {
+      console.error("Error while adding document:", err);
+    });
+};
+
+const handleGifSubmit = async (
+  src: string,
+  uid: string,
+  name: string,
+  chatId: string
+) => {
+  console.log(src);
+  const messageContent = src;
+  const messageType = "gif";
+  const senderId = uid;
+  const time = serverTimestamp();
+  const username = name;
+  const id = generateRandomString(20);
+
+  const userDoc = doc(db, "users", uid);
+  const chatsRef = collection(userDoc, "chats");
+  const chatsDoc = doc(chatsRef, chatId);
+  const msgsRef = collection(chatsDoc, "messages");
+  const docRef = doc(msgsRef, id);
+
+  await setDoc(docRef, {
+    messageType,
+    messageContent,
+    senderId,
+    time,
+    username,
+  })
+    .then(() => {
+      console.log("Document added successfully!");
+    })
+    .catch((err) => {
+      console.error("Error while adding document:", err);
+    });
+};
+
+const deleteFile = async (fileName: string) => {
+  const fileRef = ref(storage, `${process.env.BUCKET}/files/${fileName}`);
+
+  await deleteObject(fileRef)
+    .then((res) => {
+      console.log(res);
+      console.log("File Deleted Successfully!");
+    })
+    .catch((err) => {
+      console.log("Error while deleting file:", err);
+    });
+};
+
+const downloadFile = (fileInfo: any) => {
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = "blob";
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        var blob = xhr.response;
+        var a = document.createElement("a");
+        a.href = window.URL.createObjectURL(blob);
+        a.download = fileInfo.fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } else if (xhr.status === 404) {
+        console.log("File Not Found");
+      } else if (xhr.status === 0) {
+        console.log("Network Disconnected");
+      }
+    }
+  };
+  xhr.open("GET", fileInfo.fileURL);
+  xhr.send();
 };
 
 export {
@@ -410,4 +603,9 @@ export {
   handleDelAcc,
   sendVerificationEmail,
   addFeedback,
+  handleDelMsg,
+  addTextMsg,
+  handleGifSubmit,
+  deleteFile,
+  downloadFile,
 };

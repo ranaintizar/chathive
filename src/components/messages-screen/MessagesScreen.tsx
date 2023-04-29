@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 
+import { db } from "@/pages/api/firebase";
 import Header from "components/header";
 import MsgDisplayer from "components/message-displayer";
 import EmptyScreen from "components/empty-screen";
+import Sidebar from "components/sidebar";
 
 import stl from "./MessagesScreen.module.scss";
-
 interface Props {
   theme: string;
   messages: Array<Object>;
@@ -14,7 +22,50 @@ interface Props {
   toggleTheme: () => void;
 }
 
-const MessagesScreen = ({ theme, messages, myId, toggleTheme }: Props) => {
+const MessagesScreen = ({ theme, myId, toggleTheme }: Props) => {
+  const [chats, setChats] = React.useState([]);
+  const [chatId, setChatId] = React.useState("dsfasdf");
+  const [messages, setMessages] = React.useState([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const userRef = doc(db, "users", myId);
+      const chatsRef = collection(userRef, "chats");
+      onSnapshot(chatsRef, (snapshot) => {
+        //@ts-ignore
+        let chatArray = [];
+        snapshot.docs.map((doc, i) =>
+          chatArray.push({
+            displayName: doc.data().chatName,
+            chatId: doc.id,
+            src: doc.data().chatPhoto,
+            message: "This is Last Message from this",
+            key: i,
+          })
+        );
+        //@ts-ignore
+        setChats(chatArray);
+      });
+    }, 1000);
+  }, [myId]);
+
+  useEffect(() => {
+    const userDoc = doc(db, "users", myId);
+    const chatsRef = collection(userDoc, "chats");
+    const chatDoc = doc(chatsRef, chatId);
+    const msgRef = collection(chatDoc, "messages");
+    const sortedMsgs = query(msgRef, orderBy("time", "asc"));
+    onSnapshot(sortedMsgs, (snapshot) => {
+      //@ts-ignore
+      let msgsArray = [];
+      snapshot.docs.map((doc, i) =>
+        msgsArray.push({ ...doc.data(), id: doc.id, key: i })
+      );
+      //@ts-ignore
+      setMessages(msgsArray);
+    });
+  }, [chatId]);
+
   return (
     <div
       className={clsx(
@@ -22,15 +73,29 @@ const MessagesScreen = ({ theme, messages, myId, toggleTheme }: Props) => {
         theme === "dark" ? stl.darkMsgScreen : undefined
       )}
     >
-      <Header
-        toggleTheme={toggleTheme}
-        themeBtn={true}
+      <Sidebar
+        chats={chats}
         theme={theme}
-        customClass={stl.header}
+        handleChatClick={(item) => setChatId(item.chatId)}
       />
-      {(messages && (
-        <MsgDisplayer theme={theme} messages={messages} myId={myId} />
-      )) || <EmptyScreen />}
+      <div className={stl.messages}>
+        <Header
+          title="Chat Name"
+          toggleTheme={toggleTheme}
+          themeBtn={true}
+          theme={theme}
+          titleCenter={true}
+          customClass={stl.header}
+        />
+        {(messages.length !== 0 && (
+          <MsgDisplayer
+            theme={theme}
+            messages={messages}
+            myId={myId}
+            chatId={chatId}
+          />
+        )) || <EmptyScreen />}
+      </div>
     </div>
   );
 };

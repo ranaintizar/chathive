@@ -10,7 +10,7 @@ import stl from "./Header.module.scss";
 
 interface Props {
   theme: string;
-  title: string;
+  title?: string;
   list: Array<string>;
   backBtn: Boolean;
   customElement?: JSX.Element;
@@ -51,9 +51,13 @@ const Header = ({
             <BackIcon />
           </div>
         ) : undefined}
-        <span className={clsx(stl.title, titleCenter ? stl.center : undefined)}>
-          {title}
-        </span>
+        {title && (
+          <span
+            className={clsx(stl.title, titleCenter ? stl.center : undefined)}
+          >
+            {title}
+          </span>
+        )}
       </div>
       {themeBtn ? (
         <div className={stl.themeBtn}>
@@ -84,7 +88,6 @@ const Header = ({
 };
 
 Header.defaultProps = {
-  title: "Messages",
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
   backBtn: false,
   handleBackBtn: () => console.log("Back Btn Clicked..."),

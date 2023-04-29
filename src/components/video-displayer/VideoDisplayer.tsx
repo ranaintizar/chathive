@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import {
+  deleteFile,
+  downloadFile,
+  handleDelMsg,
+} from "src/lib/firebaseFunctions";
 import PlayIcon from "assets/play.svg";
 import PauseIcon from "assets/pause.svg";
 import MoreBtn from "components/more-btn/MoreBtn";
@@ -7,11 +12,39 @@ import Dropdown from "components/dropdown";
 
 import stl from "./VideoDisplayer.module.scss";
 
-const VideoDisplayer = ({ theme, swap, src, type }: any) => {
+interface Props {
+  theme: string;
+  swap: Boolean;
+  src: string;
+  type: string;
+  chatId: string;
+  msgId: string;
+  fileInfo: any;
+}
+
+const VideoDisplayer = ({
+  theme,
+  swap,
+  src,
+  type,
+  chatId,
+  msgId,
+  fileInfo,
+}: Props) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [content, setContent] = React.useState(<PlayIcon />);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [uid, setUID] = React.useState("");
+
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUID(user.uid);
+    setTimeout(() => setIsLoading(false), 1000);
+  }, []);
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -32,27 +65,21 @@ const VideoDisplayer = ({ theme, swap, src, type }: any) => {
     setIsPlaying(false);
   };
 
-  const handleOptions = (itemName: string) => {
-    if (itemName === "Delete") {
-      console.log("Delete Video");
-    } else if (itemName === "Download") {
-      console.log("Download Video");
+  const handleListItemClick = (item: string) => {
+    if (item === "Delete") {
+      deleteFile(fileInfo.fileName);
+      handleDelMsg(uid, chatId, msgId);
+    } else if (item === "Download") {
+      downloadFile(fileInfo);
     }
   };
 
-  const handleHover = () => {
-    setIsVisible(true);
-    console.log("Hovering...");
-  };
-  const handleBlur = () => {
-    setIsVisible(false);
-    console.log("Not Hovering...");
-  };
-
-  return (
+  return isLoading ? (
+    <div></div>
+  ) : (
     <div
-      onMouseEnter={handleHover}
-      onMouseLeave={handleBlur}
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
       className={stl.videoPlayer}
     >
       {swap ? (
@@ -73,14 +100,14 @@ const VideoDisplayer = ({ theme, swap, src, type }: any) => {
           <Dropdown
             theme={theme}
             list={["Delete", "Download"]}
-            transformOrigin="top left"
+            transformOrigin="top right"
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
             top="50%"
-            left="96%"
+            left="-23%"
             width={120}
             height={100}
-            handleListItemClick={handleOptions}
+            handleListItemClick={handleListItemClick}
           />
         </>
       ) : (
@@ -104,11 +131,11 @@ const VideoDisplayer = ({ theme, swap, src, type }: any) => {
             transformOrigin="top left"
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
-            top="50%"
-            left="96%"
+            top="49.5%"
+            left="94%"
             width={120}
             height={100}
-            handleListItemClick={handleOptions}
+            handleListItemClick={handleListItemClick}
           />
         </>
       )}
