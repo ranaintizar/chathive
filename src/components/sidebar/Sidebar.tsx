@@ -15,9 +15,18 @@ interface Props {
   chats: Array<Object>;
   handleChatClick: (arg: any) => void;
   setShowMsgs: (arg: Boolean) => void;
+  lastMsgs: Array<any>;
+  myId: string;
 }
 
-const Sidebar = ({ theme, chats, handleChatClick, setShowMsgs }: Props) => {
+const Sidebar = ({
+  theme,
+  chats,
+  handleChatClick,
+  setShowMsgs,
+  lastMsgs,
+  myId,
+}: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -59,13 +68,14 @@ const Sidebar = ({ theme, chats, handleChatClick, setShowMsgs }: Props) => {
         </div>
       ) : (
         <div className={stl.chatContainer}>
-          {chats.map((chat) => (
+          {chats.map((chat, i) => (
             <ChatItem
               handleOnClick={handleChatClick}
               data={chat}
+              msg={lastMsgs[i]}
               theme={theme}
-              //@ts-ignore
-              key={chat.key}
+              key={i}
+              myId={myId}
             />
           ))}
         </div>

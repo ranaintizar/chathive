@@ -29,6 +29,8 @@ const MsgDisplayer = ({ myId, theme, chatId, setTitle, isEmpty }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [messages, setMessages] = React.useState([]);
 
+  const myRef = React.useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setIsLoading(true);
     const chatsRef = collection(db, "chats");
@@ -48,21 +50,20 @@ const MsgDisplayer = ({ myId, theme, chatId, setTitle, isEmpty }: Props) => {
     });
   }, [chatId]);
 
-  const ref = React.useRef(null);
-
   useEffect(() => {
-    setTimeout(() => {
-      // @ts-ignore
-      ref.current.scrollTop = ref.current.scrollHeight;
-    }, 2000);
-  }, []);
+    isEmpty === false &&
+      setTimeout(() => {
+        //@ts-ignore
+        myRef.current.scrollTop = myRef.current?.scrollHeight;
+      }, 2000);
+  }, [messages]);
 
-  return (
+  return isEmpty ? (
+    <EmptyScreen />
+  ) : (
     <div className={stl.msgDisplayer}>
-      <div ref={ref} className={stl.msgContainer}>
-        {isEmpty ? (
-          <EmptyScreen />
-        ) : isLoading ? (
+      <div ref={myRef} className={stl.msgContainer}>
+        {isLoading ? (
           <div className={stl.loadingContainer}>
             <Spinner />
           </div>

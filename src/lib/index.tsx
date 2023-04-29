@@ -21,9 +21,12 @@ function formatDate(dateString: any) {
   }
 
   const now = moment();
+  const secondsAgo = now.diff(date, "seconds");
   const minutesAgo = now.diff(date, "minutes");
 
-  if (minutesAgo < 60) {
+  if (secondsAgo < 60) {
+    return `${secondsAgo} sec ago`;
+  } else if (minutesAgo < 60) {
     return `${minutesAgo} min ago`;
   } else if (date.hours() >= 12) {
     return date.format("h:mm A");

@@ -36,15 +36,6 @@ const VideoDisplayer = ({
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [uid, setUID] = React.useState("");
-
-  useEffect(() => {
-    const data = localStorage.getItem("user");
-    //@ts-ignore
-    const user = JSON.parse(data);
-    setUID(user.uid);
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -59,6 +50,10 @@ const VideoDisplayer = ({
     }
     setIsPlaying(!isPlaying);
   };
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 500);
+  }, []);
 
   const handleEnded = () => {
     setContent(<PlayIcon />);
