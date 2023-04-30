@@ -11,10 +11,21 @@ interface Props {
   myId: string;
   theme: string;
   chatId: string;
+  isLoading: Boolean;
+  setIsLoading: any;
 }
 
-const MsgDisplayer = ({ messages, myId, theme, chatId }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(true);
+const MsgDisplayer = ({
+  messages,
+  myId,
+  theme,
+  chatId,
+  isLoading,
+  setIsLoading,
+}: Props) => {
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000);
+  }, [isLoading]);
 
   const ref = React.useRef(null);
 
@@ -29,26 +40,30 @@ const MsgDisplayer = ({ messages, myId, theme, chatId }: Props) => {
     }, 1500);
   }, []);
 
-  return isLoading ? (
-    <div className={stl.loadingContainer}>
-      <Spinner />
-    </div>
-  ) : (
+  return (
     <div className={stl.msgDisplayer}>
       <div ref={ref} className={stl.msgContainer}>
-        {messages.map((msg: any, i: number) => (
-          <Message
-            theme={theme}
-            type={msg.messageType}
-            content={msg.messageContent}
-            senderId={msg.senderId}
-            time={msg.time}
-            index={i}
-            id={myId}
-            msgId={msg.id}
-            chatId={chatId}
-          />
-        ))}
+        {isLoading ? (
+          <div className={stl.loadingContainer}>
+            <Spinner />
+          </div>
+        ) : messages.length === 0 ? (
+          <div className={stl.noConvesation}>No Conversation Yet.</div>
+        ) : (
+          messages.map((msg: any, i: number) => (
+            <Message
+              theme={theme}
+              type={msg.messageType}
+              content={msg.messageContent}
+              senderId={msg.senderId}
+              time={msg.time}
+              index={i}
+              id={myId}
+              msgId={msg.id}
+              chatId={chatId}
+            />
+          ))
+        )}
       </div>
       <EnterMsg customClass={stl.enterMsg} theme={theme} chatId={chatId} />
     </div>

@@ -78,7 +78,8 @@ const PromptBox = ({
       <div className={stl.header}>
         {(name === "displayName" && "Change Your Name") ||
           (name === "email" && "Change Your Email") ||
-          (name === "password" && "Change Your Password")}
+          (name === "password" && "Change Your Password") ||
+          (name === "chat" && "Create Chat")}
       </div>
       <div className={stl.body}>
         <input
@@ -87,7 +88,8 @@ const PromptBox = ({
           placeholder={
             (name === "displayName" && "Enter New Name") ||
             (name === "email" && "Enter New Email") ||
-            (name === "password" && "Enter New Password")
+            (name === "password" && "Enter New Password") ||
+            (name === "chat" && "Enter Chat Name")
           }
           onChange={(e) => setValue(e.target.value)}
         />
@@ -110,6 +112,11 @@ const PromptBox = ({
                   .catch((err) => handleErr(err.message))) ||
               (name === "password" &&
                 passwordSchema
+                  .validate(value)
+                  .then(() => handleOkClick(value))
+                  .catch((err) => handleErr(err.message))) ||
+              (name === "chat" &&
+                nameSchema
                   .validate(value)
                   .then(() => handleOkClick(value))
                   .catch((err) => handleErr(err.message)));

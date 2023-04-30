@@ -6,12 +6,21 @@
   height: 100vh;
   border-right: 1px solid #dadce0;
   background: #fff;
+  z-index: 11;
 
   .chatBtn {
     position: absolute;
     z-index: 10;
     bottom: 3%;
     left: 5%;
+  }
+
+  .emptySidebar {
+    height: 100%;
+    padding: 1rem;
+    text-align: center;
+    @extend .alignCen;
+    font-size: 1.3rem;
   }
 
   .chatContainer {
@@ -26,6 +35,10 @@
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+
+  .prompt {
+    top: 45%;
   }
 }
 

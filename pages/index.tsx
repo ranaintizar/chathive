@@ -21,7 +21,7 @@ export default function Home() {
   const [theme, setTheme] = React.useState("light");
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(false);
-  const [id, setId] = React.useState("vXbaYZnp0NSCooY3t9l5");
+  const [id, setId] = React.useState("null");
   const [isVerified, setIsVerified] = React.useState(false);
 
   // const save = () => {
@@ -37,6 +37,7 @@ export default function Home() {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         setUser(true);
+        setId(authUser.uid);
         if (authUser?.emailVerified) {
           setIsVerified(true);
         } else {
@@ -110,9 +111,9 @@ export default function Home() {
             //   theme={theme}
             //   setIsVerified={setIsVerified}
             // />
-            // <MessagesScreen theme={theme} toggleTheme={toggleTheme} myId={id} />
-            <SettingScreen theme={theme} toggleTheme={toggleTheme} />
+            <MessagesScreen theme={theme} toggleTheme={toggleTheme} myId={id} />
           ) : (
+            // <SettingScreen theme={theme} toggleTheme={toggleTheme} />
             // <Data />
             <VerifyMsg email={auth.currentUser?.email} />
           )

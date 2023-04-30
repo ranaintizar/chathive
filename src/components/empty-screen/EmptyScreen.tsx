@@ -13,7 +13,7 @@ const EmptyScreen = () => {
         height={300}
         alt="Empty-Screen"
       />
-      <h2>No messages to show.</h2>
+      <h2>Select a chat from sidebar to view messages</h2>
     </div>
   );
 };

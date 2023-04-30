@@ -78,6 +78,11 @@
     top: 55%;
     right: 3%;
   }
+
+  .prompt {
+    top: 100%;
+    right: 0;
+  }
 }
 
 .darkChatItem {
@@ -90,13 +95,19 @@
     }
 
     .message {
-      color: #fff;
+      color: #fff !important;
     }
   }
 
   &:hover {
-    .left .info .title {
-      color: #16161a;
+    .left .info {
+      .title {
+        color: #16161a;
+      }
+
+      .message {
+        color: #333 !important;
+      }
     }
   }
 }
