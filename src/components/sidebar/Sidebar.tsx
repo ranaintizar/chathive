@@ -36,7 +36,6 @@ const Sidebar = ({
 
   const handleOptions = (item: string) => {
     if (item === "Settings") {
-      console.log("Got It");
       setShowMsgs(false);
     }
   };

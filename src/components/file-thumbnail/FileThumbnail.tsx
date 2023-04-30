@@ -1,5 +1,10 @@
 import React from "react";
 
+import {
+  deleteFile,
+  handleDelMsg,
+  downloadFile,
+} from "src/lib/firebaseFunctions";
 import MoreBtn from "components/more-btn/MoreBtn";
 import Dropdown from "components/dropdown";
 import Icon from "assets/file.svg";
@@ -10,35 +15,13 @@ interface Props {
   theme: string;
   fileInfo: any;
   left: Boolean;
+  chatId: string;
+  msgId: string;
 }
 
-const FileThumbnail = ({ theme, fileInfo, left }: Props) => {
+const FileThumbnail = ({ theme, fileInfo, left, chatId, msgId }: Props) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
-
-  const downloadFile = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = "blob";
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var blob = xhr.response;
-          var a = document.createElement("a");
-          a.href = window.URL.createObjectURL(blob);
-          a.download = fileInfo.fileName;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } else if (xhr.status === 404) {
-          console.log("File Not Found");
-        } else if (xhr.status === 0) {
-          console.log("Network Disconnected");
-        }
-      }
-    };
-    xhr.open("GET", fileInfo.fileUrl);
-    xhr.send();
-  };
 
   const formatBytes = () => {
     const KB = 1024;
@@ -53,9 +36,18 @@ const FileThumbnail = ({ theme, fileInfo, left }: Props) => {
     }
   };
 
+  const handleListItemClick = (item: string) => {
+    if (item === "Delete") {
+      deleteFile(fileInfo.fileName);
+      handleDelMsg(chatId, msgId);
+    } else if (item === "Download") {
+      downloadFile(fileInfo);
+    }
+  };
+
   const File = () => {
     return (
-      <div className={stl.fileThumbnail} onClick={downloadFile}>
+      <div className={stl.fileThumbnail}>
         <Icon />
         <span className={stl.size}>{formatBytes()}</span>
       </div>
@@ -90,8 +82,8 @@ const FileThumbnail = ({ theme, fileInfo, left }: Props) => {
             theme={theme}
             width={140}
             height={110}
-            handleListItemClick={(item) => console.log(item)}
-            list={["Option 1", "Option 2"]}
+            handleListItemClick={handleListItemClick}
+            list={["Delete", "Download"]}
           />
           <File />
         </>
@@ -107,8 +99,8 @@ const FileThumbnail = ({ theme, fileInfo, left }: Props) => {
             theme={theme}
             width={140}
             height={110}
-            handleListItemClick={(item) => console.log(item)}
-            list={["Option 1", "Option 2"]}
+            handleListItemClick={handleListItemClick}
+            list={["Delete", "Download"]}
           />
           <MoreOpt handleOnClick={() => setShowDropdown(true)} />
         </>
