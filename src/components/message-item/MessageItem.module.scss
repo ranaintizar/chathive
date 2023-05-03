@@ -25,13 +25,7 @@
 
 @media screen and (max-width: 768px) {
   .container {
-    max-width: calc(70% + 40px);
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .container {
-    max-width: 80%;
+    max-width: 350px;
   }
 }
 

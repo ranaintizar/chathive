@@ -10,8 +10,11 @@ const generateRandomString = (length: number) => {
   return result;
 };
 
-function formatDate(dateString: string) {
-  const date = moment(dateString, "DD MMM YYYY [at] HH:mm:ss [UTC]ZZ");
+function formatDate(dateString: any) {
+  const date = moment(
+    dateString?.toDate(),
+    "DD MMM YYYY [at] HH:mm:ss [UTC]ZZ"
+  );
 
   if (!date.isValid()) {
     return "Invalid Date";

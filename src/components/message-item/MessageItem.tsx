@@ -90,7 +90,7 @@ const MessageItem = ({
 
   const handleListItemClick = (item: string) => {
     if (item === "Delete") {
-      handleDelMsg(uid, chatId, msgId);
+      handleDelMsg(chatId, msgId);
     } else if (item === "Copy Text") {
       handleCopy();
     }
