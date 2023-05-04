@@ -14,20 +14,23 @@ interface Props {
   theme: string;
   chats: Array<Object>;
   handleChatClick: (arg: any) => void;
+  setShowMsgs: (arg: Boolean) => void;
 }
 
-const Sidebar = ({ theme, chats, handleChatClick }: Props) => {
+const Sidebar = ({ theme, chats, handleChatClick, setShowMsgs }: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [uid, setUID] = React.useState("");
 
   useEffect(() => {
-    const data = localStorage.getItem("user");
-    //@ts-ignore
-    const user = JSON.parse(data);
-    setUID(user.uid);
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
+
+  const handleOptions = (item: string) => {
+    if (item === "Settings") {
+      console.log("Got It");
+      setShowMsgs(false);
+    }
+  };
 
   return (
     <div
@@ -36,7 +39,12 @@ const Sidebar = ({ theme, chats, handleChatClick }: Props) => {
         theme === "dark" ? stl.darkSidebar : undefined
       )}
     >
-      <Header title="Chats" theme={theme} />
+      <Header
+        title="Chats"
+        theme={theme}
+        list={["Settings", "Option 2", "Option 3", "Option 4"]}
+        handleListItemClick={handleOptions}
+      />
       <StartChatBtn
         customClass={stl.chatBtn}
         startChatHandler={() => setIsVisible(true)}

@@ -12,9 +12,10 @@ import stl from "./SettingSidebar.module.scss";
 interface Props {
   theme: string;
   handleOnClick: (arg: string) => void;
+  setShowMsgs: (arg: Boolean) => void;
 }
 
-const SettingSidebar = ({ theme, handleOnClick }: Props) => {
+const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
   const [isSelected, setIsSelected] = React.useState("profile");
 
   return (
@@ -29,6 +30,7 @@ const SettingSidebar = ({ theme, handleOnClick }: Props) => {
         titleCenter={true}
         theme={theme}
         backBtn={true}
+        handleBackBtn={() => setShowMsgs(true)}
         dropdown={false}
       />
       <div className={stl.options}>

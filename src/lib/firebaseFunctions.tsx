@@ -410,8 +410,11 @@ const handleFile = async (
     alert(`Please select up to ${maxFiles} files.`);
   } else if (files.length <= maxFiles) {
     for (let i = 0; i < files.length; i++) {
-      setIsLoading(true);
       const file = files[i];
+      if (file.size > 25 * 1024 * 1024) {
+        alert("File is too large. Maximum file size is 25MB");
+        return;
+      }
 
       const storageRef = ref(
         storage,

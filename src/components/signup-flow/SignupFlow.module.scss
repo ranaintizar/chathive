@@ -3,7 +3,7 @@
 .signupFlow {
   position: relative;
   min-width: 100%;
-  min-height: 100%;
+  height: 100vh;
   padding: 1rem;
   @extend .flexCenter;
   background: #667db6; /* fallback for old browsers */
