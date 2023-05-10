@@ -37,6 +37,8 @@ const ProfileSettings = ({ theme }: Props) => {
     });
   }, []);
 
+  console.log(user.photoURL, "this from Profile");
+
   const handleUploadPhoto = () => {
     const input = document.getElementById("uploadProfPic");
     input?.click();
