@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
+import React from "react";
 import clsx from "clsx";
 
 import { handleDelChat, updateChatName } from "src/lib/firebaseFunctions";
@@ -42,13 +41,6 @@ const ChatItem = ({ theme, data, handleOnClick }: Props) => {
         theme === "dark" ? stl.darkChatItem : undefined
       )}
     >
-      {/* <Image
-        src={data.src}
-        width={45}
-        height={45}
-        alt="profile-img"
-        className={stl.avatar}
-      /> */}
       <div className={stl.left}>
         <div onClick={() => handleOnClick(data)} className={stl.info}>
           <span className={stl.title}>{data.chatName}</span>

@@ -11,7 +11,6 @@ import {
 import { db } from "@/pages/api/firebase";
 import Header from "components/header";
 import MsgDisplayer from "components/message-displayer";
-import EmptyScreen from "components/empty-screen";
 import Sidebar from "components/sidebar";
 
 import stl from "./MessagesScreen.module.scss";
@@ -25,10 +24,8 @@ interface Props {
 const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
   const [chats, setChats] = React.useState([]);
   const [chatId, setChatId] = React.useState("dsfasdf");
-  const [messages, setMessages] = React.useState([]);
-  const [isEmpty, setIsEmpty] = React.useState(true);
   const [title, setTitle] = React.useState("Messages");
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isEmpty, setIsEmpty] = React.useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -50,22 +47,6 @@ const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
     }, 1000);
   }, [myId]);
 
-  useEffect(() => {
-    const chatsRef = collection(db, "chats");
-    const chatDoc = doc(chatsRef, chatId);
-    const msgRef = collection(chatDoc, "messages");
-    const sortedMsgs = query(msgRef, orderBy("time", "asc"));
-    onSnapshot(sortedMsgs, (snapshot) => {
-      //@ts-ignore
-      let msgsArray = [];
-      snapshot.docs.map((doc, i) =>
-        msgsArray.push({ ...doc.data(), id: doc.id, key: i })
-      );
-      //@ts-ignore
-      setMessages(msgsArray);
-    });
-  }, [chatId]);
-
   return (
     <div
       className={clsx(
@@ -78,9 +59,7 @@ const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
         theme={theme}
         handleChatClick={(item) => {
           setChatId(item.chatId);
-          setTitle(item.chatName);
           setIsEmpty(false);
-          setIsLoading(true);
         }}
         setShowMsgs={setShowMsgs}
       />
@@ -93,18 +72,13 @@ const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
         customClass={stl.header}
       />
       <div className={stl.messages}>
-        {isEmpty ? (
-          <EmptyScreen />
-        ) : (
-          <MsgDisplayer
-            theme={theme}
-            messages={messages}
-            myId={myId}
-            chatId={chatId}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-          />
-        )}
+        <MsgDisplayer
+          theme={theme}
+          myId={myId}
+          chatId={chatId}
+          setTitle={setTitle}
+          isEmpty={isEmpty}
+        />
       </div>
     </div>
   );
