@@ -25,10 +25,6 @@ const MsgDisplayer = ({
   isLoading,
   setIsLoading,
 }: Props) => {
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, [isLoading]);
-
   const ref = React.useRef(null);
 
   useEffect(() => {
@@ -54,6 +50,7 @@ const MsgDisplayer = ({
         ) : (
           messages.map((msg: any, i: number) => (
             <div
+              key={i}
               className={clsx(
                 stl.msgInfo,
                 msg.senderId !== myId && stl.msgInfoRt
@@ -69,7 +66,6 @@ const MsgDisplayer = ({
                 type={msg.messageType}
                 content={msg.messageContent}
                 senderId={msg.senderId}
-                time={msg.time}
                 index={i}
                 id={myId}
                 msgId={msg.id}

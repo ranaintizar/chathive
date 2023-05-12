@@ -19,15 +19,7 @@ interface Props {
 const ChatItem = ({ theme, data, handleOnClick }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [uid, setUID] = React.useState("");
   const [isPromptVisible, setIsPromptVisible] = React.useState(false);
-
-  useEffect(() => {
-    const data = localStorage.getItem("user");
-    //@ts-ignore
-    const user = JSON.parse(data);
-    setUID(user.uid);
-  });
 
   const dropDownRef = React.useRef();
 
