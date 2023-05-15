@@ -1,0 +1,105 @@
+@import "styles/common";
+
+.toast {
+  @extend .alignCen;
+  max-width: 320px;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #6b7280;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
+
+  .srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .iconContainer {
+    @extend .flexCenter;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 8px;
+  }
+
+  .text {
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .button {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    margin: -6px;
+    margin-left: auto;
+    background: #fff;
+    color: #9ca3af;
+    border-radius: 8px;
+    padding: 6px;
+    cursor: pointer;
+
+    &:hover {
+      color: #111827;
+      background-color: #f3f4f6;
+    }
+  }
+}
+
+.darkToast {
+  color: #9ca3af;
+  background-color: #1f2937;
+
+  .button {
+    color: #6b7280;
+    background-color: #1f2937;
+
+    &:hover {
+      color: #fff;
+      background-color: #374151;
+    }
+  }
+}
+
+.successLight {
+  .iconContainer {
+    color: #22c55e;
+    background-color: #dcfce7;
+  }
+}
+
+.successDark {
+  .iconContainer {
+    color: #bbf7d0;
+    background-color: #166534;
+  }
+}
+
+.failedLight {
+  .iconContainer {
+    color: #ef4444;
+    background-color: #fee2e2;
+  }
+}
+
+.failedDark {
+  .iconContainer {
+    color: #fecaca;
+    background-color: #991b1b;
+  }
+}
