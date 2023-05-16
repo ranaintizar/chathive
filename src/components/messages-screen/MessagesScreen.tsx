@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
+import { makeToastEmpty } from "src/lib/firebaseFunctions";
 import { db } from "@/pages/api/firebase";
 import Header from "components/header";
 import MsgDisplayer from "components/message-displayer";
 import Sidebar from "components/sidebar";
+import Toast from "components/toast";
 
 import stl from "./MessagesScreen.module.scss";
 interface Props {
@@ -19,9 +15,16 @@ interface Props {
   myId: string;
   toggleTheme: () => void;
   setShowMsgs: any;
+  toastMsg: any;
 }
 
-const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
+const MessagesScreen = ({
+  theme,
+  myId,
+  toggleTheme,
+  setShowMsgs,
+  toastMsg,
+}: Props) => {
   const [chats, setChats] = React.useState([]);
   const [chatId, setChatId] = React.useState("dsfasdf");
   const [title, setTitle] = React.useState("Messages");
@@ -80,6 +83,13 @@ const MessagesScreen = ({ theme, myId, toggleTheme, setShowMsgs }: Props) => {
           isEmpty={isEmpty}
         />
       </div>
+      <Toast
+        theme={theme}
+        variant={toastMsg.variant}
+        text={toastMsg.text}
+        isVisible={toastMsg.text !== ""}
+        handleClose={makeToastEmpty}
+      />
     </div>
   );
 };

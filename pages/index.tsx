@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
+import { doc, onSnapshot } from "firebase/firestore";
 
-import { auth } from "./api/firebase";
+import { auth, db } from "./api/firebase";
 import SignupFlow from "components/signup-flow";
 import Spinner from "components/spinner";
 import MessagesScreen from "components/messages-screen";
 import VerifyMsg from "components/verify-msg";
 import SettingScreen from "components/settings-screen";
-import Toast from "components/toast";
 import ToggleThemeBtn from "components/toggle-theme-btn";
 
 export default function Home() {
@@ -17,11 +17,7 @@ export default function Home() {
   const [id, setId] = React.useState("null");
   const [isVerified, setIsVerified] = React.useState(false);
   const [showMsgs, setShowMsgs] = React.useState(true);
-  const [isVisible, setIsVisible] = React.useState(true);
-
-  // useEffect(() => {
-  //   setTimeout(() => setIsVisible(false), 3000);
-  // }, []);
+  const [toastMsg, setToastMsg] = React.useState({});
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -43,6 +39,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const toastDoc = doc(db, "toast", "Zr41YsymL2m0Y26ShAnZ");
+    onSnapshot(toastDoc, (doc) => {
+      //@ts-ignore
+      setToastMsg(doc.data());
+    });
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
@@ -65,37 +66,25 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/favicon.ico" />
       </Head>
-      <main
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <main>
         {isLoading ? (
           <Spinner spinnerColor="#fff" />
         ) : user ? (
           isVerified ? (
             showMsgs ? (
-              // <MessagesScreen
-              //   theme={theme}
-              //   toggleTheme={toggleTheme}
-              //   myId={id}
-              //   setShowMsgs={setShowMsgs}
-              // />
-              <Toast
+              <MessagesScreen
                 theme={theme}
-                variant="failed"
-                text="Item moved successfully."
-                isVisible={isVisible}
-                setIsVisible={setIsVisible}
+                toggleTheme={toggleTheme}
+                myId={id}
+                setShowMsgs={setShowMsgs}
+                toastMsg={toastMsg}
               />
             ) : (
               <SettingScreen
                 theme={theme}
                 toggleTheme={toggleTheme}
                 setShowMsgs={setShowMsgs}
+                toastMsg={toastMsg}
               />
             )
           ) : (
