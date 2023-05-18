@@ -26,14 +26,6 @@ const MessageItem = ({
 }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [uid, setUID] = React.useState("");
-
-  useEffect(() => {
-    const data = localStorage.getItem("user");
-    //@ts-ignore
-    const user = JSON.parse(data);
-    setUID(user.uid);
-  }, []);
 
   const Message = () => {
     return (
@@ -132,7 +124,7 @@ const MessageItem = ({
             list={["Delete", "Copy Text"]}
             width={130}
             height={110}
-            handleListItemClick={(item) => console.log(item)}
+            handleListItemClick={handleListItemClick}
           />
           <MoreOpt />
         </>

@@ -30,19 +30,7 @@ const Message = ({
   index,
   chatId,
 }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [src, setSrc] = React.useState("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSrc(content.fileURL);
-    }, 1000);
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  return isLoading ? (
-    <div></div>
-  ) : (
+  return (
     <div
       key={index}
       className={clsx(stl.msg, senderId === id ? stl.right : stl.left)}
@@ -70,7 +58,7 @@ const Message = ({
           ((content.fileType.includes("image") && (
             <ImageDisplayer
               swap={senderId === id}
-              src={src}
+              src={content.fileURL}
               theme={theme}
               msgId={msgId}
               chatId={chatId}
@@ -81,7 +69,7 @@ const Message = ({
               <VideoDisplayer
                 swap={senderId === id}
                 theme={theme}
-                src={src}
+                src={content.fileURL}
                 msgId={msgId}
                 chatId={chatId}
                 fileInfo={content}

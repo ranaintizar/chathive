@@ -8,7 +8,6 @@ import Spinner from "components/spinner";
 import MessagesScreen from "components/messages-screen";
 import VerifyMsg from "components/verify-msg";
 import SettingScreen from "components/settings-screen";
-import ToggleThemeBtn from "components/toggle-theme-btn";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -93,7 +92,6 @@ export default function Home() {
         ) : (
           <SignupFlow toggleTheme={toggleTheme} theme={theme} />
         )}
-        <ToggleThemeBtn handleOnClick={toggleTheme} />
       </main>
     </>
   );

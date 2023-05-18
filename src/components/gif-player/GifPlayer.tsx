@@ -27,14 +27,6 @@ const GifPlayer = ({
   const [playCount, setPlayCount] = React.useState(0);
   const [isVisible, setIsVisible] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
-  const [uid, setUID] = React.useState("");
-
-  useEffect(() => {
-    const data = localStorage.getItem("user");
-    //@ts-ignore
-    const user = JSON.parse(data);
-    setUID(user.uid);
-  }, []);
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -56,7 +48,6 @@ const GifPlayer = ({
   const handleListItemClick = (item: string) => {
     if (item === "Delete") {
       handleDelMsg(chatId, msgId);
-      console.log(msgId);
     }
   };
 

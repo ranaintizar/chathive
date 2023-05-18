@@ -13,9 +13,11 @@ interface Props {
   data: any;
   theme: string;
   handleOnClick: (arg: any) => void;
+  msg: any;
+  myId: string;
 }
 
-const ChatItem = ({ theme, data, handleOnClick }: Props) => {
+const ChatItem = ({ theme, data, msg, handleOnClick, myId }: Props) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
   const [isPromptVisible, setIsPromptVisible] = React.useState(false);
@@ -45,7 +47,12 @@ const ChatItem = ({ theme, data, handleOnClick }: Props) => {
         <div onClick={() => handleOnClick(data)} className={stl.info}>
           <span className={stl.title}>{data.chatName}</span>
           <span className={stl.row2}>
-            <span className={stl.message}>{data.message}</span>
+            <span className={stl.message}>
+              {(msg?.senderId === myId && "You:") || msg?.username + ":"}{" "}
+              {(msg?.messageType === "text" && msg?.messageContent) ||
+                (msg?.messageType === "gif" && "Gif") ||
+                (msg?.messageType === "file" && "File")}
+            </span>
           </span>
         </div>
       </div>

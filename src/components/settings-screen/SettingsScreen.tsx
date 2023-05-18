@@ -54,9 +54,9 @@ const SettingScreen = ({
       />
       <Toast
         theme={theme}
-        variant={toastMsg.variant}
-        text={toastMsg.text}
-        isVisible={toastMsg.text !== ""}
+        variant={toastMsg?.variant}
+        text={toastMsg?.text}
+        isVisible={toastMsg?.text !== ""}
         handleClose={makeToastEmpty}
       />
     </div>
