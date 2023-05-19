@@ -104,7 +104,6 @@ const GifPlayer = ({
             onClick={() => {
               setPlayCount(0);
               videoRef.current?.play();
-              console.log("CLied");
             }}
             style={{
               width: width + "px",

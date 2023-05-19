@@ -80,6 +80,8 @@ const Message = ({
                 left={senderId === id}
                 theme={theme}
                 fileInfo={content}
+                chatId={chatId}
+                msgId={msgId}
               />
             ))) ||
         undefined}
