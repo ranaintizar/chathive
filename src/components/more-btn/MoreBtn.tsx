@@ -12,23 +12,21 @@ interface Props {
   handleOnClick: () => void;
 }
 
-const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => {
-  return (
-    <div
-      onClick={handleOnClick}
-      style={visible ? { opacity: 1 } : { opacity: 0 }}
-      className={clsx(
-        stl.btnContainer,
-        theme === "dark" ? stl.darkBtn : undefined,
-        customClass
-      )}
-    >
-      <button className={stl.button}>
-        <MoreIcon />
-      </button>
-    </div>
-  );
-};
+const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => (
+  <div
+    onClick={handleOnClick}
+    style={visible ? { opacity: 1 } : { opacity: 0 }}
+    className={clsx(
+      stl.btnContainer,
+      theme === "dark" ? stl.darkBtn : undefined,
+      customClass
+    )}
+  >
+    <button className={stl.button}>
+      <MoreIcon />
+    </button>
+  </div>
+);
 
 MoreBtn.defaultProps = {
   handleOnClick: () => console.log("Clicked..."),

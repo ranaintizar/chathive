@@ -32,37 +32,35 @@ const AlertBox = ({
   btnCustomClass,
   handleCancel,
   handleOnClick,
-}: Props) => {
-  return (
-    <motion.div
-      initial={{ scale: 0, opacity: 0 }}
-      animate={visible ? { scale: 1, opacity: 1 } : undefined}
-      transition={visible ? { type: "spring" } : { type: "tween" }}
-      style={{ maxWidth: maxWidth + "px" }}
-      className={clsx(
-        stl.alertBox,
-        theme === "dark" ? stl.darkAlertBox : undefined
-      )}
-    >
-      <div className={stl.text}>
-        <span style={{ color: titleColor }} className={stl.title}>
-          {title}
-        </span>
-        <span className={stl.msg}>{msg}</span>
-      </div>
-      <div className={stl.footer}>
-        {cancelBtn && (
-          <button className={stl.cancelBtn} onClick={handleCancel}>
-            {cancelLabel}
-          </button>
-        )}
-        <button onClick={handleOnClick} className={btnCustomClass}>
-          {btnLabel}
+}: Props) => (
+  <motion.div
+    initial={{ scale: 0, opacity: 0 }}
+    animate={visible ? { scale: 1, opacity: 1 } : undefined}
+    transition={visible ? { type: "spring" } : { type: "tween" }}
+    style={{ maxWidth: maxWidth + "px" }}
+    className={clsx(
+      stl.alertBox,
+      theme === "dark" ? stl.darkAlertBox : undefined
+    )}
+  >
+    <div className={stl.text}>
+      <span style={{ color: titleColor }} className={stl.title}>
+        {title}
+      </span>
+      <span className={stl.msg}>{msg}</span>
+    </div>
+    <div className={stl.footer}>
+      {cancelBtn && (
+        <button className={stl.cancelBtn} onClick={handleCancel}>
+          {cancelLabel}
         </button>
-      </div>
-    </motion.div>
-  );
-};
+      )}
+      <button onClick={handleOnClick} className={btnCustomClass}>
+        {btnLabel}
+      </button>
+    </div>
+  </motion.div>
+);
 
 AlertBox.defaultProps = {
   title: "Alert Box!",

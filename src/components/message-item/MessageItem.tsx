@@ -27,45 +27,41 @@ const MessageItem = ({
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
 
-  const Message = () => {
-    return (
-      <div
+  const Message = () => (
+    <div
+      style={
+        variant === "primary"
+          ? theme === "dark"
+            ? { background: "#7cacf8" }
+            : { background: "#ecf3fe" }
+          : theme === "dark"
+          ? { background: " #303030" }
+          : { background: "#f2f2f2" }
+      }
+      className={stl.msgItem}
+    >
+      <span
         style={
           variant === "primary"
-            ? theme === "dark"
-              ? { background: "#7cacf8" }
-              : { background: "#ecf3fe" }
+            ? { color: "#202124" }
             : theme === "dark"
-            ? { background: " #303030" }
-            : { background: "#f2f2f2" }
+            ? { color: "#eae8ed" }
+            : { color: "#202124" }
         }
-        className={stl.msgItem}
+        className={stl.message}
       >
-        <span
-          style={
-            variant === "primary"
-              ? { color: "#202124" }
-              : theme === "dark"
-              ? { color: "#eae8ed" }
-              : { color: "#202124" }
-          }
-          className={stl.message}
-        >
-          {content}
-        </span>
-      </div>
-    );
-  };
+        {content}
+      </span>
+    </div>
+  );
 
-  const MoreOpt = () => {
-    return (
-      <MoreBtn
-        visible={isVisible}
-        theme={theme}
-        handleOnClick={() => setShowDropdown(true)}
-      />
-    );
-  };
+  const MoreOpt = () => (
+    <MoreBtn
+      visible={isVisible}
+      theme={theme}
+      handleOnClick={() => setShowDropdown(true)}
+    />
+  );
 
   const handleCopy = () => {
     const textarea = document.createElement("textarea");
@@ -136,7 +132,7 @@ const MessageItem = ({
 MessageItem.defaultProps = {
   variant: "primary",
   content:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id libero non velit ultricies sodales. Donec eget ultricies sapien. Aliquam erat volutpat. Donec ut est nibh. Fusce dapibus ante non libero cursus auctor. Etiam dictum ipsum a enim viverra sollicitudin. Sed eu diam ex. Aliquam quis velit ut elit vestibulum ultricies vel quis elit. Sed aliquam risus eget ligula fringilla, eu rutrum velit bibendum. Nam volutpat ante vitae nulla bibendum, ac tincidunt nibh lobortis.",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id libero non velit ultricies sodales.",
   handleListItemClick: (item: string) => console.log(item),
 };
 

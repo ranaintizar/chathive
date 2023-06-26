@@ -63,7 +63,7 @@ const updateName = (name: string, setUser: (arg: any) => void) => {
       console.log("Name Updated!");
       await updateToast("Name changed successfully.", "success");
     })
-    .catch((err: any) => console.log("Error while Updating Name:", err));
+    .catch((err) => console.log("Error while Updating Name:", err));
 };
 
 const updatePhoto = (setUser: (arg: any) => void, e: any) => {
@@ -124,7 +124,7 @@ const handleUpdatePass = (password: string) => {
       console.log("Password Updated!");
       await updateToast("Password changed successfully.", "success");
     })
-    .catch((err: any) => {
+    .catch((err) => {
       console.log("Error while updating Password:", err);
       const errCode = err.code;
       const errMsg = err.message;
@@ -158,7 +158,7 @@ const handleUpdateEmail = (email: string, setUser: (arg: any) => void) => {
       console.log("Email Updated");
     })
     .then(() => console.log("Email Updated!"))
-    .catch((err: any) => {
+    .catch((err) => {
       handleAuthErrs(err.code, err.message);
       console.log("Error while updating Email:", err);
     });

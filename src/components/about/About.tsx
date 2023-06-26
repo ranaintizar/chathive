@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-import stl from "./About.module.scss";
 import Spinner from "components/spinner";
 
-const About = ({ theme }: any) => {
+import stl from "./About.module.scss";
+
+interface Props {
+  theme: string;
+}
+
+const About = ({ theme }: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {

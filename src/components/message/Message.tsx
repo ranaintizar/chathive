@@ -29,64 +29,62 @@ const Message = ({
   msgId,
   index,
   chatId,
-}: Props) => {
-  return (
-    <div
-      key={index}
-      className={clsx(stl.msg, senderId === id ? stl.right : stl.left)}
-    >
-      {(type === "text" && (
-        <MessageItem
-          variant={senderId !== id ? "secondary" : "primary"}
+}: Props) => (
+  <div
+    key={index}
+    className={clsx(stl.msg, senderId === id ? stl.right : stl.left)}
+  >
+    {(type === "text" && (
+      <MessageItem
+        variant={senderId !== id ? "secondary" : "primary"}
+        left={senderId === id}
+        content={content}
+        theme={theme}
+        msgId={msgId}
+        chatId={chatId}
+      />
+    )) ||
+      (type === "gif" && (
+        <GifPlayer
           left={senderId === id}
-          content={content}
           theme={theme}
+          src={content}
           msgId={msgId}
           chatId={chatId}
         />
       )) ||
-        (type === "gif" && (
-          <GifPlayer
-            left={senderId === id}
+      (type === "file" &&
+        ((content.fileType.includes("image") && (
+          <ImageDisplayer
+            swap={senderId === id}
+            src={content.fileURL}
             theme={theme}
-            src={content}
             msgId={msgId}
             chatId={chatId}
+            fileInfo={content}
           />
         )) ||
-        (type === "file" &&
-          ((content.fileType.includes("image") && (
-            <ImageDisplayer
+          (content.fileType.includes("video") && (
+            <VideoDisplayer
               swap={senderId === id}
-              src={content.fileURL}
               theme={theme}
+              src={content.fileURL}
               msgId={msgId}
               chatId={chatId}
               fileInfo={content}
+              type={content.fileType}
             />
-          )) ||
-            (content.fileType.includes("video") && (
-              <VideoDisplayer
-                swap={senderId === id}
-                theme={theme}
-                src={content.fileURL}
-                msgId={msgId}
-                chatId={chatId}
-                fileInfo={content}
-                type={content.fileType}
-              />
-            )) || (
-              <FileThumbnail
-                left={senderId === id}
-                theme={theme}
-                fileInfo={content}
-                chatId={chatId}
-                msgId={msgId}
-              />
-            ))) ||
-        undefined}
-    </div>
-  );
-};
+          )) || (
+            <FileThumbnail
+              left={senderId === id}
+              theme={theme}
+              fileInfo={content}
+              chatId={chatId}
+              msgId={msgId}
+            />
+          ))) ||
+      undefined}
+  </div>
+);
 
 export default Message;

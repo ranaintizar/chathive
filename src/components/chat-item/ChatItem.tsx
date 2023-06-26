@@ -92,7 +92,7 @@ const ChatItem = ({ theme, data, msg, handleOnClick, myId }: Props) => {
 ChatItem.defaultProps = {
   data: {
     displayName: "Your Name",
-    message: "This is Last Message from this",
+    message: "This is Last Message from in Chat.",
     timeAgo: "2 Apr",
   },
   handleOnClick: (data: any) => console.log(data),

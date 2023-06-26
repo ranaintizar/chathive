@@ -45,24 +45,16 @@ const FileThumbnail = ({ theme, fileInfo, left, chatId, msgId }: Props) => {
     }
   };
 
-  const File = () => {
-    return (
-      <div className={stl.fileThumbnail}>
-        <Icon />
-        <span className={stl.size}>{formatBytes()}</span>
-      </div>
-    );
-  };
+  const File = () => (
+    <div className={stl.fileThumbnail}>
+      <Icon />
+      <span className={stl.size}>{formatBytes()}</span>
+    </div>
+  );
 
-  const MoreOpt = ({ handleOnClick }: any) => {
-    return (
-      <MoreBtn
-        visible={isVisible}
-        theme={theme}
-        handleOnClick={handleOnClick}
-      />
-    );
-  };
+  const MoreOpt = ({ handleOnClick }: any) => (
+    <MoreBtn visible={isVisible} theme={theme} handleOnClick={handleOnClick} />
+  );
 
   return (
     <div

@@ -11,10 +11,10 @@ interface Props {
   width: number;
   height: number;
   list: Array<string>;
-  top: string;
-  left: string;
-  bottom: string;
-  right: string;
+  top?: string;
+  left?: string;
+  bottom?: string;
+  right?: string;
   showDropdown: Boolean;
   setShowDropdown: any;
   transformOrigin?: string;
@@ -80,10 +80,6 @@ Dropdown.defaultProps = {
   list: ["Option 1", "Option 2", "Option 3", "Option 4"],
   width: 170,
   height: 200,
-  top: "",
-  left: "",
-  bottom: "",
-  right: "",
   handleListItemClick: (item: string) => console.log(item),
 };
 
