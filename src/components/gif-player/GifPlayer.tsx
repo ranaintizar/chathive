@@ -35,15 +35,13 @@ const GifPlayer = ({
     videoRef.current?.play();
   };
 
-  const MoreOpt = () => {
-    return (
-      <MoreBtn
-        visible={isVisible}
-        theme={theme}
-        handleOnClick={() => setShowDropdown(true)}
-      />
-    );
-  };
+  const MoreOpt = () => (
+    <MoreBtn
+      visible={isVisible}
+      theme={theme}
+      handleOnClick={() => setShowDropdown(true)}
+    />
+  );
 
   const handleListItemClick = (item: string) => {
     if (item === "Delete") {

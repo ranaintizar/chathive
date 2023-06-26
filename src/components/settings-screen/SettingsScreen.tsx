@@ -9,7 +9,7 @@ import stl from "./SettingScreen.module.scss";
 
 interface Props {
   theme: string;
-  toggleTheme: any;
+  toggleTheme: () => void;
   setShowMsgs: any;
   toastMsg: any;
 }

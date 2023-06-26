@@ -16,32 +16,30 @@ interface Props {
   toggleTheme?: () => void;
 }
 
-const SettingContainer = ({ theme, title, name, toggleTheme }: Props) => {
-  return (
-    <div className={stl.stngContainer}>
-      <Header
-        themeBtn={true}
-        toggleTheme={toggleTheme}
-        theme={theme}
-        title={title}
-        titleCenter={true}
-        dropdown={false}
-      />
-      <div
-        className={clsx(
-          stl.settingWrapper,
-          theme === "dark" ? stl.darkSettingWrapper : undefined
-        )}
-      >
-        <div className={stl.setting}>
-          {(name === "profile" && <ProfileSettings theme={theme} />) ||
-            (name === "account" && <AccSettings theme={theme} />) ||
-            (name === "feedback" && <Feedback theme={theme} />) ||
-            (name === "about" && <About theme={theme} />)}
-        </div>
+const SettingContainer = ({ theme, title, name, toggleTheme }: Props) => (
+  <div className={stl.stngContainer}>
+    <Header
+      themeBtn={true}
+      toggleTheme={toggleTheme}
+      theme={theme}
+      title={title}
+      titleCenter={true}
+      dropdown={false}
+    />
+    <div
+      className={clsx(
+        stl.settingWrapper,
+        theme === "dark" ? stl.darkSettingWrapper : undefined
+      )}
+    >
+      <div className={stl.setting}>
+        {(name === "profile" && <ProfileSettings theme={theme} />) ||
+          (name === "account" && <AccSettings theme={theme} />) ||
+          (name === "feedback" && <Feedback theme={theme} />) ||
+          (name === "about" && <About theme={theme} />)}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default SettingContainer;
