@@ -1,30 +1,30 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
 
-import Spinner from "components/spinner";
+import Spinner from 'components/spinner'
 
-import stl from "./About.module.scss";
+import stl from './About.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const About = ({ theme }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true)
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   return isLoading ? (
     <Spinner spinnerColor="#1e90ff" />
   ) : (
     <div
-      className={clsx(stl.about, theme === "dark" ? stl.darkAbout : undefined)}
+      className={clsx(stl.about, theme === 'dark' ? stl.darkAbout : undefined)}
     >
       <div>
-        ChatHive is a web-based chat application created by{" "}
-        <a href="https://linktr.ee/ranaintizar" target="_blank">
+        ChatHive is a web-based chat application created by{' '}
+        <a href="https://linkzar.fly.dev/linktree" target="_blank">
           Rana Intizar
         </a>
         . It is designed to provide users with a seamless messaging experience.
@@ -39,7 +39,7 @@ const About = ({ theme }: Props) => {
         security of user data, so users can communicate with peace of mind.
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default About;
+export default About
