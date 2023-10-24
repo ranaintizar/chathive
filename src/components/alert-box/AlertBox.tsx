@@ -1,22 +1,22 @@
-import React from "react";
-import clsx from "clsx";
-import { motion } from "framer-motion";
+import React from 'react'
+import clsx from 'clsx'
+import { motion } from 'framer-motion'
 
-import stl from "./AlertBox.module.scss";
+import stl from './AlertBox.module.scss'
 
 interface Props {
-  visible: Boolean;
-  theme: string;
-  title: string;
-  msg: string;
-  btnLabel: string;
-  titleColor: string;
-  cancelBtn: Boolean;
-  cancelLabel: string;
-  maxWidth: number;
-  btnCustomClass?: string;
-  handleCancel: () => void;
-  handleOnClick: () => void;
+  visible: Boolean
+  theme: string
+  title: string
+  msg: string
+  btnLabel: string
+  titleColor: string
+  cancelBtn: Boolean
+  cancelLabel: string
+  maxWidth: number
+  btnCustomClass?: string
+  handleCancel: () => void
+  handleOnClick: () => void
 }
 
 const AlertBox = ({
@@ -36,11 +36,11 @@ const AlertBox = ({
   <motion.div
     initial={{ scale: 0, opacity: 0 }}
     animate={visible ? { scale: 1, opacity: 1 } : undefined}
-    transition={visible ? { type: "spring" } : { type: "tween" }}
-    style={{ maxWidth: maxWidth + "px" }}
+    transition={visible ? { type: 'spring' } : { type: 'tween' }}
+    style={{ maxWidth: maxWidth + 'px' }}
     className={clsx(
       stl.alertBox,
-      theme === "dark" ? stl.darkAlertBox : undefined
+      theme === 'dark' ? stl.darkAlertBox : undefined
     )}
   >
     <div className={stl.text}>
@@ -60,18 +60,18 @@ const AlertBox = ({
       </button>
     </div>
   </motion.div>
-);
+)
 
 AlertBox.defaultProps = {
-  title: "Alert Box!",
-  msg: "This is the Custom Alert Box. This is Message for this alert box.",
-  btnLabel: "Okay",
-  handleOnClick: () => console.log("Alert-OK button Clicked!"),
+  title: 'Alert Box!',
+  msg: 'This is the Custom Alert Box. This is Message for this alert box.',
+  btnLabel: 'Okay',
+  handleOnClick: () => console.log('Alert-OK button Clicked!'),
   cancelBtn: false,
-  titleColor: "red",
-  cancelLabel: "Cancel",
-  handleCancel: () => console.log("Cancel Button Clicked!"),
+  titleColor: 'red',
+  cancelLabel: 'Cancel',
+  handleCancel: () => console.log('Cancel Button Clicked!'),
   maxWidth: 400,
-};
+}
 
-export default AlertBox;
+export default AlertBox

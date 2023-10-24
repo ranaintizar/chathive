@@ -1,24 +1,24 @@
-import React from "react";
-import clsx from "clsx";
-import { motion } from "framer-motion";
+import React from 'react'
+import clsx from 'clsx'
+import { motion } from 'framer-motion'
 
-import { useOnClickOutside } from "src/lib/useClickOutside";
+import { useOnClickOutside } from 'src/lib/useClickOutside'
 
-import stl from "./Dropdown.module.scss";
+import stl from './Dropdown.module.scss'
 
 interface Props {
-  theme: string;
-  width: number;
-  height: number;
-  list: Array<string>;
-  top?: string;
-  left?: string;
-  bottom?: string;
-  right?: string;
-  showDropdown: Boolean;
-  setShowDropdown: any;
-  transformOrigin?: string;
-  handleListItemClick: (arg: string) => void;
+  theme: string
+  width: number
+  height: number
+  list: Array<string>
+  top?: string
+  left?: string
+  bottom?: string
+  right?: string
+  showDropdown: Boolean
+  setShowDropdown: any
+  transformOrigin?: string
+  handleListItemClick: (arg: string) => void
 }
 
 const Dropdown = ({
@@ -35,9 +35,9 @@ const Dropdown = ({
   transformOrigin,
   handleListItemClick,
 }: Props) => {
-  const ref = React.useRef();
+  const ref = React.useRef()
 
-  useOnClickOutside(() => setShowDropdown(false), ref);
+  useOnClickOutside(() => setShowDropdown(false), ref)
 
   return (
     <motion.div
@@ -45,8 +45,8 @@ const Dropdown = ({
       ref={ref}
       style={{
         transformOrigin: transformOrigin,
-        width: width + "px",
-        height: height + "px",
+        width: width + 'px',
+        height: height + 'px',
         top,
         left,
         bottom,
@@ -54,18 +54,18 @@ const Dropdown = ({
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={showDropdown ? { scale: 1, opacity: 1 } : undefined}
-      transition={showDropdown ? { type: "spring" } : { type: "tween" }}
+      transition={showDropdown ? { type: 'spring' } : { type: 'tween' }}
       className={clsx(
         stl.dropDown,
-        theme === "dark" ? stl.darkDropdown : undefined
+        theme === 'dark' ? stl.darkDropdown : undefined
       )}
     >
       {list.map((item: string, i: number) => (
         <span
           key={i}
           onClick={() => {
-            handleListItemClick(item);
-            setShowDropdown(false);
+            handleListItemClick(item)
+            setShowDropdown(false)
           }}
           className={stl.dropDownItem}
         >
@@ -73,14 +73,14 @@ const Dropdown = ({
         </span>
       ))}
     </motion.div>
-  );
-};
+  )
+}
 
 Dropdown.defaultProps = {
-  list: ["Option 1", "Option 2", "Option 3", "Option 4"],
+  list: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
   width: 170,
   height: 200,
   handleListItemClick: (item: string) => console.log(item),
-};
+}
 
-export default Dropdown;
+export default Dropdown

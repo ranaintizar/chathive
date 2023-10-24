@@ -1,3 +1,3 @@
-import EmptyScreen from "./EmptyScreen";
+import EmptyScreen from './EmptyScreen'
 
-export default EmptyScreen;
+export default EmptyScreen

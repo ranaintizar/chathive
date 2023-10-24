@@ -1,3 +1,3 @@
-import ChatItem from "./ChatItem";
+import ChatItem from './ChatItem'
 
-export default ChatItem;
+export default ChatItem

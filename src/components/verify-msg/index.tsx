@@ -1,3 +1,3 @@
-import VerifyMsg from "./VerifyMsg";
+import VerifyMsg from './VerifyMsg'
 
-export default VerifyMsg;
+export default VerifyMsg

@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useState } from 'react'
 
-import { handleDelMsg } from "src/lib/firebaseFunctions";
-import MoreBtn from "components/more-btn/MoreBtn";
-import Dropdown from "components/dropdown";
+import { handleDelMsg } from 'src/lib/firebaseFunctions'
+import MoreBtn from 'components/more-btn'
+import Dropdown from 'components/dropdown'
 
-import stl from "./MessageItem.module.scss";
+import stl from './MessageItem.module.scss'
 
 interface Props {
-  variant: string;
-  content: string;
-  theme: string;
-  left: Boolean;
-  msgId: string;
-  chatId: string;
-  handleListItemClick: (arg: string) => void;
+  variant: string
+  content: string
+  theme: string
+  left: Boolean
+  msgId: string
+  chatId: string
+  handleListItemClick: (arg: string) => void
 }
 
 const MessageItem = ({
@@ -24,36 +24,36 @@ const MessageItem = ({
   msgId,
   chatId,
 }: Props) => {
-  const [showDropdown, setShowDropdown] = React.useState(false);
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
 
   const Message = () => (
     <div
       style={
-        variant === "primary"
-          ? theme === "dark"
-            ? { background: "#7cacf8" }
-            : { background: "#ecf3fe" }
-          : theme === "dark"
-          ? { background: " #303030" }
-          : { background: "#f2f2f2" }
+        variant === 'primary'
+          ? theme === 'dark'
+            ? { background: '#7cacf8' }
+            : { background: '#ecf3fe' }
+          : theme === 'dark'
+          ? { background: ' #303030' }
+          : { background: '#f2f2f2' }
       }
       className={stl.msgItem}
     >
       <span
         style={
-          variant === "primary"
-            ? { color: "#202124" }
-            : theme === "dark"
-            ? { color: "#eae8ed" }
-            : { color: "#202124" }
+          variant === 'primary'
+            ? { color: '#202124' }
+            : theme === 'dark'
+            ? { color: '#eae8ed' }
+            : { color: '#202124' }
         }
         className={stl.message}
       >
         {content}
       </span>
     </div>
-  );
+  )
 
   const MoreOpt = () => (
     <MoreBtn
@@ -61,28 +61,28 @@ const MessageItem = ({
       theme={theme}
       handleOnClick={() => setShowDropdown(true)}
     />
-  );
+  )
 
   const handleCopy = () => {
-    const textarea = document.createElement("textarea");
-    textarea.value = content;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
+    const textarea = document.createElement('textarea')
+    textarea.value = content
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
 
-    document.addEventListener("copy", function (event) {
-      alert("Text copied to clipboard!");
-    });
-  };
+    document.addEventListener('copy', function (event) {
+      alert('Text copied to clipboard!')
+    })
+  }
 
   const handleListItemClick = (item: string) => {
-    if (item === "Delete") {
-      handleDelMsg(chatId, msgId);
-    } else if (item === "Copy Text") {
-      handleCopy();
+    if (item === 'Delete') {
+      handleDelMsg(chatId, msgId)
+    } else if (item === 'Copy Text') {
+      handleCopy()
     }
-  };
+  }
 
   return (
     <div
@@ -100,7 +100,7 @@ const MessageItem = ({
             theme={theme}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
-            list={["Delete", "Copy Text"]}
+            list={['Delete', 'Copy Text']}
             width={130}
             height={110}
             handleListItemClick={handleListItemClick}
@@ -117,7 +117,7 @@ const MessageItem = ({
             theme={theme}
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
-            list={["Delete", "Copy Text"]}
+            list={['Delete', 'Copy Text']}
             width={130}
             height={110}
             handleListItemClick={handleListItemClick}
@@ -126,14 +126,14 @@ const MessageItem = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 MessageItem.defaultProps = {
-  variant: "primary",
+  variant: 'primary',
   content:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id libero non velit ultricies sodales.",
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id libero non velit ultricies sodales.',
   handleListItemClick: (item: string) => console.log(item),
-};
+}
 
-export default MessageItem;
+export default MessageItem

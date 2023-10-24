@@ -1,58 +1,58 @@
-import React, { useEffect } from "react";
-import Head from "next/head";
-import { doc, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useState } from 'react'
+import Head from 'next/head'
+import { doc, onSnapshot } from 'firebase/firestore'
 
-import { auth, db } from "./api/firebase";
-import SignupFlow from "components/signup-flow";
-import Spinner from "components/spinner";
-import MessagesScreen from "components/messages-screen";
-import VerifyMsg from "components/verify-msg";
-import SettingScreen from "components/settings-screen";
+import { auth, db } from './api/firebase'
+import SignupFlow from 'components/signup-flow'
+import Spinner from 'components/spinner'
+import MessagesScreen from 'components/messages-screen'
+import VerifyMsg from 'components/verify-msg'
+import SettingScreen from 'components/settings-screen'
 
 export default function Home() {
-  const [theme, setTheme] = React.useState("light");
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState(false);
-  const [id, setId] = React.useState("null");
-  const [isVerified, setIsVerified] = React.useState(false);
-  const [showMsgs, setShowMsgs] = React.useState(true);
-  const [toastMsg, setToastMsg] = React.useState({});
+  const [theme, setTheme] = useState('light')
+  const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState(false)
+  const [id, setId] = useState('null')
+  const [isVerified, setIsVerified] = useState(false)
+  const [showMsgs, setShowMsgs] = useState(true)
+  const [toastMsg, setToastMsg] = useState({})
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+    const unsubscribe = auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        setUser(true);
-        setId(authUser.uid);
+        setUser(true)
+        setId(authUser.uid)
         if (authUser?.emailVerified) {
-          setIsVerified(true);
+          setIsVerified(true)
         } else {
-          setIsVerified(false);
+          setIsVerified(false)
         }
       } else {
-        setShowMsgs(true);
-        setUser(false);
+        setShowMsgs(true)
+        setUser(false)
       }
-    });
+    })
 
-    return unsubscribe;
-  }, []);
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
-    const toastDoc = doc(db, "toast", "Zr41YsymL2m0Y26ShAnZ");
-    onSnapshot(toastDoc, (doc) => {
+    const toastDoc = doc(db, 'toast', 'Zr41YsymL2m0Y26ShAnZ')
+    onSnapshot(toastDoc, doc => {
       //@ts-ignore
-      setToastMsg(doc.data());
-    });
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+      setToastMsg(doc.data())
+    })
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else if (theme === "dark") {
-      setTheme("light");
+    if (theme === 'light') {
+      setTheme('dark')
+    } else if (theme === 'dark') {
+      setTheme('light')
     }
-  };
+  }
 
   return (
     <>
@@ -94,5 +94,5 @@ export default function Home() {
         )}
       </main>
     </>
-  );
+  )
 }

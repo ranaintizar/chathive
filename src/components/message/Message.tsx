@@ -1,23 +1,23 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
 
-import MessageItem from "components/message-item";
-import GifPlayer from "components/gif-player";
-import ImageDisplayer from "components/image-displayer";
-import VideoDisplayer from "components/video-displayer";
-import FileThumbnail from "components/file-thumbnail";
+import MessageItem from 'components/message-item'
+import GifPlayer from 'components/gif-player'
+import ImageDisplayer from 'components/image-displayer'
+import VideoDisplayer from 'components/video-displayer'
+import FileThumbnail from 'components/file-thumbnail'
 
-import stl from "./Message.module.scss";
+import stl from './Message.module.scss'
 
 interface Props {
-  theme: string;
-  id: string;
-  index: number;
-  type: string;
-  content: any;
-  senderId: string;
-  msgId: string;
-  chatId: string;
+  theme: string
+  id: string
+  index: number
+  type: string
+  content: any
+  senderId: string
+  msgId: string
+  chatId: string
 }
 
 const Message = ({
@@ -34,9 +34,9 @@ const Message = ({
     key={index}
     className={clsx(stl.msg, senderId === id ? stl.right : stl.left)}
   >
-    {(type === "text" && (
+    {(type === 'text' && (
       <MessageItem
-        variant={senderId !== id ? "secondary" : "primary"}
+        variant={senderId !== id ? 'secondary' : 'primary'}
         left={senderId === id}
         content={content}
         theme={theme}
@@ -44,7 +44,7 @@ const Message = ({
         chatId={chatId}
       />
     )) ||
-      (type === "gif" && (
+      (type === 'gif' && (
         <GifPlayer
           left={senderId === id}
           theme={theme}
@@ -53,8 +53,8 @@ const Message = ({
           chatId={chatId}
         />
       )) ||
-      (type === "file" &&
-        ((content.fileType.includes("image") && (
+      (type === 'file' &&
+        ((content.fileType.includes('image') && (
           <ImageDisplayer
             swap={senderId === id}
             src={content.fileURL}
@@ -64,7 +64,7 @@ const Message = ({
             fileInfo={content}
           />
         )) ||
-          (content.fileType.includes("video") && (
+          (content.fileType.includes('video') && (
             <VideoDisplayer
               swap={senderId === id}
               theme={theme}
@@ -85,6 +85,6 @@ const Message = ({
           ))) ||
       undefined}
   </div>
-);
+)
 
-export default Message;
+export default Message

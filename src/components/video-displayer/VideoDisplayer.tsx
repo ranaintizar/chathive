@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react'
 
 import {
   deleteFile,
   downloadFile,
   handleDelMsg,
-} from "src/lib/firebaseFunctions";
-import PlayIcon from "assets/play.svg";
-import PauseIcon from "assets/pause.svg";
-import MoreBtn from "components/more-btn/MoreBtn";
-import Dropdown from "components/dropdown";
+} from 'src/lib/firebaseFunctions'
+import PlayIcon from 'assets/play.svg'
+import PauseIcon from 'assets/pause.svg'
+import MoreBtn from 'components/more-btn'
+import Dropdown from 'components/dropdown'
 
-import stl from "./VideoDisplayer.module.scss";
+import stl from './VideoDisplayer.module.scss'
 
 interface Props {
-  theme: string;
-  swap: Boolean;
-  src: string;
-  type: string;
-  chatId: string;
-  msgId: string;
-  fileInfo: any;
+  theme: string
+  swap: Boolean
+  src: string
+  type: string
+  chatId: string
+  msgId: string
+  fileInfo: any
 }
 
 const VideoDisplayer = ({
@@ -31,43 +31,43 @@ const VideoDisplayer = ({
   msgId,
   fileInfo,
 }: Props) => {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [content, setContent] = React.useState(<PlayIcon />);
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [showDropdown, setShowDropdown] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isVisible, setIsVisible] = useState(false)
+  const [content, setContent] = useState(<PlayIcon />)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null)
 
   const handleVideo = () => {
-    const video = videoRef.current;
+    const video = videoRef.current
     if (isPlaying === false) {
-      video?.play();
-      setContent(<PauseIcon />);
+      video?.play()
+      setContent(<PauseIcon />)
     } else if (isPlaying) {
-      video?.pause();
-      setContent(<PlayIcon />);
+      video?.pause()
+      setContent(<PlayIcon />)
     }
-    setIsPlaying(!isPlaying);
-  };
+    setIsPlaying(!isPlaying)
+  }
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
+    setTimeout(() => setIsLoading(false), 500)
+  }, [])
 
   const handleEnded = () => {
-    setContent(<PlayIcon />);
-    setIsPlaying(false);
-  };
+    setContent(<PlayIcon />)
+    setIsPlaying(false)
+  }
 
   const handleListItemClick = (item: string) => {
-    if (item === "Delete") {
-      deleteFile(fileInfo.fileName);
-      handleDelMsg(chatId, msgId);
-    } else if (item === "Download") {
-      downloadFile(fileInfo);
+    if (item === 'Delete') {
+      deleteFile(fileInfo.fileName)
+      handleDelMsg(chatId, msgId)
+    } else if (item === 'Download') {
+      downloadFile(fileInfo)
     }
-  };
+  }
 
   return isLoading ? (
     <div></div>
@@ -94,7 +94,7 @@ const VideoDisplayer = ({
           </div>
           <Dropdown
             theme={theme}
-            list={["Delete", "Download"]}
+            list={['Delete', 'Download']}
             transformOrigin="top right"
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
@@ -122,7 +122,7 @@ const VideoDisplayer = ({
           />
           <Dropdown
             theme={theme}
-            list={["Delete", "Download"]}
+            list={['Delete', 'Download']}
             transformOrigin="top left"
             showDropdown={showDropdown}
             setShowDropdown={setShowDropdown}
@@ -135,11 +135,11 @@ const VideoDisplayer = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 VideoDisplayer.defaultProps = {
   swap: true,
-};
+}
 
-export default VideoDisplayer;
+export default VideoDisplayer

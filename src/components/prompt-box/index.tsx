@@ -1,3 +1,3 @@
-import PromptBox from "./PromptBox";
+import PromptBox from './PromptBox'
 
-export default PromptBox;
+export default PromptBox

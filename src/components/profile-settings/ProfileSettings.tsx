@@ -1,46 +1,46 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 
-import { updatePhoto } from "src/lib/firebaseFunctions";
-import AlertBox from "components/alert-box";
-import Spinner from "components/spinner";
-import Field from "components/field";
-import EditIcon from "assets/edit.svg";
+import { updatePhoto } from 'src/lib/firebaseFunctions'
+import AlertBox from 'components/alert-box'
+import Spinner from 'components/spinner'
+import Field from 'components/field'
+import EditIcon from 'assets/edit.svg'
 
-import stl from "./ProfileSettings.module.scss";
+import stl from './ProfileSettings.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const ProfileSettings = ({ theme }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [user, setUser] = React.useState({
-    displayName: "",
-    photoURL: "",
-    email: "",
-  });
+  const [isLoading, setIsLoading] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
+  const [user, setUser] = useState({
+    displayName: '',
+    photoURL: '',
+    email: '',
+  })
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   useEffect(() => {
-    const data = localStorage.getItem("user");
+    const data = localStorage.getItem('user')
     //@ts-ignore
-    const user = JSON.parse(data);
+    const user = JSON.parse(data)
     setUser({
       displayName: user?.displayName,
       photoURL: user?.photoURL,
       email: user?.email,
-    });
-  }, []);
+    })
+  }, [])
 
   const handleUploadPhoto = () => {
-    const input = document.getElementById("uploadProfPic");
-    input?.click();
-  };
+    const input = document.getElementById('uploadProfPic')
+    input?.click()
+  }
 
   return isLoading ? (
     <Spinner spinnerColor="#1e90ff" />
@@ -61,9 +61,9 @@ const ProfileSettings = ({ theme }: Props) => {
       <input
         type="file"
         id="uploadProfPic"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         accept="image/*"
-        onChange={(e) => updatePhoto(setUser, e)}
+        onChange={e => updatePhoto(setUser, e)}
       />
       <AlertBox
         theme={theme}
@@ -76,8 +76,8 @@ const ProfileSettings = ({ theme }: Props) => {
         btnLabel="Upload"
         maxWidth={400}
         handleOnClick={() => {
-          handleUploadPhoto();
-          setIsVisible(false);
+          handleUploadPhoto()
+          setIsVisible(false)
         }}
         handleCancel={() => setIsVisible(false)}
       />
@@ -100,7 +100,7 @@ const ProfileSettings = ({ theme }: Props) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileSettings;
+export default ProfileSettings

@@ -1,26 +1,26 @@
-import React from "react";
-import clsx from "clsx";
+import React from 'react'
+import clsx from 'clsx'
 
-import MoreBtn from "components/more-btn/MoreBtn";
-import Dropdown from "components/dropdown";
-import BackIcon from "assets/back.svg";
-import ToggleThemeBtn from "components/toggle-theme-btn";
+import MoreBtn from 'components/more-btn'
+import Dropdown from 'components/dropdown'
+import BackIcon from 'assets/back.svg'
+import ToggleThemeBtn from 'components/toggle-theme-btn'
 
-import stl from "./Header.module.scss";
+import stl from './Header.module.scss'
 
 interface Props {
-  theme: string;
-  title?: string;
-  list: Array<string>;
-  backBtn: Boolean;
-  customElement?: JSX.Element;
-  customClass?: string;
-  dropdown: Boolean;
-  titleCenter: Boolean;
-  themeBtn: Boolean;
-  toggleTheme?: () => void;
-  handleBackBtn: () => void;
-  handleListItemClick: (arg: string) => void;
+  theme: string
+  title?: string
+  list: Array<string>
+  backBtn: Boolean
+  customElement?: JSX.Element
+  customClass?: string
+  dropdown: Boolean
+  titleCenter: Boolean
+  themeBtn: Boolean
+  toggleTheme?: () => void
+  handleBackBtn: () => void
+  handleListItemClick: (arg: string) => void
 }
 
 const Header = ({
@@ -37,13 +37,13 @@ const Header = ({
   themeBtn,
   handleListItemClick,
 }: Props) => {
-  const [showDropdown, setShowDropdown] = React.useState(false);
+  const [showDropdown, setShowDropdown] = React.useState(false)
 
   return (
     <div
       className={clsx(
         stl.header,
-        theme === "dark" ? stl.darkHeader : undefined,
+        theme === 'dark' ? stl.darkHeader : undefined,
         customClass
       )}
     >
@@ -86,17 +86,17 @@ const Header = ({
         </div>
       ) : undefined}
     </div>
-  );
-};
+  )
+}
 
 Header.defaultProps = {
-  list: ["Option 1", "Option 2", "Option 3", "Option 4"],
+  list: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
   backBtn: false,
-  handleBackBtn: () => console.log("Back Btn Clicked..."),
+  handleBackBtn: () => console.log('Back Btn Clicked...'),
   dropdown: true,
   titleCenter: false,
   themeBtn: false,
   handleListItemClick: (item: string) => console.log(item),
-};
+}
 
-export default Header;
+export default Header

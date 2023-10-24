@@ -1,3 +1,3 @@
-import AccSettings from "./AccSettings";
+import AccSettings from './AccSettings'
 
-export default AccSettings;
+export default AccSettings

@@ -1,3 +1,3 @@
-import EnterMsg from "./EnterMsg";
+import EnterMsg from './EnterMsg'
 
-export default EnterMsg;
+export default EnterMsg

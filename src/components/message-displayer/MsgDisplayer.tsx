@@ -1,62 +1,56 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
+import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
 
-import { db } from "@/pages/api/firebase";
-import { formatDate } from "src/lib";
-import EnterMsg from "components/enter-msg";
-import Spinner from "components/spinner";
-import Message from "components/message/Message";
-import EmptyScreen from "components/empty-screen";
+import { db } from '@/pages/api/firebase'
+import { formatDate } from 'src/lib'
+import EnterMsg from 'components/enter-msg'
+import Spinner from 'components/spinner'
+import Message from 'components/message/Message'
+import EmptyScreen from 'components/empty-screen'
 
-import stl from "./MsgDisplayer.module.scss";
+import stl from './MsgDisplayer.module.scss'
 
 interface Props {
-  myId: string;
-  theme: string;
-  chatId: string;
-  setTitle: (arg: any) => void;
-  isEmpty: Boolean;
+  myId: string
+  theme: string
+  chatId: string
+  setTitle: (arg: any) => void
+  isEmpty: Boolean
 }
 
 const MsgDisplayer = ({ myId, theme, chatId, setTitle, isEmpty }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [messages, setMessages] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [messages, setMessages] = React.useState([])
 
-  const myRef = React.useRef<HTMLDivElement>(null);
+  const myRef = React.useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setIsLoading(true);
-    const chatsRef = collection(db, "chats");
-    const chatDoc = doc(chatsRef, chatId);
-    onSnapshot(chatDoc, (snapshot) => setTitle(snapshot.data()?.chatName));
-    const msgRef = collection(chatDoc, "messages");
-    const sortedMsgs = query(msgRef, orderBy("time", "asc"));
-    onSnapshot(sortedMsgs, (snapshot) => {
+    setIsLoading(true)
+    const chatsRef = collection(db, 'chats')
+    const chatDoc = doc(chatsRef, chatId)
+    onSnapshot(chatDoc, snapshot => setTitle(snapshot.data()?.chatName))
+    const msgRef = collection(chatDoc, 'messages')
+    const sortedMsgs = query(msgRef, orderBy('time', 'asc'))
+    onSnapshot(sortedMsgs, snapshot => {
       //@ts-ignore
-      let msgsArray = [];
+      let msgsArray = []
       snapshot.docs.map((doc, i) =>
         msgsArray.push({ ...doc.data(), id: doc.id, key: i })
-      );
+      )
       //@ts-ignore
-      setMessages(msgsArray);
-      setIsLoading(false);
-    });
-  }, [chatId]);
+      setMessages(msgsArray)
+      setIsLoading(false)
+    })
+  }, [chatId])
 
   useEffect(() => {
     isEmpty === false &&
       setTimeout(() => {
         //@ts-ignore
-        myRef.current.scrollTop = myRef.current?.scrollHeight;
-      }, 2000);
-  }, [messages]);
+        myRef.current.scrollTop = myRef.current?.scrollHeight
+      }, 2000)
+  }, [messages])
 
   return isEmpty ? (
     <EmptyScreen />
@@ -80,8 +74,8 @@ const MsgDisplayer = ({ myId, theme, chatId, setTitle, isEmpty }: Props) => {
             >
               <div className={stl.info}>
                 {msg.senderId === myId
-                  ? "You," + formatDate(msg.time)
-                  : msg.username + "," + formatDate(msg.time)}
+                  ? 'You,' + formatDate(msg.time)
+                  : msg.username + ',' + formatDate(msg.time)}
               </div>
               <Message
                 theme={theme}
@@ -99,7 +93,7 @@ const MsgDisplayer = ({ myId, theme, chatId, setTitle, isEmpty }: Props) => {
       </div>
       <EnterMsg customClass={stl.enterMsg} theme={theme} chatId={chatId} />
     </div>
-  );
-};
+  )
+}
 
-export default MsgDisplayer;
+export default MsgDisplayer

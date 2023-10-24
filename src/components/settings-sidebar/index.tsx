@@ -1,3 +1,3 @@
-import SettingSidebar from "./SettingSidebar";
+import SettingSidebar from './SettingSidebar'
 
-export default SettingSidebar;
+export default SettingSidebar

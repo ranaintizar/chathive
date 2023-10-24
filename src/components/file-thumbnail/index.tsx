@@ -1,3 +1,3 @@
-import FileThumbnail from "./FileThumbnail";
+import FileThumbnail from './FileThumbnail'
 
-export default FileThumbnail;
+export default FileThumbnail

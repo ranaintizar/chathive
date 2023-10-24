@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 import {
   collection,
   onSnapshot,
@@ -7,22 +7,22 @@ import {
   query,
   orderBy,
   limit,
-} from "firebase/firestore";
+} from 'firebase/firestore'
 
-import { makeToastEmpty } from "src/lib/firebaseFunctions";
-import { db } from "@/pages/api/firebase";
-import Header from "components/header";
-import MsgDisplayer from "components/message-displayer";
-import Sidebar from "components/sidebar";
-import Toast from "components/toast";
+import { makeToastEmpty } from 'src/lib/firebaseFunctions'
+import { db } from '@/pages/api/firebase'
+import Header from 'components/header'
+import MsgDisplayer from 'components/message-displayer'
+import Sidebar from 'components/sidebar'
+import Toast from 'components/toast'
 
-import stl from "./MessagesScreen.module.scss";
+import stl from './MessagesScreen.module.scss'
 interface Props {
-  theme: string;
-  myId: string;
-  toggleTheme: () => void;
-  setShowMsgs: any;
-  toastMsg: any;
+  theme: string
+  myId: string
+  toggleTheme: () => void
+  setShowMsgs: any
+  toastMsg: any
 }
 
 const MessagesScreen = ({
@@ -32,45 +32,45 @@ const MessagesScreen = ({
   setShowMsgs,
   toastMsg,
 }: Props) => {
-  const [chats, setChats] = React.useState([]);
-  const [chatId, setChatId] = React.useState("dsfasdf");
-  const [title, setTitle] = React.useState("Messages");
-  const [isEmpty, setIsEmpty] = React.useState(true);
-  const [lastMsgs, setLastMsgs] = React.useState([]);
+  const [chats, setChats] = useState([])
+  const [chatId, setChatId] = useState('dsfasdf')
+  const [title, setTitle] = useState('Messages')
+  const [isEmpty, setIsEmpty] = useState(true)
+  const [lastMsgs, setLastMsgs] = useState([])
 
   useEffect(() => {
-    const chatsRef = collection(db, "chats");
-    onSnapshot(chatsRef, (snapshot) => {
+    const chatsRef = collection(db, 'chats')
+    onSnapshot(chatsRef, snapshot => {
       //@ts-ignore
-      let chatArray = [];
+      let chatArray = []
       //@ts-ignore
-      let lastMessages = [];
+      let lastMessages = []
       snapshot.docs.map((chat, i) => {
-        const chatRef = doc(chatsRef, chat.id);
-        const msgsRef = collection(chatRef, "messages");
-        const sortedMsgs = query(msgsRef, orderBy("time", "asc"), limit(1));
-        onSnapshot(sortedMsgs, (snapshot) => {
-          snapshot.docs.map((msg) => {
-            lastMessages.push(msg.data());
-          });
-        });
+        const chatRef = doc(chatsRef, chat.id)
+        const msgsRef = collection(chatRef, 'messages')
+        const sortedMsgs = query(msgsRef, orderBy('time', 'asc'), limit(1))
+        onSnapshot(sortedMsgs, snapshot => {
+          snapshot.docs.map(msg => {
+            lastMessages.push(msg.data())
+          })
+        })
         chatArray.push({
           chatName: chat.data().chatName,
           chatId: chat.id,
-        });
-      });
+        })
+      })
       //@ts-ignore
-      setChats(chatArray);
+      setChats(chatArray)
       //@ts-ignore
-      setLastMsgs(lastMessages);
-    });
-  }, [myId]);
+      setLastMsgs(lastMessages)
+    })
+  }, [myId])
 
   return (
     <div
       className={clsx(
         stl.msgScreen,
-        theme === "dark" ? stl.darkMsgScreen : undefined
+        theme === 'dark' ? stl.darkMsgScreen : undefined
       )}
     >
       <Sidebar
@@ -78,9 +78,9 @@ const MessagesScreen = ({
         lastMsgs={lastMsgs}
         theme={theme}
         myId={myId}
-        handleChatClick={(item) => {
-          setChatId(item.chatId);
-          setIsEmpty(false);
+        handleChatClick={item => {
+          setChatId(item.chatId)
+          setIsEmpty(false)
         }}
         setShowMsgs={setShowMsgs}
       />
@@ -89,6 +89,7 @@ const MessagesScreen = ({
         toggleTheme={toggleTheme}
         themeBtn={true}
         theme={theme}
+        dropdown={false}
         titleCenter={true}
         customClass={stl.header}
       />
@@ -105,11 +106,11 @@ const MessagesScreen = ({
         theme={theme}
         variant={toastMsg?.variant}
         text={toastMsg?.text}
-        isVisible={toastMsg?.text !== ""}
+        isVisible={toastMsg?.text !== ''}
         handleClose={makeToastEmpty}
       />
     </div>
-  );
-};
+  )
+}
 
-export default MessagesScreen;
+export default MessagesScreen

@@ -1,18 +1,18 @@
-import React from "react";
-import clsx from "clsx";
-import { motion } from "framer-motion";
+import React from 'react'
+import clsx from 'clsx'
+import { motion } from 'framer-motion'
 
-import SuccessIcon from "assets/success.svg";
-import FailIcon from "assets/fail.svg";
+import SuccessIcon from 'assets/success.svg'
+import FailIcon from 'assets/fail.svg'
 
-import stl from "./Toast.module.scss";
+import stl from './Toast.module.scss'
 
 interface Props {
-  theme: string;
-  variant: "success" | "failed";
-  text: string;
-  isVisible: Boolean;
-  handleClose: any;
+  theme: string
+  variant: 'success' | 'failed'
+  text: string
+  isVisible: Boolean
+  handleClose: any
 }
 
 const Toast = ({
@@ -29,16 +29,16 @@ const Toast = ({
         ? { opacity: 1, x: 0, zIndex: 100 }
         : { opacity: 0, x: 1000, zIndex: 0 }
     }
-    transition={{ type: "teen" }}
+    transition={{ type: 'teen' }}
     className={clsx(
       stl.toast,
-      theme === "dark" ? stl.darkToast : undefined,
-      theme === "dark" ? stl[`${variant}Dark`] : stl[`${variant}Light`]
+      theme === 'dark' ? stl.darkToast : undefined,
+      theme === 'dark' ? stl[`${variant}Dark`] : stl[`${variant}Light`]
     )}
     role="alert"
   >
     <div className={stl.iconContainer}>
-      {variant === "success" ? <SuccessIcon /> : <FailIcon />}
+      {variant === 'success' ? <SuccessIcon /> : <FailIcon />}
       <span className={stl.srOnly}>Check icon</span>
     </div>
     <div className={stl.text}>{text}</div>
@@ -64,6 +64,6 @@ const Toast = ({
       </svg>
     </button>
   </motion.div>
-);
+)
 
-export default Toast;
+export default Toast

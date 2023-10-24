@@ -1,3 +1,3 @@
-import SettingContainer from "./SettingContainer";
+import SettingContainer from './SettingContainer'
 
-export default SettingContainer;
+export default SettingContainer

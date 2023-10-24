@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from 'react'
+import { Formik, Form } from 'formik'
+import { motion } from 'framer-motion'
 
 import {
   googleSignIn,
@@ -8,30 +8,30 @@ import {
   githubSignIn,
   handleSignUp,
   handleSignIn,
-} from "src/lib/firebaseFunctions";
-import Input from "../input";
-import Spinner from "components/spinner";
-import GoogleIcon from "assets/google.svg";
-import TwitterIcon from "assets/twitter.svg";
-import GithubIcon from "assets/github.svg";
+} from 'src/lib/firebaseFunctions'
+import Input from '../input'
+import Spinner from 'components/spinner'
+import GoogleIcon from 'assets/google.svg'
+import TwitterIcon from 'assets/twitter.svg'
+import GithubIcon from 'assets/github.svg'
 
-import stl from "./Forms.module.scss";
+import stl from './Forms.module.scss'
 
 interface Props {
-  title?: string;
-  desc?: string;
-  specialText?: string;
-  initialVals: Object;
-  submitText?: string;
-  others?: Boolean;
-  height?: string;
-  width?: string;
-  fields: Array<Object>;
-  setFlow: (arg: any) => void;
-  flow: number;
-  theme: string;
-  schema: Object;
-  method?: string;
+  title?: string
+  desc?: string
+  specialText?: string
+  initialVals: Object
+  submitText?: string
+  others?: Boolean
+  height?: string
+  width?: string
+  fields: Array<Object>
+  setFlow: (arg: any) => void
+  flow: number
+  theme: string
+  schema: Object
+  method?: string
 }
 
 const CustomForm = ({
@@ -50,25 +50,25 @@ const CustomForm = ({
   method,
   setFlow,
 }: Props) => {
-  const [color, setColor] = React.useState("");
-  const [loading, setLoading] = React.useState(true);
+  const [color, setColor] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (flow === 0) {
-      setColor("rgba(255, 0, 0, 0.7)");
+      setColor('rgba(255, 0, 0, 0.7)')
     } else if (flow === 1) {
-      setColor("rgba(255, 225, 0, 0.737)");
+      setColor('rgba(255, 225, 0, 0.737)')
     } else if (flow === 2) {
-      setColor("rgba(0,128,0, 0.8)");
+      setColor('rgba(0,128,0, 0.8)')
     }
 
     setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+      setLoading(false)
+    }, 1000)
+  }, [])
 
   return loading ? (
-    theme === "dark" ? (
+    theme === 'dark' ? (
       <Spinner />
     ) : (
       <Spinner spinnerColor="#fff" />
@@ -80,7 +80,7 @@ const CustomForm = ({
         animate={{ scale: 1, opacity: 1, top: 70 }}
         transition={{
           duration: 0.3,
-          type: "spring",
+          type: 'spring',
           stiffness: 100,
         }}
         style={{ background: color }}
@@ -90,12 +90,12 @@ const CustomForm = ({
         <motion.div
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", duration: 1 }}
+          transition={{ type: 'spring', duration: 1 }}
           className={stl.titleContainer}
         >
           <h1>{title}</h1>
           <span>
-            {desc}{" "}
+            {desc}{' '}
             <span
               className={stl.specialText}
               onClick={() => setFlow((flow: number) => (flow === 0 ? 1 : 0))}
@@ -107,7 +107,7 @@ const CustomForm = ({
         <motion.div
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", duration: 1 }}
+          transition={{ type: 'spring', duration: 1 }}
           className={stl.formContainer}
         >
           <Formik
@@ -115,20 +115,20 @@ const CustomForm = ({
             validationSchema={schema}
             validateOnBlur={true}
             onSubmit={(values, actions) => {
-              if (method === "signup") {
+              if (method === 'signup') {
                 handleSignUp(
                   //@ts-ignore
                   values.email,
                   //@ts-ignore
                   values.password,
                   //@ts-ignore
-                  values.fname + " " + values.lname
-                );
-              } else if (method === "signin") {
+                  values.fname + ' ' + values.lname
+                )
+              } else if (method === 'signin') {
                 //@ts-ignore
-                handleSignIn(values.email, values.password);
+                handleSignIn(values.email, values.password)
               }
-              actions.resetForm();
+              actions.resetForm()
             }}
           >
             {(props: any) => (
@@ -153,7 +153,7 @@ const CustomForm = ({
           <motion.div
             initial={{ x: 500, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ type: "spring", duration: 1 }}
+            transition={{ type: 'spring', duration: 1 }}
             className={stl.otherSignIn}
           >
             <span>OR Continue with</span>
@@ -172,15 +172,15 @@ const CustomForm = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 CustomForm.defaultProps = {
-  title: "Create Account",
-  desc: "Already have an Account?",
-  specialText: "Sign In",
-  submitText: "Sign Up",
-  height: "550px",
-};
+  title: 'Create Account',
+  desc: 'Already have an Account?',
+  specialText: 'Sign In',
+  submitText: 'Sign Up',
+  height: '550px',
+}
 
-export default CustomForm;
+export default CustomForm
