@@ -1,3 +1,3 @@
-import MsgDisplayer from "./MsgDisplayer";
+import MsgDisplayer from './MsgDisplayer'
 
-export default MsgDisplayer;
+export default MsgDisplayer

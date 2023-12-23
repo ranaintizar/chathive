@@ -1,35 +1,35 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import { handleSignOut, handleDelAcc } from "src/lib/firebaseFunctions";
-import Field from "components/field";
-import AlertBox from "components/alert-box";
-import Spinner from "components/spinner";
+import { handleSignOut, handleDelAcc } from 'src/lib/firebaseFunctions'
+import Field from 'components/field'
+import AlertBox from 'components/alert-box'
+import Spinner from 'components/spinner'
 
-import stl from "./AccSettings.module.scss";
+import stl from './AccSettings.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const AccSettings = ({ theme }: Props) => {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [alertData, setAlertData] = React.useState({
-    title: "Logout",
-    msg: "Are you sure you want to logout?",
-    titleColor: "coral",
-    btnLabel: "Yes, Logout",
+  const [isVisible, setIsVisible] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [alertData, setAlertData] = useState({
+    title: 'Logout',
+    msg: 'Are you sure you want to logout?',
+    titleColor: 'coral',
+    btnLabel: 'Yes, Logout',
     customClass: stl.logout,
     okClick: () => {
-      setIsVisible(false);
-      handleSignOut();
+      setIsVisible(false)
+      handleSignOut()
     },
-  });
+  })
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   return isLoading ? (
     <Spinner spinnerColor="#1e90ff" />
@@ -37,7 +37,7 @@ const AccSettings = ({ theme }: Props) => {
     <div
       className={clsx(
         stl.accSettings,
-        theme === "dark" ? stl.darkAccSetting : undefined
+        theme === 'dark' ? stl.darkAccSetting : undefined
       )}
     >
       <div className={stl.row}>
@@ -57,17 +57,17 @@ const AccSettings = ({ theme }: Props) => {
             className={stl.btnContainer}
             onClick={() => {
               setAlertData({
-                title: "Logout",
-                msg: "Are you sure you want to logout?",
-                titleColor: "coral",
-                btnLabel: "Yes, Logout",
+                title: 'Logout',
+                msg: 'Are you sure you want to logout?',
+                titleColor: 'coral',
+                btnLabel: 'Yes, Logout',
                 customClass: stl.logout,
                 okClick: () => {
-                  setIsVisible(false);
-                  handleSignOut();
+                  setIsVisible(false)
+                  handleSignOut()
                 },
-              });
-              setIsVisible(true);
+              })
+              setIsVisible(true)
             }}
           >
             <button className={stl.logoutBtn}>Logout</button>
@@ -83,17 +83,17 @@ const AccSettings = ({ theme }: Props) => {
               className={stl.delBtn}
               onClick={() => {
                 setAlertData({
-                  title: "Delete",
-                  msg: "Are you sure you want to Delete your Account?",
-                  titleColor: "red",
-                  btnLabel: "Yes, Delete",
+                  title: 'Delete',
+                  msg: 'Are you sure you want to Delete your Account?',
+                  titleColor: 'red',
+                  btnLabel: 'Yes, Delete',
                   customClass: stl.delete,
                   okClick: () => {
-                    setIsVisible(false);
-                    handleDelAcc();
+                    setIsVisible(false)
+                    handleDelAcc()
                   },
-                });
-                setIsVisible(true);
+                })
+                setIsVisible(true)
               }}
             >
               Delete
@@ -114,7 +114,7 @@ const AccSettings = ({ theme }: Props) => {
         handleCancel={() => setIsVisible(false)}
       />
     </div>
-  );
-};
+  )
+}
 
-export default AccSettings;
+export default AccSettings

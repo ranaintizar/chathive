@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import { handleStartChat } from "src/lib/firebaseFunctions";
-import Header from "components/header";
-import StartChatBtn from "components/start-chat-button";
-import ChatItem from "components/chat-item/ChatItem";
-import Spinner from "components/spinner";
-import PromptBox from "components/prompt-box";
+import { handleStartChat } from 'src/lib/firebaseFunctions'
+import Header from 'components/header'
+import StartChatBtn from 'components/start-chat-button'
+import ChatItem from 'components/chat-item/ChatItem'
+import Spinner from 'components/spinner'
+import PromptBox from 'components/prompt-box'
 
-import stl from "./Sidebar.module.scss";
+import stl from './Sidebar.module.scss'
 
 interface Props {
-  theme: string;
-  chats: Array<Object>;
-  handleChatClick: (arg: any) => void;
-  setShowMsgs: (arg: Boolean) => void;
-  lastMsgs: Array<any>;
-  myId: string;
+  theme: string
+  chats: Array<Object>
+  handleChatClick: (arg: any) => void
+  setShowMsgs: (arg: Boolean) => void
+  lastMsgs: Array<any>
+  myId: string
 }
 
 const Sidebar = ({
@@ -27,30 +27,30 @@ const Sidebar = ({
   lastMsgs,
   myId,
 }: Props) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   const handleOptions = (item: string) => {
-    if (item === "Settings") {
-      setShowMsgs(false);
+    if (item === 'Settings') {
+      setShowMsgs(false)
     }
-  };
+  }
 
   return (
     <div
       className={clsx(
         stl.sidebar,
-        theme === "dark" ? stl.darkSidebar : undefined
+        theme === 'dark' ? stl.darkSidebar : undefined
       )}
     >
       <Header
         title="Chats"
         theme={theme}
-        list={["Settings", "Option 2", "Option 3", "Option 4"]}
+        list={['Settings', 'Option 2', 'Option 3', 'Option 4']}
         handleListItemClick={handleOptions}
       />
       <StartChatBtn
@@ -84,18 +84,18 @@ const Sidebar = ({
         theme={theme}
         name="chat"
         handleCancelClick={() => setIsVisible(false)}
-        handleOkClick={(chatName) => {
-          setIsVisible(false);
-          handleStartChat(chatName, setIsLoading);
+        handleOkClick={chatName => {
+          setIsVisible(false)
+          handleStartChat(chatName, setIsLoading)
         }}
         customClass={stl.prompt}
       />
     </div>
-  );
-};
+  )
+}
 
 Sidebar.defaultProps = {
-  handleChatClick: (item: any) => console.log(item),
-};
+  handleChatClick: (item: any) => {},
+}
 
-export default Sidebar;
+export default Sidebar

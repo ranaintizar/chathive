@@ -1,3 +1,3 @@
-import StartChatBtn from "./StartChatBtn";
+import StartChatBtn from './StartChatBtn'
 
-export default StartChatBtn;
+export default StartChatBtn

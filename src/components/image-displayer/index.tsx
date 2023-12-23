@@ -1,3 +1,3 @@
-import ImageDisplayer from "./ImageDisplayer";
+import ImageDisplayer from './ImageDisplayer'
 
-export default ImageDisplayer;
+export default ImageDisplayer

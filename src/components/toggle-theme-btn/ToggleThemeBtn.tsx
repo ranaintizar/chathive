@@ -1,25 +1,25 @@
-import React from "react";
-import clsx from "clsx";
+import React from 'react'
+import clsx from 'clsx'
 
-import SunIcon from "assets/sun.svg";
-import MoonIcon from "assets/moon.svg";
+import SunIcon from 'assets/sun.svg'
+import MoonIcon from 'assets/moon.svg'
 
-import stl from "./ToggleThemeBtn.module.scss";
+import stl from './ToggleThemeBtn.module.scss'
 
 interface Props {
-  handleOnClick: any;
-  customClass?: string;
+  handleOnClick: any
+  customClass?: string
 }
 
 const ToggleThemeBtn = ({ handleOnClick, customClass }: Props) => {
-  const [isActive, setIsActive] = React.useState(false);
+  const [isActive, setIsActive] = React.useState(false)
 
   return (
     <div
       className={clsx(stl.toggleBtn, customClass)}
       onClick={() => {
-        handleOnClick();
-        setIsActive(!isActive);
+        handleOnClick()
+        setIsActive(!isActive)
       }}
     >
       <div
@@ -35,7 +35,7 @@ const ToggleThemeBtn = ({ handleOnClick, customClass }: Props) => {
         className={clsx(stl.dotBtn, isActive ? stl.active : undefined)}
       ></span>
     </div>
-  );
-};
+  )
+}
 
-export default ToggleThemeBtn;
+export default ToggleThemeBtn

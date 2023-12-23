@@ -1,7 +1,7 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react'
+import Image from 'next/image'
 
-import stl from "./EmptyScreen.module.scss";
+import stl from './EmptyScreen.module.scss'
 
 const EmptyScreen = () => (
   <div className={stl.emptyScreen}>
@@ -14,6 +14,6 @@ const EmptyScreen = () => (
     />
     <h2>Select a chat from sidebar to view messages</h2>
   </div>
-);
+)
 
-export default EmptyScreen;
+export default EmptyScreen

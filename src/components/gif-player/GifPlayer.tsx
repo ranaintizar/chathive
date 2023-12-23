@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useState } from 'react'
 
-import { handleDelMsg } from "src/lib/firebaseFunctions";
-import MoreBtn from "components/more-btn/MoreBtn";
-import Dropdown from "components/dropdown";
+import { handleDelMsg } from 'src/lib/firebaseFunctions'
+import MoreBtn from 'components/more-btn'
+import Dropdown from 'components/dropdown'
 
-import stl from "./GifPlayer.module.scss";
+import stl from './GifPlayer.module.scss'
 interface Props {
-  src: string;
-  width: number;
-  height: number;
-  theme: string;
-  left: Boolean;
-  msgId: string;
-  chatId: string;
+  src: string
+  width: number
+  height: number
+  theme: string
+  left: Boolean
+  msgId: string
+  chatId: string
 }
 
 const GifPlayer = ({
@@ -24,16 +24,16 @@ const GifPlayer = ({
   msgId,
   chatId,
 }: Props) => {
-  const [playCount, setPlayCount] = React.useState(0);
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [showDropdown, setShowDropdown] = React.useState(false);
+  const [playCount, setPlayCount] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
 
-  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null)
 
   const handleLoop = () => {
-    setPlayCount(playCount + 1);
-    videoRef.current?.play();
-  };
+    setPlayCount(playCount + 1)
+    videoRef.current?.play()
+  }
 
   const MoreOpt = () => (
     <MoreBtn
@@ -41,13 +41,13 @@ const GifPlayer = ({
       theme={theme}
       handleOnClick={() => setShowDropdown(true)}
     />
-  );
+  )
 
   const handleListItemClick = (item: string) => {
-    if (item === "Delete") {
-      handleDelMsg(chatId, msgId);
+    if (item === 'Delete') {
+      handleDelMsg(chatId, msgId)
     }
-  };
+  }
 
   return (
     <div
@@ -63,7 +63,7 @@ const GifPlayer = ({
             transformOrigin="top right"
             top="49%"
             left="-37%"
-            list={["Delete"]}
+            list={['Delete']}
             handleListItemClick={handleListItemClick}
             width={120}
             height={50}
@@ -74,17 +74,17 @@ const GifPlayer = ({
             ref={videoRef}
             autoPlay
             onEnded={() => {
-              playCount < 2 && handleLoop();
+              playCount < 2 && handleLoop()
             }}
             onClick={() => {
-              setPlayCount(0);
-              videoRef.current?.play();
+              setPlayCount(0)
+              videoRef.current?.play()
             }}
             style={{
-              width: width + "px",
-              height: height + "px",
-              border: "1px solid #ccc",
-              margin: "10px 0",
+              width: width + 'px',
+              height: height + 'px',
+              border: '1px solid #ccc',
+              margin: '10px 0',
             }}
           >
             <source src={src} type="video/mp4" />
@@ -97,17 +97,17 @@ const GifPlayer = ({
             ref={videoRef}
             autoPlay
             onEnded={() => {
-              playCount < 2 && handleLoop();
+              playCount < 2 && handleLoop()
             }}
             onClick={() => {
-              setPlayCount(0);
-              videoRef.current?.play();
+              setPlayCount(0)
+              videoRef.current?.play()
             }}
             style={{
-              width: width + "px",
-              height: height + "px",
-              border: "1px solid #ccc",
-              margin: "10px 0",
+              width: width + 'px',
+              height: height + 'px',
+              border: '1px solid #ccc',
+              margin: '10px 0',
             }}
           >
             <source src={src} type="video/mp4" />
@@ -118,7 +118,7 @@ const GifPlayer = ({
             transformOrigin="top left"
             top="49%"
             left="95%"
-            list={["Delete"]}
+            list={['Delete']}
             handleListItemClick={handleListItemClick}
             width={120}
             height={50}
@@ -129,11 +129,11 @@ const GifPlayer = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 GifPlayer.defaultProps = {
   width: 250,
   height: 220,
-};
-export default GifPlayer;
+}
+export default GifPlayer

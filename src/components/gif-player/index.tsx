@@ -1,3 +1,3 @@
-import GifPlayer from "./GifPlayer";
+import GifPlayer from './GifPlayer'
 
-export default GifPlayer;
+export default GifPlayer

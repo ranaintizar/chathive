@@ -1,28 +1,28 @@
-import React from "react";
-import clsx from "clsx";
+import React from 'react'
+import clsx from 'clsx'
 
-import Header from "components/header";
-import ProfileIcon from "assets/profile.svg";
-import SettingsIcon from "assets/settings.svg";
-import FeedbackIcon from "assets/feedback.svg";
-import AboutIcon from "assets/about.svg";
+import Header from 'components/header'
+import ProfileIcon from 'assets/profile.svg'
+import SettingsIcon from 'assets/settings.svg'
+import FeedbackIcon from 'assets/feedback.svg'
+import AboutIcon from 'assets/about.svg'
 
-import stl from "./SettingSidebar.module.scss";
+import stl from './SettingSidebar.module.scss'
 
 interface Props {
-  theme: string;
-  handleOnClick: (arg: string) => void;
-  setShowMsgs: (arg: Boolean) => void;
+  theme: string
+  handleOnClick: (arg: string) => void
+  setShowMsgs: (arg: Boolean) => void
 }
 
 const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
-  const [isSelected, setIsSelected] = React.useState("profile");
+  const [isSelected, setIsSelected] = React.useState('profile')
 
   return (
     <div
       className={clsx(
         stl.sidebar,
-        theme === "dark" ? stl.darkSidebar : undefined
+        theme === 'dark' ? stl.darkSidebar : undefined
       )}
     >
       <Header
@@ -37,10 +37,10 @@ const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
         <span
           id="profile"
           onClick={() => {
-            handleOnClick("profile");
-            setIsSelected("profile");
+            handleOnClick('profile')
+            setIsSelected('profile')
           }}
-          className={clsx(stl.option, isSelected === "profile" && stl.active)}
+          className={clsx(stl.option, isSelected === 'profile' && stl.active)}
         >
           <span className={stl.icon}>
             <ProfileIcon />
@@ -50,10 +50,10 @@ const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
         <span
           id="account"
           onClick={() => {
-            handleOnClick("account");
-            setIsSelected("account");
+            handleOnClick('account')
+            setIsSelected('account')
           }}
-          className={clsx(stl.option, isSelected === "account" && stl.active)}
+          className={clsx(stl.option, isSelected === 'account' && stl.active)}
         >
           <span className={stl.icon}>
             <SettingsIcon />
@@ -63,10 +63,10 @@ const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
         <span
           id="appearance"
           onClick={() => {
-            handleOnClick("feedback");
-            setIsSelected("feedback");
+            handleOnClick('feedback')
+            setIsSelected('feedback')
           }}
-          className={clsx(stl.option, isSelected === "feedback" && stl.active)}
+          className={clsx(stl.option, isSelected === 'feedback' && stl.active)}
         >
           <span className={stl.icon}>
             <FeedbackIcon />
@@ -76,10 +76,10 @@ const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
         <span
           id="about"
           onClick={() => {
-            handleOnClick("about");
-            setIsSelected("about");
+            handleOnClick('about')
+            setIsSelected('about')
           }}
-          className={clsx(stl.option, isSelected === "about" && stl.active)}
+          className={clsx(stl.option, isSelected === 'about' && stl.active)}
         >
           <span className={stl.icon}>
             <AboutIcon />
@@ -88,7 +88,7 @@ const SettingSidebar = ({ theme, handleOnClick, setShowMsgs }: Props) => {
         </span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SettingSidebar;
+export default SettingSidebar

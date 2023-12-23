@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
-import { sendVerificationEmail } from "src/lib/firebaseFunctions";
+import { sendVerificationEmail } from 'src/lib/firebaseFunctions'
 
-import stl from "./VerifyMsg.module.scss";
+import stl from './VerifyMsg.module.scss'
 
 interface Props {
-  email?: string | null;
+  email?: string | null
 }
 
 const VerifyMsg = ({ email }: Props) => (
@@ -18,6 +18,6 @@ const VerifyMsg = ({ email }: Props) => (
       Resend
     </button>
   </div>
-);
+)
 
-export default VerifyMsg;
+export default VerifyMsg

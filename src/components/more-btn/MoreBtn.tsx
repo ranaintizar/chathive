@@ -1,15 +1,15 @@
-import React from "react";
-import clsx from "clsx";
+import React from 'react'
+import clsx from 'clsx'
 
-import MoreIcon from "assets/more.svg";
+import MoreIcon from 'assets/more.svg'
 
-import stl from "./MoreBtn.module.scss";
+import stl from './MoreBtn.module.scss'
 
 interface Props {
-  visible: Boolean;
-  theme: string;
-  customClass?: string;
-  handleOnClick: () => void;
+  visible: Boolean
+  theme: string
+  customClass?: string
+  handleOnClick: () => void
 }
 
 const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => (
@@ -18,7 +18,7 @@ const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => (
     style={visible ? { opacity: 1 } : { opacity: 0 }}
     className={clsx(
       stl.btnContainer,
-      theme === "dark" ? stl.darkBtn : undefined,
+      theme === 'dark' ? stl.darkBtn : undefined,
       customClass
     )}
   >
@@ -26,11 +26,11 @@ const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => (
       <MoreIcon />
     </button>
   </div>
-);
+)
 
 MoreBtn.defaultProps = {
-  handleOnClick: () => console.log("Clicked..."),
+  handleOnClick: () => {},
   visible: true,
-};
+}
 
-export default MoreBtn;
+export default MoreBtn
