@@ -25,7 +25,7 @@ const StartChatBtn = ({ startChatHandler, customClass }: Props) => (
 )
 
 StartChatBtn.defaultProps = {
-  startChatHandler: () => console.log('Chat Button Clicked...'),
+  startChatHandler: () => {},
 }
 
 export default StartChatBtn

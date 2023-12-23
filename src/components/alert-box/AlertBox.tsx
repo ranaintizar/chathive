@@ -66,11 +66,11 @@ AlertBox.defaultProps = {
   title: 'Alert Box!',
   msg: 'This is the Custom Alert Box. This is Message for this alert box.',
   btnLabel: 'Okay',
-  handleOnClick: () => console.log('Alert-OK button Clicked!'),
+  handleOnClick: () => {},
   cancelBtn: false,
   titleColor: 'red',
   cancelLabel: 'Cancel',
-  handleCancel: () => console.log('Cancel Button Clicked!'),
+  handleCancel: () => {},
   maxWidth: 400,
 }
 

@@ -80,7 +80,7 @@ Dropdown.defaultProps = {
   list: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
   width: 170,
   height: 200,
-  handleListItemClick: (item: string) => console.log(item),
+  handleListItemClick: (item: string) => {},
 }
 
 export default Dropdown

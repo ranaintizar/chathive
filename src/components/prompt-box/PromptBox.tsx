@@ -53,8 +53,6 @@ const PromptBox = ({
     )
 
   const handleErr = (err: string) => {
-    console.log('Handling Errors')
-
     if (err) {
       setErrMsg(err + '.')
       setIsVisible(true)
@@ -140,8 +138,8 @@ PromptBox.defaultProps = {
   name: 'email',
   maxWidth: 400,
   visible: false,
-  handleOkClick: (val: string) => console.log(val),
-  handleCancelClick: () => console.log('Cancelled!'),
+  handleOkClick: (val: string) => {},
+  handleCancelClick: () => {},
 }
 
 export default PromptBox

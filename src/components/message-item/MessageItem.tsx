@@ -133,7 +133,7 @@ MessageItem.defaultProps = {
   variant: 'primary',
   content:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id libero non velit ultricies sodales.',
-  handleListItemClick: (item: string) => console.log(item),
+  handleListItemClick: (item: string) => {},
 }
 
 export default MessageItem

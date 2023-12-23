@@ -95,7 +95,7 @@ const Sidebar = ({
 }
 
 Sidebar.defaultProps = {
-  handleChatClick: (item: any) => console.log(item),
+  handleChatClick: (item: any) => {},
 }
 
 export default Sidebar

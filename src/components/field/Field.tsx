@@ -32,7 +32,6 @@ const Field = ({
   const [isPromptVisible, setIsPropmtVisible] = React.useState(false)
 
   const update = (val: string) => {
-    console.log('Updating...')
     if (name === 'displayName') {
       //@ts-ignore
       updateName(val, setUser)

@@ -92,11 +92,11 @@ const Header = ({
 Header.defaultProps = {
   list: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
   backBtn: false,
-  handleBackBtn: () => console.log('Back Btn Clicked...'),
+  handleBackBtn: () => {},
   dropdown: true,
   titleCenter: false,
   themeBtn: false,
-  handleListItemClick: (item: string) => console.log(item),
+  handleListItemClick: (item: string) => {},
 }
 
 export default Header

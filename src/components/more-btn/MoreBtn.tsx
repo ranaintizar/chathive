@@ -29,7 +29,7 @@ const MoreBtn = ({ visible, theme, customClass, handleOnClick }: Props) => (
 )
 
 MoreBtn.defaultProps = {
-  handleOnClick: () => console.log('Clicked...'),
+  handleOnClick: () => {},
   visible: true,
 }
 

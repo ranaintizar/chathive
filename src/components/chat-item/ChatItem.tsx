@@ -95,7 +95,7 @@ ChatItem.defaultProps = {
     message: 'This is Last Message from in Chat.',
     timeAgo: '2 Apr',
   },
-  handleOnClick: (data: any) => console.log(data),
+  handleOnClick: (data: any) => {},
 }
 
 export default ChatItem
