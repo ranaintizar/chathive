@@ -24,7 +24,7 @@ const About = ({ theme }: Props) => {
     >
       <div>
         ChatHive is a web-based chat application created by{' '}
-        <a href="https://linkzar.fly.dev/linktree" target="_blank">
+        <a href="https://proxar.ranaintizar.com/me/linktree" target="_blank">
           Rana Intizar
         </a>
         . It is designed to provide users with a seamless messaging experience.
